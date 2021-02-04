@@ -1,0 +1,19 @@
+{
+  "name": "salutejs",
+  "version": "0.0.1",
+  "description": "Tiny helpers to make scenario for Salute Assistants family on Nodejs",
+  "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
+  "license": "Sber Public License at-nc-sa v.2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sberdevices/salutejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sberdevices/salutejs/issues"
+  },
+  "homepage": "https://github.com/sberdevices/salutejs#readme"
+}
