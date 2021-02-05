@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "lib": ["es2017"],
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "moduleResolution": "node",
+    "emitDeclarationOnly": true,
+    "types": ["node"],
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

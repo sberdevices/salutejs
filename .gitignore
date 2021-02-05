@@ -1,0 +1,16 @@
+##### OS FILES
+.DS_Store
+.history
+
+##### Editors
+.*.swp
+.idea
+.vscode
+.vs
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+##### BUILD
+node_modules/
+dist/
