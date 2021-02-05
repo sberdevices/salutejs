@@ -81,6 +81,14 @@ export interface ListOfTokenTypesDatum {
     token_value: TokenValue;
 }
 
+export type AppInfoType = {
+    applicationId: string;
+    appversionId: string;
+    frontendEndpoint: string;
+    frontendType: string;
+    projectId: string;
+};
+
 export interface Time {
     timezone_id: string;
     timezone_offset_sec: number;
@@ -88,6 +96,32 @@ export interface Time {
 }
 
 export interface Meta {
+    current_app: {
+        app_info: AppInfoType;
+        state: {
+            [key: string]: any;
+            item_selector?: {
+                ignored_words?: string[];
+                /* Список соответствий голосовых команд действиям в веб-приложении */
+                items: {
+                    /* Порядковый номер элемента, назначается смартаппом, уникален в рамках items */
+                    number?: number;
+                    /* Уникальный id элемента */
+                    id?: string;
+                    /* Ключевая фраза, которая должна приводить к данному действию */
+                    title?: string;
+                    /* Фразы-синонимы, которые должны быть расценены как данное действие */
+                    aliases?: string[];
+                    /* Сервер экшен, проксирует action обратно на бекэнд. */
+                    server_action?: unknown;
+                    /* Экшен, который вернется в AssistantSmartAppData */
+                    action?: unknown;
+                    /* Дополнительные данные для бэкенда */
+                    [key: string]: unknown;
+                };
+            };
+        };
+    };
     time: Time;
 }
 
