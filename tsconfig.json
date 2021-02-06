@@ -4,12 +4,12 @@
     "lib": ["es2017"],
     "rootDir": "src",
     "outDir": "dist",
+    "esModuleInterop": true,
     "declaration": true,
     "declarationMap": true,
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "emitDeclarationOnly": true,
     "typeRoots": [ "./src/types", "./node_modules/@types" ],
+    "types": ["node"],
   },
   "include": [
     "src/**/*"

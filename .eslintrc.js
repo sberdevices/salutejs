@@ -53,5 +53,6 @@ module.exports = {
         'padding-line-between-statements': 'off',
         'no-unused-expressions': 'off',
         camelcase: 'off',
+        'no-underscore-dangle': 'off',
     },
 };
