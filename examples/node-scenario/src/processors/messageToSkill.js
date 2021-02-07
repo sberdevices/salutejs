@@ -8,7 +8,6 @@ const { createSimpleSuggestions, createPronounceText, createItems } = require('.
 
 function messageToSkill({ intent, message, meta }) {
 
-    console.log(message.tokenized_elements_list);
     console.log(message.entities);
 
     // decide what to do

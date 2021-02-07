@@ -24,9 +24,6 @@ function createCommand(action, note, meta) {
             const appState = meta.current_app.state;
             const item = findItemByText(appState, note);
 
-            console.log('*'.repeat(20));
-            console.log(item);
-
             if (item) {
                 command.action.id = item.id;
             } else {
