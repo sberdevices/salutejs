@@ -1,4 +1,21 @@
-import { AppType, Device, NLPRequestType, UUID, Character } from './global';
+import { AppInfo, ServerAction, Device, UUID, Character } from './global';
+
+export enum NLPRequestType {
+    /** Cообщение для смартапа от ассистента */
+    MESSAGE_TO_SKILL = 'MESSAGE_TO_SKILL',
+    /**
+     * Сообщает смартапу о действиях пользователя на фронтенде,
+     * а также фоновые действия полноэкранных приложений
+     */
+    SERVER_ACTION = 'SERVER_ACTION',
+    /** Сообщает о запуске смартапа */
+    RUN_APP = 'RUN_APP',
+    /**
+     * Сообщает о закрытии и не требует ответа от смартапа.
+     * Содержимое сообщения совпадает с содержимым payload сообщения MESSAGE_TO_SKILL.
+     */
+    CLOSE_APP = 'CLOSE_APP',
+}
 
 /** Список подцензурных категорий, обнаруженных в тексте или реплике пользователя */
 export enum CensorClass {
@@ -36,28 +53,6 @@ export interface Annotations {
     };
 }
 
-/** Информация о смартапе */
-export interface AppInfo {
-    /** Идентификатор проекта в SmartApp Studio */
-    projectId: string;
-    /** Идентификатор смартапа */
-    applicationId: string;
-    /** Идентификатор опубликованной версии смартапа */
-    appversionId: string;
-    /** Ссылка на веб-приложение. Поле актуально для Canvas Apps */
-    frontendEndpoint: string;
-    /**
-     * Тип смартапа.
-     * Обратите внимание, что ассистент перехватывает навигационные команды "вверх", "вниз", "влево" и "вправо"
-     * только в Canvas App (тип приложения WEB_APP). В этом случае команды обрабатываются на уровне
-     * фронтенда приложения. В остальных случаях, команды передаются в бекэнд активного приложения.
-     * */
-    frontendType: AppType;
-    /** Более читаемый аналог поля projectId. Не актуален для внешних приложений */
-    systemName?: string;
-    /** Объединённое значение полей projectId, applicationId и appversionId */
-    frontendStateId: string;
-}
 export interface CcyToken {
     value: string;
 }
@@ -208,17 +203,6 @@ export interface SelectedItem {
     is_query_by_number: boolean;
 }
 
-export interface ServerAction {
-    app_info: AppInfo;
-    /**
-     * Любые параметры, которые требуются для запуска смартапа.
-     * Параметры должны быть представлены в виде валидного JSON-объекта.
-     */
-    parameters: unknown;
-    /** Действие, которое обрабатывает бэкенд смартапа */
-    action_id: string;
-}
-
 export interface NLPRequestBody<T, P> {
     /** Тип запроса */
     messageName: T;
@@ -244,7 +228,7 @@ export interface NLPRequestBody<T, P> {
     payload: P;
 }
 
-export interface SharedPayload {
+export interface SharedRequestPayload {
     device: Device;
     app_info: AppInfo;
     /** Имя смартапа, которое задается при создании проекта и отображается в каталоге приложений */
@@ -253,7 +237,7 @@ export interface SharedPayload {
     character: Character;
 }
 
-export interface MTSPayload extends SharedPayload {
+export interface MTSPayload extends SharedRequestPayload {
     /** Интент, полученный из предыдущего ответа смартапа */
     intent: string;
     /** Исходный интент. Значение поля отличается от значения intent только при монопольном захвате контекста. */
@@ -277,7 +261,7 @@ export interface MTSPayload extends SharedPayload {
 /** MESSAGE_TO_SKILL */
 export type NLPRequestMTS = NLPRequestBody<NLPRequestType.MESSAGE_TO_SKILL, MTSPayload>;
 
-export interface SAPayload extends SharedPayload {
+export interface SAPayload extends SharedRequestPayload {
     server_action: ServerAction;
 }
 
@@ -288,7 +272,7 @@ export interface SAPayload extends SharedPayload {
  */
 export type NLPRequestSA = NLPRequestBody<NLPRequestType.SERVER_ACTION, SAPayload>;
 
-export interface RAPayload extends SharedPayload {
+export interface RAPayload extends SharedRequestPayload {
     /** Интент, который приходит при запуске смартапа */
     intent: 'run_app';
     server_action: ServerAction;
