@@ -18,21 +18,37 @@ export enum NLPRequestType {
     CLOSE_APP = 'CLOSE_APP',
 }
 
+export enum AppType {
+    DIALOG = 'DIALOG',
+    WEB_APP = 'WEB_APP',
+    APK = 'APK',
+    CHAT_APP = 'CHAT_APP',
+}
+
+/** Описание функциональности устройства */
 export interface Features {
-    appTypes: string[];
+    /** Типы смартапов, которые поддерживает устройство */
+    appTypes: AppType[];
 }
 
-export interface Mic {
-    available: boolean;
-}
-
+/** Описание возможностей устройства пользователя */
 export interface Capabilities {
-    screen: Mic;
-    mic: Mic;
-    speak: Mic;
+    /** Описание экрана устройства */
+    screen: {
+        /** Признак наличия экрана */
+        available: boolean;
+    };
+    /** Описание микрофона устройства */
+    mic: {
+        /** Признак наличия микрофона */
+        available: boolean;
+    };
+    /** Описание динамиков устройства */
+    speak: {
+        /** Признак наличия динамико */
+        available: boolean;
+    };
 }
-
-export interface IntentMeta {}
 
 /** Операционная система устройства */
 export enum OS {
@@ -65,7 +81,8 @@ export interface Device {
     surfaceVersion: string;
     features: Features;
     capabilities: Capabilities;
-    additionalInfo: IntentMeta;
+    /** Дополнительная информация об объекте или устройстве. В настоящий момент не используется */
+    additionalInfo: unknown;
 }
 
 /** Составной идентификатор пользователя */
@@ -84,4 +101,34 @@ export interface UUID {
      * Идентификатор может изменяться при сбросе настроек или переустановке смартапа.
      */
     userId: string;
+}
+
+/** Идентификатор персонажа, которого выбрал пользователь */
+export enum CharacterId {
+    /** Персонаж мужского пола по имени Сбер. Обращается на "вы". */
+    sber = 'sber',
+    /** Персонаж женского пола по имени Афина. Обращается на "вы". */
+    athena = 'athena',
+    /** Персонаж женского пола по имени Джой.  Обращается на "ты". */
+    joy = 'joy',
+}
+
+/** Имя персонажа */
+export enum CharacterName {
+    /** Персонаж мужского пола по имени Сбер. Обращается на "вы". */
+    sber = 'Сбер',
+    /** Персонаж женского пола по имени Афина. Обращается на "вы". */
+    athena = 'Афина',
+    /** Персонаж женского пола по имени Джой.  Обращается на "ты". */
+    joy = 'Джой',
+}
+
+/** Информация о текущем персонаже ассистента, который установлен у пользователя */
+export interface Character {
+    id: CharacterId;
+    name: CharacterName;
+    /** Пол персонажа. Учитывайте пол персонажа при проектировании ответов. */
+    gender: 'female' | 'male';
+    /** Форма обращения персонажа. Учитывайте форму обращения персонажа при проектировании ответов. */
+    appeal: 'official' | 'no_official';
 }
