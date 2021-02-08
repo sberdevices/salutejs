@@ -1,4 +1,4 @@
-import { Capabilities, Features, IntentMeta } from './global';
+import { Capabilities, Device, Features, IntentMeta, NLPRequestType, UUID } from './global';
 
 export interface ASRSentiment {
     classes: string[];
@@ -23,17 +23,6 @@ export interface Character {
     gender: string;
     appeal: string;
 }
-
-export interface Device {
-    platformType: string;
-    platformVersion: string;
-    surface: string;
-    surfaceVersion: string;
-    features: Features;
-    capabilities: Capabilities;
-    additionalInfo: IntentMeta;
-}
-
 export interface CcyToken {
     value: string;
 }
@@ -120,16 +109,34 @@ export interface Message {
     tokenized_elements_list: TokenizedElementsList[];
 }
 
-export interface NLPRequest {
-    messageName: 'MESSAGE_TO_SKILL' | 'SERVER_ACTION' | 'RUN_APP' | 'CLOSE_APP';
+export interface NLPRequestBody<T, P> {
+    /** Тип запроса */
+    messageName: T;
+
+    /**
+     * Идентификатор сессии, который обновляется каждый раз, когда в поле new_session приходит true.
+     * При использовании совместно с messageId помогает гарантировать уникальность сообщения.
+     * В том числе если пользователь взаимодействует с несколькими поверхностями.
+     */
     sessionId: string;
+
+    /**
+     * Идентификатор запроса, который отправил ассистент.
+     * Ответ на запрос должен содержать такой же идентификатор в поле messageId.
+     */
     messageId: number;
-    uuid: {
-        userChannel: 'B2C';
-        sub: string;
-        userId: string;
-    };
-    payload: {
+
+    uuid: UUID;
+    /**
+     * Коллекция, в которой в зависимости от потребителя
+     * и messageName передается дополнительная информация.
+     */
+    payload: P;
+}
+
+export type NLPRequestMTS = NLPRequestBody<
+    NLPRequestType.MESSAGE_TO_SKILL,
+    {
         device: Device;
         app_info: AppInfo;
         character: Character;
@@ -141,5 +148,5 @@ export interface NLPRequest {
         annotations: Annotations;
         strategies: Strategies;
         message: Message;
-    };
-}
+    }
+>;

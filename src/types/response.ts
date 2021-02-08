@@ -1,13 +1,7 @@
-import { Device } from './global';
+import { Device, UUID } from './global';
 
 export interface Emotion {
     emotionId: string;
-}
-
-export interface UUID {
-    userChannel: string;
-    sub: string;
-    userId: string;
 }
 
 export interface NLPResponse {
