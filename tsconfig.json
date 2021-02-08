@@ -8,7 +8,7 @@
     "declarationMap": true,
     "moduleResolution": "node",
     "emitDeclarationOnly": true,
-    "types": ["node"],
+    "typeRoots": [ "./src/types", "./node_modules/@types" ],
   },
   "include": [
     "src/**/*"
