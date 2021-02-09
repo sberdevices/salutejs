@@ -32,8 +32,10 @@ export interface Capabilities {
 
 /** Операционная система устройства */
 export enum OS {
-    ANDROID = 'ANDROID',
-    IOS = 'IOS',
+    ANDROID = 'android',
+    IOS = 'ios',
+    WEB = 'web',
+    WEBDBG = 'WEBDBG',
 }
 
 /**
