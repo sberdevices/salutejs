@@ -1,6 +1,15 @@
 import assert from 'assert';
 
-import { AbstractRecognizer, Inference } from './abstract';
+import { Inference, SaluteRequest, SaluteResponse } from '../../types/salute';
+
+import { AbstractRecognizer } from './abstract';
+
+// Пример использования Caila для распознования текста
+// const caila = new CailaRecognizer(process.env.ACCESS_TOKEN);
+
+// caila.inference('Забронировать столик на 2 на завтра').then((response) => {
+//     console.log(util.inspect(response, false, 10, true));
+// });
 
 interface KnownSlot {
     name: string;
@@ -76,8 +85,12 @@ export class CailaRecognizer extends AbstractRecognizer {
         };
     }
 
-    public async inference(text: string): Promise<CailaInferenceResponse> {
-        const payload = this.buildInferenceRequest(text);
+    public async inference(req: SaluteRequest, res: SaluteResponse): Promise<void> {
+        const payload = this.buildInferenceRequest(req.message.original_text);
+
+        if (req.message == null) {
+            return Promise.resolve();
+        }
 
         return this.callApi(`/cailapub/api/caila/p/${this.accessToken}/nlu/inference`, {
             headers: {
@@ -86,6 +99,8 @@ export class CailaRecognizer extends AbstractRecognizer {
             },
             method: 'POST',
             body: JSON.stringify(payload),
+        }).then((resp: CailaInferenceResponse) => {
+            req.setInference(resp);
         });
     }
 }

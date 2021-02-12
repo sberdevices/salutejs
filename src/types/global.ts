@@ -1,3 +1,5 @@
+import { NLPResponseATU } from './response';
+
 export enum AppType {
     DIALOG = 'DIALOG',
     WEB_APP = 'WEB_APP',
@@ -14,17 +16,17 @@ export interface Features {
 /** Описание возможностей устройства пользователя */
 export interface Capabilities {
     /** Описание экрана устройства */
-    screen: {
+    screen?: {
         /** Признак наличия экрана */
         available: boolean;
     };
     /** Описание микрофона устройства */
-    mic: {
+    mic?: {
         /** Признак наличия микрофона */
         available: boolean;
     };
     /** Описание динамиков устройства */
-    speak: {
+    speak?: {
         /** Признак наличия динамико */
         available: boolean;
     };
@@ -135,12 +137,11 @@ export interface AppInfo {
     /** Более читаемый аналог поля projectId. Не актуален для внешних приложений */
     systemName?: string;
     /** Объединённое значение полей projectId, applicationId и appversionId */
-    frontendStateId: string;
+    frontendStateId?: string;
 }
 
 /** Информация о запускаемом смартапе и параметрах его запуска. Формируется бэкендом приложения. */
 export interface ServerAction {
-    app_info: AppInfo;
     /**
      * Любые параметры, которые требуются для запуска смартапа.
      * Параметры должны быть представлены в виде валидного JSON-объекта.
@@ -148,4 +149,13 @@ export interface ServerAction {
     parameters: unknown;
     /** Действие, которое обрабатывает бэкенд смартапа. Значение по умолчанию: run_app. */
     action_id: string;
+}
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace jest {
+        interface Matchers<R> {
+            toBeEqualResponse(expected: NLPResponseATU);
+        }
+    }
 }

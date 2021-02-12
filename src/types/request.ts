@@ -109,43 +109,47 @@ export interface Time {
     timestamp: number;
 }
 
+export interface AppState {
+    [key: string]: any;
+    item_selector?: {
+        ignored_words?: string[];
+        /* Список соответствий голосовых команд действиям в веб-приложении */
+        items: [
+            {
+                /* Порядковый номер элемента, назначается смартаппом, уникален в рамках items */
+                number?: number;
+                /* Уникальный id элемента */
+                id?: string;
+                /* Ключевая фраза, которая должна приводить к данному действию */
+                title?: string;
+                /* Фразы-синонимы, которые должны быть расценены как данное действие */
+                aliases?: string[];
+                /* Сервер экшен, проксирует action обратно на бекэнд. */
+                server_action?: unknown;
+                /* Экшен, который вернется в AssistantSmartAppData */
+                action?: unknown;
+                /* Дополнительные данные для бэкенда */
+                [key: string]: unknown;
+            },
+        ];
+    };
+}
+
 /** Данные о содержимом экрана пользователя */
 export interface Meta {
     time: Time;
     current_app: {
         app_info: AppInfo;
-        state: {
-            [key: string]: any;
-            item_selector?: {
-                ignored_words?: string[];
-                /* Список соответствий голосовых команд действиям в веб-приложении */
-                items: {
-                    /* Порядковый номер элемента, назначается смартаппом, уникален в рамках items */
-                    number?: number;
-                    /* Уникальный id элемента */
-                    id?: string;
-                    /* Ключевая фраза, которая должна приводить к данному действию */
-                    title?: string;
-                    /* Фразы-синонимы, которые должны быть расценены как данное действие */
-                    aliases?: string[];
-                    /* Сервер экшен, проксирует action обратно на бекэнд. */
-                    server_action?: unknown;
-                    /* Экшен, который вернется в AssistantSmartAppData */
-                    action?: unknown;
-                    /* Дополнительные данные для бэкенда */
-                    [key: string]: unknown;
-                };
-            };
-        };
+        state: AppState;
     };
 }
 
 /** Возможные стратегии смартапа */
 export interface Strategies {
     /** Сообщает, что у пользователя сегодня день рождения */
-    happy_birthday: boolean;
+    happy_birthday?: boolean;
     /** Время, которое прошло с момента последнего обращения к смартапу */
-    last_call: Date;
+    last_call?: Date;
     /**
      * Передается только в том случае, когда биометрия определила голос Яндекс Алисы.
      * В остальных случаях поле отсутствует.
@@ -233,7 +237,7 @@ export interface SharedRequestPayload {
     app_info: AppInfo;
     /** Имя смартапа, которое задается при создании проекта и отображается в каталоге приложений */
     projectName: string;
-    strategies: Strategies;
+    strategies?: Strategies;
     character: Character;
 }
 
@@ -262,6 +266,7 @@ export interface MTSPayload extends SharedRequestPayload {
 export type NLPRequestMTS = NLPRequestBody<NLPRequestType.MESSAGE_TO_SKILL, MTSPayload>;
 
 export interface SAPayload extends SharedRequestPayload {
+    app_info: AppInfo;
     server_action: ServerAction;
 }
 
@@ -275,7 +280,7 @@ export type NLPRequestSA = NLPRequestBody<NLPRequestType.SERVER_ACTION, SAPayloa
 export interface RAPayload extends SharedRequestPayload {
     /** Интент, который приходит при запуске смартапа */
     intent: 'run_app';
-    server_action: ServerAction;
+    server_action?: ServerAction;
 }
 
 /** RUN_APP */
@@ -288,3 +293,5 @@ export type NLPRequestRA = NLPRequestBody<NLPRequestType.SERVER_ACTION, RAPayloa
  * Ассистент не ждёт ответа от смартапа. Содержимое сообщения совпадает с содержимым payload сообщения MESSAGE_TO_SKILL.
  */
 export type NLPRequestСA = NLPRequestBody<NLPRequestType.SERVER_ACTION, MTSPayload>;
+
+export type NLPRequest = NLPRequestRA | NLPRequestСA | NLPRequestMTS | NLPRequestSA;
