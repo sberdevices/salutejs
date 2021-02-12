@@ -1,0 +1,6 @@
+{
+    "init": {"payload":{"items":[{"bubble":{"text":"Начнем","expand_policy":"auto_expand"}}],"suggestions":{"buttons":[{"title":"Запиши купить молоко","action":{"type":"text","text":"Запиши купить молоко","should_send_to_backend":true}},{"title":"Добавь запись помыть машину","action":{"type":"text","text":"Добавь запись помыть машину","should_send_to_backend":true}}]},"pronounceText":"начнем"}},
+    "addNote": {"payload":{"items":[{"command":{"type":"smart_app_data","action":{"type":"add_note","note":"Купить Молоко"}}},{"bubble":{"text":"Добавлено","expand_policy":"auto_expand"}}],"suggestions":{"buttons":[{"title":"Запиши купить молоко","action":{"type":"text","text":"Запиши купить молоко","should_send_to_backend":true}},{"title":"Добавь запись помыть машину","action":{"type":"text","text":"Добавь запись помыть машину","should_send_to_backend":true}}]},"pronounceText":"Добавлено"}},
+    "doneNote": {"payload":{"items":[{"command":{"type":"smart_app_data","action":{"type":"done_note","id":"uinmh"}}},{"bubble":{"text":"Красавчик","expand_policy":"auto_expand"}}],"pronounceText":"Красавчик"}},
+    "deleteNote": {"payload":{"items":[{"command":{"type":"smart_app_data","action":{"type":"delete_note","id":"uinmh"}}},{"bubble":{"text":"Удалено","expand_policy":"auto_expand"}}],"pronounceText":"Удалено"}}
+}

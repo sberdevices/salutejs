@@ -302,3 +302,5 @@ export interface EPayload extends SharedResponsePayload {
 
 /** ERROR Response */
 export type NLPResponseE = NLPRequestBody<NLPResponseType.ERROR, EPayload>;
+
+export type NLPResponse = NLPResponseATU | NLPResponseE | NLPResponseNF;
