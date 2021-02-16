@@ -1,8 +1,9 @@
+import { NLPRequestRA, NLPRequestSA } from '../../../types/request';
+import { NLPResponseATU } from '../../../types/response';
+
 import { scenarioMessageHandler } from './app';
-import Requests from './todoRequests.json';
-import Responses from './todoResponses.json';
-import { NLPRequestRA, NLPRequestSA } from './types/request';
-import { NLPResponseATU } from './types/response';
+import Requests from './fixtures/todoRequests.json';
+import Responses from './fixtures/todoResponses.json';
 
 expect.extend({
     toBeEqualResponse(received: NLPResponseATU, expected: NLPResponseATU) {

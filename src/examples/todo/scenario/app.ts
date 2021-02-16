@@ -1,9 +1,9 @@
 import express from 'express';
 
-import { createServerActionIntentHandler } from './intents/createServerActionIntentHandler';
-import { StringSimilarityRecognizer } from './intents/recognisers/stringSimilarity';
-import { NLPResponseATU } from './types/response';
-import { Intents, SaluteMiddleware, SaluteRequest, SaluteResponse } from './types/salute';
+import { createServerActionIntentHandler } from '../../../lib/createServerActionIntentHandler';
+import { StringSimilarityRecognizer } from '../../../lib/recognisers/stringSimilarity';
+import { NLPResponseATU } from '../../../types/response';
+import { Intents, SaluteMiddleware, SaluteRequest, SaluteResponse } from '../../../types/salute';
 
 import { createScenarioHandler } from '.';
 

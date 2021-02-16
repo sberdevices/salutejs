@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 
-import { NLPRequest, NLPRequestMTS, NLPRequestSA } from './types/request';
-import { ActionCommand, DataCommand, NLPResponse, NLPResponseATU, NLPResponseType } from './types/response';
-import { Inference, SaluteMiddleware, SaluteRequest, SaluteResponse, Variant } from './types/salute';
+import { NLPRequest, NLPRequestMTS, NLPRequestSA } from '../../../types/request';
+import { ActionCommand, DataCommand, NLPResponse, NLPResponseATU, NLPResponseType } from '../../../types/response';
+import { Inference, SaluteMiddleware, SaluteRequest, SaluteResponse, Variant } from '../../../types/salute';
 
 dotenv.config();
 
