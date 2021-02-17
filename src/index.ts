@@ -90,17 +90,17 @@ const initSaluteResponse = (req: NLPRequest): SaluteResponse => {
 };
 
 export const createScenarioHandler = ({ middlewares }: { middlewares: SaluteMiddleware[] }) => async (
-    req: NLPRequest,
+    request: NLPRequest,
 ): Promise<NLPResponse> => {
-    const request: SaluteRequest = initSaluteRequest(req);
-    const response: SaluteResponse = initSaluteResponse(req);
+    const req: SaluteRequest = initSaluteRequest(request);
+    const res: SaluteResponse = initSaluteResponse(request);
 
     // инициализация контекста
     for (const current of middlewares) {
         // eslint-disable-next-line no-await-in-loop
-        await current(request, response);
+        await current({ req, res });
     }
     // сохранение контекста
 
-    return response.message;
+    return res.message;
 };

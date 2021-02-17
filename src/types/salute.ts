@@ -84,5 +84,5 @@ export interface DefaultScenario {
 
 export type IntentsDict = Record<string, TextIntent | ServerActionIntent>;
 
-export type SaluteMiddleware = (req, res) => Promise<void>;
+export type SaluteMiddleware = (options: { req: SaluteRequest; res: SaluteResponse }) => Promise<void>;
 export type SaluteMiddlewareCreator = (options: { scenario: Scenario }) => SaluteMiddleware;

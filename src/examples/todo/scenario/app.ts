@@ -4,16 +4,13 @@ import { createServerActionIntentHandler } from '../../../lib/createServerAction
 import { StringSimilarityRecognizer } from '../../../lib/recognisers/stringSimilarity';
 import { createScenario } from '../../../lib/createScenario';
 import { NLPResponseATU } from '../../../types/response';
-import { SaluteMiddlewareCreator, SaluteRequest, SaluteResponse } from '../../../types/salute';
+import { SaluteMiddlewareCreator } from '../../../types/salute';
 import { createScenarioHandler } from '../../..';
 
 import { intents } from './intents';
 import { AddNoteCommand, DeleteNoteCommand, DoneNoteCommand } from './types';
 
-const createGraphResolver: SaluteMiddlewareCreator = ({ scenario }) => (
-    req: SaluteRequest,
-    res: SaluteResponse,
-): Promise<void> => {
+const createGraphResolver: SaluteMiddlewareCreator = ({ scenario }) => ({ req, res }) => {
     if (req.inference?.variants.length) {
         req.setVariant(req.inference.variants[0]);
         scenario.resolve(req.variant.intent.path)({ req, res });
@@ -22,10 +19,7 @@ const createGraphResolver: SaluteMiddlewareCreator = ({ scenario }) => (
     return Promise.resolve();
 };
 
-const defaultAnswerHandler: SaluteMiddlewareCreator = ({ scenario }) => (
-    req: SaluteRequest,
-    res: SaluteResponse,
-): Promise<void> => {
+const defaultAnswerHandler: SaluteMiddlewareCreator = ({ scenario }) => ({ req, res }) => {
     const answer = res.message as NLPResponseATU;
     if (
         !answer.payload.items?.length &&

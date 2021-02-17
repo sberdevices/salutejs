@@ -1,6 +1,6 @@
 import ss from 'string-similarity';
 
-import { Inference, IntentsDict, SaluteRequest, SaluteResponse, TextIntent } from '../../types/salute';
+import { Inference, IntentsDict, TextIntent } from '../../types/salute';
 import { Scenario } from '../createScenario';
 
 import { Recognizer } from './abstract';
@@ -27,7 +27,7 @@ export class StringSimilarityRecognizer implements Recognizer {
         this._intents = scenario.intents as IntentsDict;
     }
 
-    inference = async (req: SaluteRequest, res: SaluteResponse): Promise<void> => {
+    inference = async ({ req }) => {
         if (!req.message) {
             return Promise.resolve();
         }

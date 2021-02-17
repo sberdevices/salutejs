@@ -11,11 +11,9 @@ export function createScenario<T>(intents: T) {
             handlers,
             resolve(...path: Array<keyof T | keyof DefaultScenario | string>): SaluteHandler {
                 // FIXME: dive to children
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 const dive = handlers[path[0]];
 
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 return dive;
             },
