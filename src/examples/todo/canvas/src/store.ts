@@ -1,37 +1,17 @@
-type Note = {
-    id: string;
-    title: string;
-    completed: boolean;
-};
+import { AddNoteCommand, DeleteNoteCommand, DoneNoteCommand, InitCommand, Note } from '../../scenario/types';
 
 type State = {
     notes: Array<Note>;
 };
 
-type Action =
-    | {
-          type: 'init';
-          notes: Array<Note>;
-      }
-    | {
-          type: 'add_note';
-          note: string;
-      }
-    | {
-          type: 'done_note';
-          id: string;
-      }
-    | {
-          type: 'delete_note';
-          id: string;
-      };
+export type Action = InitCommand | AddNoteCommand | DoneNoteCommand | DeleteNoteCommand;
 
 export const reducer = (state: State, action: Action) => {
     switch (action.type) {
         case 'init':
             return {
                 ...state,
-                notes: [...action.notes],
+                notes: [...action.payload.notes],
             };
 
         case 'add_note':
@@ -41,7 +21,7 @@ export const reducer = (state: State, action: Action) => {
                     ...state.notes,
                     {
                         id: Math.random().toString(36).substring(7),
-                        title: action.note,
+                        title: action.payload.note,
                         completed: false,
                     },
                 ],
@@ -50,13 +30,13 @@ export const reducer = (state: State, action: Action) => {
         case 'done_note':
             return {
                 ...state,
-                notes: state.notes.map((note) => (note.id === action.id ? { ...note, completed: true } : note)),
+                notes: state.notes.map((note) => (note.id === action.payload.id ? { ...note, completed: true } : note)),
             };
 
         case 'delete_note':
             return {
                 ...state,
-                notes: state.notes.filter(({ id }) => id !== action.id),
+                notes: state.notes.filter(({ id }) => id !== action.payload.id),
             };
 
         default:

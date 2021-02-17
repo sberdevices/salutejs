@@ -34,6 +34,11 @@ export interface Inference {
     variants: Variant[];
 }
 
+export interface SaluteCommand {
+    type: string;
+    payload: { [key: string]: unknown };
+}
+
 export interface SaluteRequest {
     readonly message: Message;
     readonly serverAction?: ServerAction;
@@ -48,7 +53,7 @@ export interface SaluteRequest {
 
 export interface SaluteResponse {
     appendBubble: (bubble: string) => void;
-    appendCommand: (command: unknown) => void;
+    appendCommand: <T extends SaluteCommand>(command: T) => void;
     appendSuggestions: (suggestions: string[]) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;

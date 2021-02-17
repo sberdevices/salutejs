@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 
-import { NLPRequest, NLPRequestMTS, NLPRequestSA } from '../../../types/request';
-import { ActionCommand, DataCommand, NLPResponse, NLPResponseATU, NLPResponseType } from '../../../types/response';
-import { Inference, SaluteMiddleware, SaluteRequest, SaluteResponse, Variant } from '../../../types/salute';
+import { NLPRequest, NLPRequestMTS, NLPRequestSA } from './types/request';
+import { NLPResponse, NLPResponseATU, NLPResponseType } from './types/response';
+import { Inference, SaluteCommand, SaluteMiddleware, SaluteRequest, SaluteResponse, Variant } from './types/salute';
 
 dotenv.config();
 
@@ -61,8 +61,8 @@ const initSaluteResponse = (req: NLPRequest): SaluteResponse => {
         appendBubble: (bubble: string) => {
             message.payload.items.push({ bubble: { text: bubble, expand_policy: 'auto_expand' } });
         },
-        appendCommand: (command: DataCommand | ActionCommand) => {
-            message.payload.items.push({ command });
+        appendCommand: <T extends SaluteCommand>(command: T) => {
+            message.payload.items.push({ command: { type: 'smart_app_data', smart_app_data: { ...command } } });
         },
         appendSuggestions: (suggestions: string[]) => {
             if (message.payload.suggestions == null) {

@@ -4,8 +4,9 @@ import { createServerActionIntentHandler } from '../../../lib/createServerAction
 import { StringSimilarityRecognizer } from '../../../lib/recognisers/stringSimilarity';
 import { NLPResponseATU } from '../../../types/response';
 import { Intents, SaluteMiddleware, SaluteRequest, SaluteResponse } from '../../../types/salute';
+import { createScenarioHandler } from '../../../index';
 
-import { createScenarioHandler } from '.';
+import { AddNoteCommand, DeleteNoteCommand, DoneNoteCommand } from './types';
 
 const createGraphResolver = ({ intents }: { intents: Intents }): SaluteMiddleware => (
     req: SaluteRequest,
@@ -66,7 +67,7 @@ const intents = {
         variables: ['note'],
         callback: (req: SaluteRequest, res: SaluteResponse) => {
             const note = req.variant.slots.find((v) => v.name === 'note').value;
-            res.appendCommand({ type: 'smart_app_data', action: { type: 'add_note', note } });
+            res.appendCommand<AddNoteCommand>({ type: 'add_note', payload: { note } });
             res.appendSuggestions(['Запиши купить молоко', 'Добавь запись помыть машину']);
             res.setPronounceText('Добавлено');
             res.appendBubble('Добавлено');
@@ -79,12 +80,9 @@ const intents = {
             const note = req.variant.slots.find((v) => v.name === 'note').value;
             const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === note.toLowerCase());
             if (note && item != null) {
-                res.appendCommand({
-                    type: 'smart_app_data',
-                    action: {
-                        type: 'done_note',
-                        id: item.id,
-                    },
+                res.appendCommand<DoneNoteCommand>({
+                    type: 'done_note',
+                    payload: { id: item.id },
                 });
 
                 res.setPronounceText('Красавчик');
@@ -98,12 +96,9 @@ const intents = {
             const { title } = (req.serverAction.parameters as { title: string }) || {};
             const item = req.state?.item_selector.items.find((i) => i.title === title);
             if (title && item != null) {
-                res.appendCommand({
-                    type: 'smart_app_data',
-                    action: {
-                        type: 'done_note',
-                        id: item.id,
-                    },
+                res.appendCommand<DoneNoteCommand>({
+                    type: 'done_note',
+                    payload: { id: item.id },
                 });
 
                 res.setPronounceText('Красавчик');
@@ -118,12 +113,9 @@ const intents = {
             const note = req.variant.slots.find((v) => v.name === 'note').value;
             const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === note.toLowerCase());
             if (note && item != null) {
-                res.appendCommand({
-                    type: 'smart_app_data',
-                    action: {
-                        type: 'delete_note',
-                        id: item.id,
-                    },
+                res.appendCommand<DeleteNoteCommand>({
+                    type: 'delete_note',
+                    payload: { id: item.id },
                 });
 
                 res.setPronounceText('Удалено');
@@ -137,12 +129,9 @@ const intents = {
             const { title } = (req.serverAction.parameters as { title: string }) || {};
             const item = req.state?.item_selector.items.find((i) => i.title === title);
             if (title && item != null) {
-                res.appendCommand({
-                    type: 'smart_app_data',
-                    action: {
-                        type: 'delete_note',
-                        id: item.id,
-                    },
+                res.appendCommand<DeleteNoteCommand>({
+                    type: 'delete_note',
+                    payload: { id: item.id },
                 });
 
                 res.setPronounceText('Удалено');

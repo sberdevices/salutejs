@@ -4,4 +4,5 @@ export default {
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',
     testEnvironment: 'node',
+    modulePathIgnorePatterns: ['examples/todo/canvas'],
 };

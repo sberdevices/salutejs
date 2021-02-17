@@ -1,20 +1,26 @@
 import React, { FC, memo, useReducer, useState, useRef, useEffect } from 'react';
-import { createSmartappDebugger, createAssistant, AssistantAppState } from '@sberdevices/assistant-client';
+import { createSmartappDebugger, createAssistant, AssistantAppState, AssistantSmartAppData, AssistantClientCustomizedCommand, AssistantNavigationCommand } from '@sberdevices/assistant-client';
 import './App.css';
 
-import { reducer } from './store';
+import { Action, reducer } from './store';
+
+interface TodoCommand extends AssistantSmartAppData {
+    smart_app_data: Action;
+}
 
 const initializeAssistant = (getState: any) => {
     if (process.env.NODE_ENV === 'development' && window.Cypress == null) {
-        return createSmartappDebugger({
+        return createSmartappDebugger<TodoCommand>({
             token: process.env.REACT_APP_TOKEN ?? '',
             initPhrase: `Запусти ${process.env.REACT_APP_SMARTAPP}`,
             getState,
         });
     }
 
-    return createAssistant({ getState });
+    return createAssistant<TodoCommand>({ getState });
 };
+
+const creatTodoAssistant = () => createAssistant<TodoCommand>({ getState: () => ({}) });
 
 export const App: FC = memo(() => {
     const [appState, dispatch] = useReducer(reducer, {
@@ -24,12 +30,13 @@ export const App: FC = memo(() => {
     const [note, setNote] = useState('');
 
     const assistantStateRef = useRef<AssistantAppState>();
-    const assistantRef = useRef<ReturnType<typeof createAssistant>>();
+    const assistantRef = useRef<ReturnType<typeof creatTodoAssistant>>();
 
     useEffect(() => {
         assistantRef.current = initializeAssistant(() => assistantStateRef.current);
 
-        assistantRef.current.on('data', ({ navigation, action }: any) => {
+        assistantRef.current.on('data', (command: AssistantClientCustomizedCommand<TodoCommand>) => {
+            const { navigation } = command as AssistantNavigationCommand;
             if (navigation) {
                 switch (navigation.command) {
                     case 'UP':
@@ -41,8 +48,9 @@ export const App: FC = memo(() => {
                 }
             }
 
-            if (action) {
-                dispatch(action);
+            const { smart_app_data } = command as TodoCommand;
+            if (smart_app_data) {
+                dispatch(smart_app_data);
             }
         });
     }, []);
@@ -68,7 +76,7 @@ export const App: FC = memo(() => {
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
-                    dispatch({ type: 'add_note', note });
+                    dispatch({ type: 'add_note', payload: { note } });
                     setNote('');
                 }}
             >
