@@ -5,7 +5,7 @@ module.exports = {
     rules: {
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/no-empty-interface': 'off',
-        'no-restricted-syntax': 'off', // В for...of циклах ничего плохого нет
+        'no-restricted-syntax': 'off',
         'spaced-comment': ['error', 'always', { markers: ['/'] }], /// разрешаем ts-require directive
         'comma-dangle': ['error', 'always-multiline'],
         'arrow-parens': ['error', 'always'],
@@ -54,5 +54,7 @@ module.exports = {
         'no-unused-expressions': 'off',
         camelcase: 'off',
         'no-underscore-dangle': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
     },
 };
