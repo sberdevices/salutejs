@@ -1,6 +1,7 @@
 import ss from 'string-similarity';
 
-import { Inference, Intents, SaluteRequest, SaluteResponse, TextIntent } from '../../types/salute';
+import { Inference, IntentsDict, SaluteRequest, SaluteResponse, TextIntent } from '../../types/salute';
+import { Scenario } from '../createScenario';
 
 import { Recognizer } from './abstract';
 
@@ -20,10 +21,10 @@ function getRestOfMessageText(message) {
 }
 
 export class StringSimilarityRecognizer implements Recognizer {
-    private _intents: Intents;
+    private _intents: IntentsDict;
 
-    constructor({ intents }: { intents: Intents }) {
-        this._intents = intents;
+    constructor({ scenario }: { scenario: Scenario }) {
+        this._intents = scenario.intents as IntentsDict;
     }
 
     inference = async (req: SaluteRequest, res: SaluteResponse): Promise<void> => {

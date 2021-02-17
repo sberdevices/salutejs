@@ -2,25 +2,27 @@ import express from 'express';
 
 import { createServerActionIntentHandler } from '../../../lib/createServerActionIntentHandler';
 import { StringSimilarityRecognizer } from '../../../lib/recognisers/stringSimilarity';
+import { createScenario } from '../../../lib/createScenario';
 import { NLPResponseATU } from '../../../types/response';
-import { Intents, SaluteMiddleware, SaluteRequest, SaluteResponse } from '../../../types/salute';
-import { createScenarioHandler } from '../../../index';
+import { SaluteMiddlewareCreator, SaluteRequest, SaluteResponse } from '../../../types/salute';
+import { createScenarioHandler } from '../../..';
 
+import { intents } from './intents';
 import { AddNoteCommand, DeleteNoteCommand, DoneNoteCommand } from './types';
 
-const createGraphResolver = ({ intents }: { intents: Intents }): SaluteMiddleware => (
+const createGraphResolver: SaluteMiddlewareCreator = ({ scenario }) => (
     req: SaluteRequest,
     res: SaluteResponse,
 ): Promise<void> => {
     if (req.inference?.variants.length) {
         req.setVariant(req.inference.variants[0]);
-        intents[req.variant.intent.path].callback(req, res);
+        scenario.resolve(req.variant.intent.path)({ req, res });
     }
 
     return Promise.resolve();
 };
 
-const defaultAnswerHandler = ({ intents }: { intents: Intents }): SaluteMiddleware => (
+const defaultAnswerHandler: SaluteMiddlewareCreator = ({ scenario }) => (
     req: SaluteRequest,
     res: SaluteResponse,
 ): Promise<void> => {
@@ -30,123 +32,89 @@ const defaultAnswerHandler = ({ intents }: { intents: Intents }): SaluteMiddlewa
         answer.payload.pronounceText == null &&
         !answer.payload.suggestions?.buttons?.length
     ) {
-        intents.default.callback(req, res);
+        scenario.resolve('default')({ req, res });
     }
 
     return Promise.resolve();
 };
 
-const intents = {
-    run_app: {
-        callback: (req: SaluteRequest, res: SaluteResponse) => {
-            res.appendSuggestions(['Запиши купить молоко', 'Добавь запись помыть машину']);
-            res.setPronounceText('начнем');
-            res.appendBubble('Начнем');
-        },
+const scenario = createScenario(intents)({
+    run_app({ res }) {
+        res.appendSuggestions(['Запиши купить молоко', 'Добавь запись помыть машину']);
+        res.setPronounceText('начнем');
+        res.appendBubble('Начнем');
     },
-    default: {
-        callback: (req: SaluteRequest, res: SaluteResponse) => {
-            res.setPronounceText('Я не понимаю');
-            res.appendBubble('Я не понимаю');
-        },
+    default({ res }) {
+        res.setPronounceText('Я не понимаю');
+        res.appendBubble('Я не понимаю');
     },
-    add_note: {
-        matchers: [
-            'добавить',
-            'установить',
-            // 'запиши',
-            'записать',
-            'поставь',
-            'закинь',
-            'напомнить',
-            'напоминание',
-            'заметка',
-            'задание',
-            'задача',
-        ],
-        variables: ['note'],
-        callback: (req: SaluteRequest, res: SaluteResponse) => {
-            const note = req.variant.slots.find((v) => v.name === 'note').value;
-            res.appendCommand<AddNoteCommand>({ type: 'add_note', payload: { note } });
-            res.appendSuggestions(['Запиши купить молоко', 'Добавь запись помыть машину']);
-            res.setPronounceText('Добавлено');
-            res.appendBubble('Добавлено');
-        },
+    add_note: ({ req, res }) => {
+        const note = req.variant.slots.find((v) => v.name === 'note').value;
+        res.appendCommand<AddNoteCommand>({ type: 'add_note', payload: { note } });
+        res.appendSuggestions(['Запиши купить молоко', 'Добавь запись помыть машину']);
+        res.setPronounceText('Добавлено');
+        res.appendBubble('Добавлено');
     },
-    done_note: {
-        matchers: ['выполнил', 'сделал'],
-        variables: ['note'],
-        callback: (req: SaluteRequest, res: SaluteResponse) => {
-            const note = req.variant.slots.find((v) => v.name === 'note').value;
-            const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === note.toLowerCase());
-            if (note && item != null) {
-                res.appendCommand<DoneNoteCommand>({
-                    type: 'done_note',
-                    payload: { id: item.id },
-                });
+    done_note: ({ req, res }) => {
+        const note = req.variant.slots.find((v) => v.name === 'note').value;
+        const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === note.toLowerCase());
+        if (note && item != null) {
+            res.appendCommand<DoneNoteCommand>({
+                type: 'done_note',
+                payload: { id: item.id },
+            });
 
-                res.setPronounceText('Красавчик');
-                res.appendBubble('Красавчик');
-            }
-        },
+            res.setPronounceText('Красавчик');
+            res.appendBubble('Красавчик');
+        }
     },
-    done_note_action: {
-        actionId: 'done',
-        callback: (req: SaluteRequest, res: SaluteResponse) => {
-            const { title } = (req.serverAction.parameters as { title: string }) || {};
-            const item = req.state?.item_selector.items.find((i) => i.title === title);
-            if (title && item != null) {
-                res.appendCommand<DoneNoteCommand>({
-                    type: 'done_note',
-                    payload: { id: item.id },
-                });
+    done_note_action: ({ req, res }) => {
+        const { title } = (req.serverAction.parameters as { title: string }) || {};
+        const item = req.state?.item_selector.items.find((i) => i.title === title);
+        if (title && item != null) {
+            res.appendCommand<DoneNoteCommand>({
+                type: 'done_note',
+                payload: { id: item.id },
+            });
 
-                res.setPronounceText('Красавчик');
-                res.appendBubble('Красавчик');
-            }
-        },
+            res.setPronounceText('Красавчик');
+            res.appendBubble('Красавчик');
+        }
     },
-    delete_note: {
-        matchers: ['Удалить', 'Удали'],
-        variables: ['note'],
-        callback: (req: SaluteRequest, res: SaluteResponse) => {
-            const note = req.variant.slots.find((v) => v.name === 'note').value;
-            const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === note.toLowerCase());
-            if (note && item != null) {
-                res.appendCommand<DeleteNoteCommand>({
-                    type: 'delete_note',
-                    payload: { id: item.id },
-                });
+    delete_note: ({ req, res }) => {
+        const note = req.variant.slots.find((v) => v.name === 'note').value;
+        const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === note.toLowerCase());
+        if (note && item != null) {
+            res.appendCommand<DeleteNoteCommand>({
+                type: 'delete_note',
+                payload: { id: item.id },
+            });
 
-                res.setPronounceText('Удалено');
-                res.appendBubble('Удалено');
-            }
-        },
+            res.setPronounceText('Удалено');
+            res.appendBubble('Удалено');
+        }
     },
-    delete_note_action: {
-        actionId: 'delete_note',
-        callback: (req: SaluteRequest, res: SaluteResponse) => {
-            const { title } = (req.serverAction.parameters as { title: string }) || {};
-            const item = req.state?.item_selector.items.find((i) => i.title === title);
-            if (title && item != null) {
-                res.appendCommand<DeleteNoteCommand>({
-                    type: 'delete_note',
-                    payload: { id: item.id },
-                });
+    delete_note_action: ({ req, res }) => {
+        const { title } = (req.serverAction.parameters as { title: string }) || {};
+        const item = req.state?.item_selector.items.find((i) => i.title === title);
+        if (title && item != null) {
+            res.appendCommand<DeleteNoteCommand>({
+                type: 'delete_note',
+                payload: { id: item.id },
+            });
 
-                res.setPronounceText('Удалено');
-                res.appendBubble('Удалено');
-            }
-        },
+            res.setPronounceText('Удалено');
+            res.appendBubble('Удалено');
+        }
     },
-};
+});
 
 export const scenarioMessageHandler = createScenarioHandler({
     middlewares: [
-        createServerActionIntentHandler({ intents }),
-        new StringSimilarityRecognizer({ intents }).inference,
-        createGraphResolver({ intents }),
-        defaultAnswerHandler({ intents }),
+        createServerActionIntentHandler({ scenario }),
+        new StringSimilarityRecognizer({ scenario }).inference,
+        createGraphResolver({ scenario }),
+        defaultAnswerHandler({ scenario }),
     ],
 });
 
