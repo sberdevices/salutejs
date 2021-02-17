@@ -1,3 +1,5 @@
+import { Scenario } from '../lib/createScenario';
+
 import { ServerAction } from './global';
 import { AppState, Message, NLPRequest } from './request';
 import { NLPResponse } from './response';
@@ -60,29 +62,27 @@ export interface SaluteResponse {
     readonly message: NLPResponse;
 }
 
+export type SaluteHandler = (options: { req: SaluteRequest; res: SaluteResponse }) => void;
+
 export interface TextIntent {
-    callback: (req: SaluteRequest, res: SaluteResponse) => void;
     matchers: string[];
-    variables: string[];
+    variables?: string[];
 }
 
 export interface ServerActionIntent {
-    callback: (req: SaluteRequest, res: SaluteResponse) => void;
     actionId: string;
-    parameters: string[];
+    variables?: string[];
 }
 
-export interface SystemIntent {
-    callback: (req: SaluteRequest, res: SaluteResponse) => void;
+export type SaluteIntent = ServerActionIntent | TextIntent;
+
+export interface DefaultScenario {
+    default: SaluteHandler;
+    run_app: SaluteHandler;
+    close_app?: SaluteHandler;
 }
 
-export type SaluteIntent = ServerActionIntent | TextIntent | SystemIntent;
-
-export interface Intents {
-    default: SystemIntent;
-    run_app: SystemIntent;
-    close_app?: SystemIntent;
-    [key: string]: SaluteIntent;
-}
+export type IntentsDict = Record<string, TextIntent | ServerActionIntent>;
 
 export type SaluteMiddleware = (req, res) => Promise<void>;
+export type SaluteMiddlewareCreator = (options: { scenario: Scenario }) => SaluteMiddleware;
