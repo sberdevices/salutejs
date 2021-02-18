@@ -13,7 +13,13 @@ export const intents = {
             'задание',
             'задача',
         ],
-        variables: ['note'],
+        variables: {
+            note: {
+                required: true,
+                // questions: (character) => [''],
+                questions: ['Не поняла, повторите, пожалуйста'],
+            },
+        },
     },
     done_note: {
         matchers: ['выполнил', 'сделал'],

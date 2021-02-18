@@ -1,4 +1,5 @@
 import { Scenario } from '../lib/createScenario';
+import { SaluteSession } from '../lib/session';
 
 import { ServerAction } from './global';
 import { AppState, Message, NLPRequest } from './request';
@@ -84,5 +85,9 @@ export interface DefaultScenario {
 
 export type IntentsDict = Record<string, TextIntent | ServerActionIntent>;
 
-export type SaluteMiddleware = (options: { req: SaluteRequest; res: SaluteResponse }) => Promise<void>;
+export type SaluteMiddleware = (options: {
+    req: SaluteRequest;
+    res: SaluteResponse;
+    session: SaluteSession;
+}) => Promise<void>;
 export type SaluteMiddlewareCreator = (options: { scenario: Scenario }) => SaluteMiddleware;

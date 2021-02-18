@@ -1,32 +1,42 @@
 import express from 'express';
 
-import { createServerActionIntentHandler } from '../../../lib/createServerActionIntentHandler';
-import { StringSimilarityRecognizer } from '../../../lib/recognisers/stringSimilarity';
+import { createSystemIntentsMiddleware } from '../../../lib/middlewares/createSystemIntentsMiddleware';
+import { createServerActionMiddleware } from '../../../lib/middlewares/createServerActionMiddleware';
+import { createDefaultAnswerMiddleware } from '../../../lib/middlewares/createDefaultAnswerMiddleware';
+import { createStringSimilarityRecognizerMiddleware } from '../../../lib/middlewares/createStringSimilarityRecognizerMiddleware';
 import { createScenario } from '../../../lib/createScenario';
-import { NLPResponseATU } from '../../../types/response';
+import { SaluteMemoryStorage } from '../../../lib/session';
 import { SaluteMiddlewareCreator } from '../../../types/salute';
-import { createScenarioHandler } from '../../..';
+import { createScenarioWalker } from '../../..';
 
 import { intents } from './intents';
 import { AddNoteCommand, DeleteNoteCommand, DoneNoteCommand } from './types';
 
-const createGraphResolver: SaluteMiddlewareCreator = ({ scenario }) => ({ req, res }) => {
-    if (req.inference?.variants.length) {
-        req.setVariant(req.inference.variants[0]);
-        scenario.resolve(req.variant.intent.path)({ req, res });
+const app = express();
+app.use(express.json());
+
+// 1. check path
+// 2. check required variables
+// 2.1 if not full get associated random question
+// 2.2 else call handler
+// 3 validate
+// 3.1 if valid next
+// 3.2 else reset session.variables and setPronounceText
+
+const createCycleScenarioMiddleware: SaluteMiddlewareCreator = ({ scenario }) => ({ req, res, session }) => {
+    if (session.path.length) {
+        // currentIntent = req.setVariant(req.inference.variants[0];
+        // path = session.path
+        // scenario.resolve(...path, currentIntent)
     }
 
     return Promise.resolve();
 };
 
-const defaultAnswerHandler: SaluteMiddlewareCreator = ({ scenario }) => ({ req, res }) => {
-    const answer = res.message as NLPResponseATU;
-    if (
-        !answer.payload.items?.length &&
-        answer.payload.pronounceText == null &&
-        !answer.payload.suggestions?.buttons?.length
-    ) {
-        scenario.resolve('default')({ req, res });
+const createCustomScenarioMiddleware: SaluteMiddlewareCreator = ({ scenario }) => ({ req, res }) => {
+    if (req.inference?.variants.length) {
+        req.setVariant(req.inference.variants[0]);
+        scenario.resolve(req.variant.intent.path)({ req, res });
     }
 
     return Promise.resolve();
@@ -103,21 +113,19 @@ const scenario = createScenario(intents)({
     },
 });
 
-export const scenarioMessageHandler = createScenarioHandler({
+export const scenarioWalker = createScenarioWalker({
+    storage: new SaluteMemoryStorage(),
     middlewares: [
-        createServerActionIntentHandler({ scenario }),
-        new StringSimilarityRecognizer({ scenario }).inference,
-        createGraphResolver({ scenario }),
-        defaultAnswerHandler({ scenario }),
+        createSystemIntentsMiddleware({ scenario }),
+        createServerActionMiddleware({ scenario }),
+        createStringSimilarityRecognizerMiddleware({ scenario }),
+        createCustomScenarioMiddleware({ scenario }),
+        createDefaultAnswerMiddleware({ scenario }),
     ],
 });
 
-const app = express();
-
-app.use(express.json());
-
 app.post('/hook', async (req, res) => {
-    const resp = await scenarioMessageHandler(req.body);
+    const resp = await scenarioWalker(req.body);
     res.status(200).json(resp);
 });
 
