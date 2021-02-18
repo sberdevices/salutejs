@@ -1,10 +1,7 @@
-import * as dotenv from 'dotenv';
-
+import { SaluteSessionStorage } from './lib/session';
 import { NLPRequest, NLPRequestMTS, NLPRequestSA } from './types/request';
 import { NLPResponse, NLPResponseATU, NLPResponseType } from './types/response';
 import { Inference, SaluteCommand, SaluteMiddleware, SaluteRequest, SaluteResponse, Variant } from './types/salute';
-
-dotenv.config();
 
 const initSaluteRequest = (request: NLPRequest): SaluteRequest => {
     let inference: Inference;
@@ -89,18 +86,25 @@ const initSaluteResponse = (req: NLPRequest): SaluteResponse => {
     };
 };
 
-export const createScenarioHandler = ({ middlewares }: { middlewares: SaluteMiddleware[] }) => async (
+export interface ScenarioWalkerProps {
+    storage: SaluteSessionStorage;
+    middlewares: SaluteMiddleware[];
+}
+
+export const createScenarioWalker = ({ middlewares, storage }: ScenarioWalkerProps) => async (
     request: NLPRequest,
 ): Promise<NLPResponse> => {
     const req: SaluteRequest = initSaluteRequest(request);
     const res: SaluteResponse = initSaluteResponse(request);
 
-    // инициализация контекста
+    const session = await storage.resolve(request.sessionId);
+
     for (const current of middlewares) {
         // eslint-disable-next-line no-await-in-loop
-        await current({ req, res });
+        await current({ req, res, session });
     }
-    // сохранение контекста
+
+    await storage.save({ id: request.sessionId, session });
 
     return res.message;
 };
