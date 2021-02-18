@@ -7,31 +7,35 @@ export interface SaluteSession {
 }
 
 export interface SaluteSessionStorage {
-    resolve: (id: string) => SaluteSession;
-    save: ({ id, session }: { id: string; session: SaluteSession }) => void;
-    reset: (id: string) => void;
+    resolve: (id: string) => Promise<SaluteSession>;
+    save: ({ id, session }: { id: string; session: SaluteSession }) => Promise<void>;
+    reset: (id: string) => Promise<void>;
 }
 
 export class SaluteMemoryStorage implements SaluteSessionStorage {
     private sessions: Record<string, SaluteSession>;
 
-    resolve(id: string) {
-        return (
+    async resolve(id: string) {
+        return Promise.resolve(
             this.sessions[id] || {
                 path: [],
                 variables: {},
-            }
+            },
         );
     }
 
-    save({ id, session }: { id: string; session: SaluteSession }) {
+    async save({ id, session }: { id: string; session: SaluteSession }) {
         this.sessions[id] = session;
+
+        return Promise.resolve();
     }
 
-    reset(id: string) {
+    async reset(id: string) {
         this.sessions[id] = this.sessions[id] || {
             path: [],
             variables: {},
         };
+
+        return Promise.resolve();
     }
 }
