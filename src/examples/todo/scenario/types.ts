@@ -1,4 +1,4 @@
-import { SaluteCommand } from '../../../types/salute';
+import { SaluteCommand, SaluteRequestVariable } from '../../../types/salute';
 
 export interface Note {
     id: string;
@@ -32,4 +32,8 @@ export interface DeleteNoteCommand extends SaluteCommand {
     payload: {
         id: string;
     };
+}
+
+export interface NoteVariable extends SaluteRequestVariable {
+    note: string;
 }

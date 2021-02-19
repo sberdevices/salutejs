@@ -1,10 +1,10 @@
-import { DefaultScenario, SaluteHandler } from '../types/salute';
+import { DefaultScenario, IntentsDict, SaluteHandler } from '../types/salute';
 
 type CustomScenario<T = string> = {
     [Key in keyof T]: SaluteHandler | Partial<CustomScenario<T>>;
 };
 
-export function createScenario<T>(intents: T) {
+export function createScenario<T = IntentsDict>(intents: T) {
     return (handlers: DefaultScenario & Partial<CustomScenario<T>>) => {
         return {
             intents,

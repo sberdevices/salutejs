@@ -73,15 +73,16 @@ export class StringSimilarityRecognizer implements Recognizer {
                             slots: [],
                         },
                         confidence: match.rating,
-                        slots: (this._intents[match.key] as TextIntent).variables?.length
-                            ? [
-                                  {
-                                      name: `${(this._intents[match.key] as TextIntent).variables[0]}`,
-                                      value: getRestOfMessageText(req.message),
-                                      array: false,
-                                  },
-                              ]
-                            : [],
+                        slots:
+                            (this._intents[match.key] as TextIntent).variables != null
+                                ? [
+                                      {
+                                          name: `${(this._intents[match.key] as TextIntent).variables[0] || 'note'}`,
+                                          value: getRestOfMessageText(req.message),
+                                          array: false,
+                                      },
+                                  ]
+                                : [],
                     });
 
                     return arr;

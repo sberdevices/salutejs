@@ -13,7 +13,7 @@ export interface SaluteSessionStorage {
 }
 
 export class SaluteMemoryStorage implements SaluteSessionStorage {
-    private sessions: Record<string, SaluteSession>;
+    private sessions: Record<string, SaluteSession> = {};
 
     async resolve(id: string) {
         return Promise.resolve(

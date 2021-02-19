@@ -6,11 +6,11 @@ import { createDefaultAnswerMiddleware } from '../../../lib/middlewares/createDe
 import { createStringSimilarityRecognizerMiddleware } from '../../../lib/middlewares/createStringSimilarityRecognizerMiddleware';
 import { createScenario } from '../../../lib/createScenario';
 import { SaluteMemoryStorage } from '../../../lib/session';
-import { SaluteMiddlewareCreator } from '../../../types/salute';
+import { SaluteMiddlewareCreator, SaluteRequest, SaluteResponse } from '../../../types/salute';
 import { createScenarioWalker } from '../../..';
 
 import { intents } from './intents';
-import { AddNoteCommand, DeleteNoteCommand, DoneNoteCommand } from './types';
+import { AddNoteCommand, DeleteNoteCommand, DoneNoteCommand, NoteVariable } from './types';
 
 const app = express();
 app.use(express.json());
@@ -33,13 +33,39 @@ const createCycleScenarioMiddleware: SaluteMiddlewareCreator = ({ scenario }) =>
     return Promise.resolve();
 };
 
-const createCustomScenarioMiddleware: SaluteMiddlewareCreator = ({ scenario }) => ({ req, res }) => {
+const createSetVariantScenarioMiddleware: SaluteMiddlewareCreator = () => ({ req, res }) => {
     if (req.inference?.variants.length) {
         req.setVariant(req.inference.variants[0]);
-        scenario.resolve(req.variant.intent.path)({ req, res });
     }
 
     return Promise.resolve();
+};
+
+const createSetVariablesScenarioMiddleware: SaluteMiddlewareCreator = ({ scenario }) => async ({ req }) => {
+    if (req.variant == null || scenario.intents[req.variant.intent.path] == null) {
+        return Promise.resolve();
+    }
+
+    req.variant.slots.forEach((slot) => {
+        req.setVariable(slot.name, slot.value);
+    });
+
+    // Здесь реализуем дозапросы:
+    //   нормализуем переменные интента
+    // const intentVariables = normalizeVars(scenario.intents[req.variant.intent.path].variables);
+    // intentVariables.forEach((variable: => {
+    //   заполняем из сессии или дозапрашиваем
+    // });
+
+    return Promise.resolve();
+};
+
+const createCustomScenarioMiddleware: SaluteMiddlewareCreator = ({ scenario }) => async ({ req, res }) => {
+    if (req.variant == null) {
+        return Promise.resolve();
+    }
+
+    return scenario.resolve(req.variant.intent.path)({ req, res });
 };
 
 const scenario = createScenario(intents)({
@@ -52,15 +78,15 @@ const scenario = createScenario(intents)({
         res.setPronounceText('Я не понимаю');
         res.appendBubble('Я не понимаю');
     },
-    add_note: ({ req, res }) => {
-        const note = req.variant.slots.find((v) => v.name === 'note').value;
+    add_note: ({ req, res }: { req: SaluteRequest<NoteVariable>; res: SaluteResponse }) => {
+        const { note } = req.variables;
         res.appendCommand<AddNoteCommand>({ type: 'add_note', payload: { note } });
         res.appendSuggestions(['Запиши купить молоко', 'Добавь запись помыть машину']);
         res.setPronounceText('Добавлено');
         res.appendBubble('Добавлено');
     },
-    done_note: ({ req, res }) => {
-        const note = req.variant.slots.find((v) => v.name === 'note').value;
+    done_note: ({ req, res }: { req: SaluteRequest<NoteVariable>; res: SaluteResponse }) => {
+        const { note } = req.variables;
         const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === note.toLowerCase());
         if (note && item != null) {
             res.appendCommand<DoneNoteCommand>({
@@ -85,8 +111,8 @@ const scenario = createScenario(intents)({
             res.appendBubble('Красавчик');
         }
     },
-    delete_note: ({ req, res }) => {
-        const note = req.variant.slots.find((v) => v.name === 'note').value;
+    delete_note: ({ req, res }: { req: SaluteRequest<NoteVariable>; res: SaluteResponse }) => {
+        const { note } = req.variables;
         const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === note.toLowerCase());
         if (note && item != null) {
             res.appendCommand<DeleteNoteCommand>({
@@ -119,14 +145,18 @@ export const scenarioWalker = createScenarioWalker({
         createSystemIntentsMiddleware({ scenario }),
         createServerActionMiddleware({ scenario }),
         createStringSimilarityRecognizerMiddleware({ scenario }),
+        createSetVariantScenarioMiddleware({ scenario }),
+        createSetVariablesScenarioMiddleware({ scenario }),
         createCustomScenarioMiddleware({ scenario }),
         createDefaultAnswerMiddleware({ scenario }),
     ],
 });
 
-app.post('/hook', async (req, res) => {
-    const resp = await scenarioWalker(req.body);
-    res.status(200).json(resp);
-});
+if (process.env.NODE_ENV !== 'test') {
+    app.post('/hook', async (req, res) => {
+        const resp = await scenarioWalker(req.body);
+        res.status(200).json(resp);
+    });
 
-app.listen(3000);
+    app.listen(3000);
+}
