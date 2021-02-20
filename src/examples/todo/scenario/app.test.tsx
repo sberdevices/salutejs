@@ -35,8 +35,29 @@ describe('todo-app', () => {
         expect(Responses.doneNote).toBeEqualResponse(res as NLPResponseATU);
     });
 
-    test('deleteNote', async () => {
-        const res = await scenarioWalker(Requests.deleteNote as NLPRequestRA);
-        expect(Responses.deleteNote).toBeEqualResponse(res as NLPResponseATU);
+    test('deleteNote continue', async () => {
+        const res1 = await scenarioWalker(Requests.deleteNote as NLPRequestRA);
+        const res2 = await scenarioWalker(Requests.deleteNoteContinue as NLPRequestRA);
+        expect(Responses.deleteNote).toBeEqualResponse(res1 as NLPResponseATU);
+        expect(Responses.deleteNoteContinue).toBeEqualResponse(res2 as NLPResponseATU);
+    });
+
+    test('deleteNote cancel', async () => {
+        const res1 = await scenarioWalker(Requests.deleteNote as NLPRequestRA);
+        const res2 = await scenarioWalker(Requests.deleteNoteCancel as NLPRequestRA);
+        expect(Responses.deleteNote).toBeEqualResponse(res1 as NLPResponseATU);
+        expect(Responses.deleteNoteCancel).toBeEqualResponse(res2 as NLPResponseATU);
+    });
+
+    test('deleteNote skip', async () => {
+        const res1 = await scenarioWalker(Requests.deleteNote as NLPRequestRA);
+        const res2 = await scenarioWalker(Requests.addNote as NLPRequestRA);
+        expect(Responses.deleteNote).toBeEqualResponse(res1 as NLPResponseATU);
+        expect(Responses.addNote).toBeEqualResponse(res2 as NLPResponseATU);
+    });
+
+    test('default intent', async () => {
+        const res = await scenarioWalker(Requests.default as NLPRequestRA);
+        expect(Responses.default).toBeEqualResponse(res as NLPResponseATU);
     });
 });
