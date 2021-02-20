@@ -1,4 +1,6 @@
-export const intents = {
+import { IntentsDict } from '../../../types/salute';
+
+export const intents: IntentsDict = {
     add_note: {
         matchers: [
             'добавить',
@@ -16,7 +18,6 @@ export const intents = {
         variables: {
             note: {
                 required: true,
-                // questions: (character) => [''],
                 questions: ['Не поняла, повторите, пожалуйста'],
             },
         },

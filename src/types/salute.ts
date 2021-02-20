@@ -42,7 +42,9 @@ export interface SaluteCommand {
     payload: { [key: string]: unknown };
 }
 
-export interface SaluteRequest {
+export type SaluteRequestVariable = Record<string, unknown>;
+
+export interface SaluteRequest<V = SaluteRequestVariable> {
     readonly message: Message;
     readonly serverAction?: ServerAction;
     readonly intent: string;
@@ -50,8 +52,10 @@ export interface SaluteRequest {
     readonly request: NLPRequest;
     readonly state?: AppState;
     readonly variant?: Variant;
+    readonly variables: V;
     setInference: (value: Inference) => void;
     setVariant: (value: Variant) => void;
+    setVariable: (name: string, value: unknown) => void;
 }
 
 export interface SaluteResponse {
@@ -65,14 +69,21 @@ export interface SaluteResponse {
 
 export type SaluteHandler = (options: { req: SaluteRequest; res: SaluteResponse }) => void;
 
+export interface SaluteIntentVariable {
+    required?: boolean;
+    questions?: string[];
+}
+
+export type SaluteIntentVariables = string[] | { [key: string]: SaluteIntentVariable };
+
 export interface TextIntent {
     matchers: string[];
-    variables?: string[];
+    variables?: SaluteIntentVariables;
 }
 
 export interface ServerActionIntent {
     actionId: string;
-    variables?: string[];
+    variables?: SaluteIntentVariables;
 }
 
 export type SaluteIntent = ServerActionIntent | TextIntent;

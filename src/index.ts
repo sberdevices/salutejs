@@ -6,6 +6,7 @@ import { Inference, SaluteCommand, SaluteMiddleware, SaluteRequest, SaluteRespon
 const initSaluteRequest = (request: NLPRequest): SaluteRequest => {
     let inference: Inference;
     let variant: Variant;
+    const variables: { [key: string]: unknown } = {};
 
     return {
         get message() {
@@ -29,11 +30,17 @@ const initSaluteRequest = (request: NLPRequest): SaluteRequest => {
         get variant() {
             return variant;
         },
+        get variables() {
+            return variables;
+        },
         setInference: (value: Inference) => {
             inference = value;
         },
         setVariant: (value: Variant) => {
             variant = value;
+        },
+        setVariable: (name: string, value: unknown) => {
+            variables[name] = value;
         },
     };
 };
