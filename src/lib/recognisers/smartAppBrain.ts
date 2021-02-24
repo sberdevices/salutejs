@@ -1,13 +1,13 @@
 import assert from 'assert';
 
-import { Inference, SaluteRequest, SaluteResponse } from '../../types/salute';
+import { Inference, SaluteRequest } from '../../types/salute';
 
 import { AbstractRecognizer } from './abstract';
 
-// Пример использования Caila для распознования текста
-// const caila = new CailaRecognizer(process.env.ACCESS_TOKEN);
+// Пример использования SmartAppBrain для распознования текста
+// const brain = new SmartAppBrainRecognizer(process.env.ACCESS_TOKEN);
 
-// caila.inference('Забронировать столик на 2 на завтра').then((response) => {
+// brain.inference('Забронировать столик на 2 на завтра').then((response) => {
 //     console.log(util.inspect(response, false, 10, true));
 // });
 
@@ -35,7 +35,7 @@ interface Phrase {
     stagedPhraseIdx?: number;
 }
 
-interface CailaInferenceRequest {
+interface SmartAppBrainInferenceRequest {
     phrase: Phrase;
     knownSlots?: KnownSlot[];
     nBest: number;
@@ -43,12 +43,12 @@ interface CailaInferenceRequest {
     clientId?: string;
 }
 
-interface CailaInferenceResponse extends Inference {
+interface SmartAppBrainInferenceResponse extends Inference {
     phrase: Phrase;
 }
 
-export class CailaRecognizer extends AbstractRecognizer {
-    private static defaultInfereRequestOptions: CailaInferenceRequest = {
+export class SmartAppBrainRecognizer extends AbstractRecognizer {
+    private static defaultInfereRequestOptions: SmartAppBrainInferenceRequest = {
         phrase: {
             text: '',
         },
@@ -56,25 +56,25 @@ export class CailaRecognizer extends AbstractRecognizer {
         showDebugInfo: false,
     };
 
-    private _options: Partial<CailaInferenceRequest> = {};
+    private _options: Partial<SmartAppBrainInferenceRequest> = {};
 
-    constructor(private accessToken: string, host = process.env.CAILA_HOST) {
+    constructor(private accessToken: string, host = process.env.SMARTAPP_BRAIN_HOST) {
         super(host);
 
-        assert(host, 'Необходимо указать хост CAILA');
+        assert(host, 'Необходимо указать хост SmartAppBrain');
     }
 
-    public get options(): Partial<CailaInferenceRequest> {
+    public get options(): Partial<SmartAppBrainInferenceRequest> {
         return this._options;
     }
 
-    public set options(options: Partial<CailaInferenceRequest>) {
+    public set options(options: Partial<SmartAppBrainInferenceRequest>) {
         this._options = options;
     }
 
-    private buildInferenceRequest(text: string): CailaInferenceRequest {
+    private buildInferenceRequest(text: string): SmartAppBrainInferenceRequest {
         return {
-            ...CailaRecognizer.defaultInfereRequestOptions,
+            ...SmartAppBrainRecognizer.defaultInfereRequestOptions,
             ...this.options,
             ...{
                 phrase: {
@@ -85,7 +85,7 @@ export class CailaRecognizer extends AbstractRecognizer {
         };
     }
 
-    public async inference(req: SaluteRequest, res: SaluteResponse): Promise<void> {
+    public inference = async ({ req }: { req: SaluteRequest }) => {
         const payload = this.buildInferenceRequest(req.message.original_text);
 
         if (req.message == null) {
@@ -99,8 +99,8 @@ export class CailaRecognizer extends AbstractRecognizer {
             },
             method: 'POST',
             body: JSON.stringify(payload),
-        }).then((resp: CailaInferenceResponse) => {
+        }).then((resp: SmartAppBrainInferenceResponse) => {
             req.setInference(resp);
         });
-    }
+    };
 }
