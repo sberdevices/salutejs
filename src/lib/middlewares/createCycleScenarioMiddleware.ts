@@ -50,10 +50,10 @@ export const createCycleScenarioMiddleware = ({
 
     // резолвим глобальный интент, если с вложенным не получилось
     if (next == null) {
-        session.variables = {};
-        session.path.splice(0, session.path.length);
         const result = resolveVariantAndIntent(req.inference, scenario, { minRating });
         if (result != null) {
+            session.variables = {};
+            session.path.splice(0, session.path.length);
             next = result.intent;
             variant = result.variant;
         }
