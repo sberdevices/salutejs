@@ -19,7 +19,7 @@ interface FoundSlot {
     array: boolean;
 }
 
-interface Intent {
+export interface Intent {
     id: number;
     path: string;
     answer?: string;
@@ -67,7 +67,7 @@ export interface SaluteResponse {
     readonly message: NLPResponse;
 }
 
-export type SaluteHandler = (options: { req: SaluteRequest; res: SaluteResponse }) => void;
+export type SaluteHandler = (options: { req: SaluteRequest; res: SaluteResponse; session: SaluteSession }) => void;
 
 export interface SaluteIntentVariable {
     required?: boolean;

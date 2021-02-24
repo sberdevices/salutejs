@@ -1,14 +1,18 @@
 import { NLPResponseATU } from '../../types/response';
 import { SaluteMiddlewareCreator } from '../../types/salute';
 
-export const createDefaultAnswerMiddleware: SaluteMiddlewareCreator = ({ scenario }) => ({ req, res }) => {
+export const createDefaultAnswerMiddleware: SaluteMiddlewareCreator = ({ scenario }) => async ({
+    req,
+    res,
+    session,
+}) => {
     const answer = res.message as NLPResponseATU;
     if (
         !answer.payload.items?.length &&
         answer.payload.pronounceText == null &&
         !answer.payload.suggestions?.buttons?.length
     ) {
-        scenario.resolve('default')({ req, res });
+        return scenario.ask('default', { req, res, session });
     }
 
     return Promise.resolve();

@@ -36,4 +36,10 @@ export const intents: IntentsDict = {
     delete_note_action: {
         actionId: 'delete_note',
     },
+    yes: {
+        matchers: ['да', 'продолжить'],
+    },
+    no: {
+        matchers: ['нет', 'отменить'],
+    },
 };
