@@ -1,4 +1,4 @@
-import { Scenario, ScenarioIntent, ScenarioObject } from '../createScenario';
+import { Scenario, ScenarioIntent } from '../createScenario';
 import { Variant, SaluteMiddleware, Inference } from '../../types/salute';
 
 const resolveVariantAndIntent = (

@@ -46,19 +46,6 @@ const scenario = createScenario(intents)({
             res.appendBubble('Красавчик');
         }
     },
-    done_note_action: ({ req, res }) => {
-        const { title } = (req.serverAction.parameters as { title: string }) || {};
-        const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === title.toLowerCase());
-        if (title && item != null) {
-            res.appendCommand<DoneNoteCommand>({
-                type: 'done_note',
-                payload: { id: item.id },
-            });
-
-            res.setPronounceText('Красавчик');
-            res.appendBubble('Красавчик');
-        }
-    },
     delete_note: {
         callback: ({
             req,

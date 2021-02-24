@@ -23,18 +23,24 @@ export const intents: IntentsDict = {
         },
     },
     done_note: {
+        action: 'done',
         matchers: ['выполнил', 'сделал'],
-        variables: ['note'],
-    },
-    done_note_action: {
-        actionId: 'done',
+        variables: {
+            note: {
+                required: true,
+                questions: ['Не поняла, повторите, пожалуйста'],
+            },
+        },
     },
     delete_note: {
+        action: 'delete_note',
         matchers: ['Удалить', 'Удали'],
-        variables: ['note'],
-    },
-    delete_note_action: {
-        actionId: 'delete_note',
+        variables: {
+            note: {
+                required: true,
+                questions: ['Не поняла, повторите, пожалуйста'],
+            },
+        },
     },
     yes: {
         matchers: ['да', 'продолжить'],

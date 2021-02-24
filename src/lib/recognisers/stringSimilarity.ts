@@ -28,7 +28,7 @@ export class StringSimilarityRecognizer implements Recognizer {
     }
 
     inference = async ({ req }) => {
-        if (!req.message) {
+        if (!req.message || req.server_action) {
             return Promise.resolve();
         }
 
@@ -74,10 +74,10 @@ export class StringSimilarityRecognizer implements Recognizer {
                         },
                         confidence: match.rating,
                         slots:
-                            (this._intents[match.key] as TextIntent).variables != null
+                            this._intents[match.key].variables != null
                                 ? [
                                       {
-                                          name: `${(this._intents[match.key] as TextIntent).variables[0] || 'note'}`,
+                                          name: `${this._intents[match.key].variables[0] || 'note'}`,
                                           value: getRestOfMessageText(req.message),
                                           array: false,
                                       },

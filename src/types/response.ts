@@ -22,6 +22,15 @@ export interface DataCommand {
     smart_app_data?: unknown;
 }
 
+/** Команда для прокидывания ошибки в Canvas App */
+export interface ErrorCommand {
+    type: 'smart_app_error';
+    smart_app_error: {
+        code: number;
+        description: string;
+    };
+}
+
 /** Действие, которое обозначает отправку сообщения от имени пользователя в чат с ассистентом */
 export interface TextAction {
     type: 'text';
@@ -81,7 +90,7 @@ export interface InvoiceCommand {
 }
 
 export interface AssistantCommand {
-    command: DataCommand | ActionCommand | CloseAppCommand | PermissionCommand | InvoiceCommand;
+    command: DataCommand | ActionCommand | CloseAppCommand | PermissionCommand | InvoiceCommand | ErrorCommand;
 }
 
 export interface Bubble {

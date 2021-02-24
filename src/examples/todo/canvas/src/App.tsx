@@ -68,7 +68,7 @@ export const App: FC = memo(() => {
     }, [appState]);
 
     const doneNote = (title: string) => {
-        assistantRef.current?.sendData({ action: { action_id: 'done', parameters: { title } } });
+        assistantRef.current?.sendData({ action: { action_id: 'done', parameters: { note: title } } });
     };
 
     return (
