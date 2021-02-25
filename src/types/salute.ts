@@ -51,10 +51,8 @@ export interface SaluteRequest<V = SaluteRequestVariable> {
     readonly inference?: Inference;
     readonly request: NLPRequest;
     readonly state?: AppState;
-    readonly variant?: Variant;
     readonly variables: V;
     setInference: (value: Inference) => void;
-    setVariant: (value: Variant) => void;
     setVariable: (name: string, value: unknown) => void;
 }
 

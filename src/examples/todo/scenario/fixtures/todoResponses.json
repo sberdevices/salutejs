@@ -6,5 +6,6 @@
     "deleteNote": {"payload":{"items":[{"bubble":{"text":"Вы уверены?","expand_policy":"auto_expand"}}],"suggestions":{"buttons":[{"title":"продолжить","action":{"type":"text","text":"продолжить","should_send_to_backend":true}},{"title":"отменить","action":{"type":"text","text":"отменить","should_send_to_backend":true}}]},"pronounceText":"Вы уверены?"}},
     "deleteNoteContinue": {"payload":{"items":[{"command":{"type":"smart_app_data","smart_app_data":{"type":"delete_note","payload":{"id":"uinmh"}}}},{"bubble":{"text":"Удалено","expand_policy":"auto_expand"}}],"pronounceText":"Удалено"}},
     "deleteNoteCancel": {"payload":{"items":[{"bubble":{"text":"Удаление отменено","expand_policy":"auto_expand"}}],"pronounceText":"Удаление отменено"}},
-    "default": {"payload":{"items":[{"bubble":{"text":"Я не понимаю","expand_policy":"auto_expand"}}],"pronounceText":"Я не понимаю"}}
+    "default": {"payload":{"items":[{"bubble":{"text":"Я не понимаю","expand_policy":"auto_expand"}}],"pronounceText":"Я не понимаю"}},
+    "slotFillingQuestion": {"payload":{"items":[{"bubble":{"text":"Не поняла, повторите, пожалуйста","expand_policy":"auto_expand"}}],"pronounceText":"Не поняла, повторите, пожалуйста"}}
 }

@@ -1,5 +1,6 @@
 export interface SaluteSession {
     path: string[];
+    slotFilling: boolean;
     variables: {
         [key: string]: unknown;
     };
@@ -20,6 +21,7 @@ export class SaluteMemoryStorage implements SaluteSessionStorage {
             this.sessions[id] || {
                 path: [],
                 variables: {},
+                slotFilling: false,
             },
         );
     }
@@ -34,6 +36,7 @@ export class SaluteMemoryStorage implements SaluteSessionStorage {
         this.sessions[id] = this.sessions[id] || {
             path: [],
             variables: {},
+            slotFilling: false,
         };
 
         return Promise.resolve();

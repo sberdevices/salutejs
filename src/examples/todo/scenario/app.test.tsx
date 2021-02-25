@@ -40,6 +40,13 @@ describe('todo-app', () => {
         expect(Responses.doneNoteMissingNoteVar).toBeEqualResponse(res as NLPResponseATU);
     });
 
+    test('doneNote without note, expects slot filling', async () => {
+        const res1 = await scenarioWalker(Requests.doneWithoutNote as NLPRequestRA);
+        const res2 = await scenarioWalker(Requests.doneNote as NLPRequestRA);
+        expect(Responses.slotFillingQuestion).toBeEqualResponse(res1 as NLPResponseATU);
+        expect(Responses.doneNote).toBeEqualResponse(res2 as NLPResponseATU);
+    });
+
     test('deleteNote continue', async () => {
         const res1 = await scenarioWalker(Requests.deleteNote as NLPRequestRA);
         const res2 = await scenarioWalker(Requests.deleteNoteContinue as NLPRequestRA);

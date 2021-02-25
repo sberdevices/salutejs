@@ -20,6 +20,8 @@ function getRestOfMessageText(message) {
     return res.join(' ');
 }
 
+const SLOT_FILLING_NOTE = 'купить хлеб';
+
 export class StringSimilarityRecognizer implements Recognizer {
     private _intents: IntentsDict;
 
@@ -66,29 +68,49 @@ export class StringSimilarityRecognizer implements Recognizer {
                         return arr;
                     }
 
-                    arr.push({
+                    const intent = {
                         intent: {
                             id: 0,
                             path: match.key,
                             slots: [],
                         },
                         confidence: match.rating,
-                        slots:
-                            this._intents[match.key].variables != null
-                                ? [
-                                      {
-                                          name: `${this._intents[match.key].variables[0] || 'note'}`,
-                                          value: getRestOfMessageText(req.message),
-                                          array: false,
-                                      },
-                                  ]
-                                : [],
-                    });
+                        slots: [],
+                    };
+
+                    arr.push(intent);
+
+                    if (this._intents[match.key].variables != null && getRestOfMessageText(req.message)) {
+                        intent.slots.push({
+                            name: `${this._intents[match.key].variables[0] || 'note'}`,
+                            value: getRestOfMessageText(req.message),
+                            array: false,
+                        });
+                    }
 
                     return arr;
                 }, [])
                 .sort((a, b) => b - a),
         };
+
+        // детект ответа на дозапрос note для done_note
+        if (!result.variants.length && req.message.original_text === SLOT_FILLING_NOTE) {
+            result.variants.push({
+                confidence: 0.7,
+                intent: {
+                    id: 0,
+                    path: 'done_note',
+                    slots: [],
+                },
+                slots: [
+                    {
+                        name: 'note',
+                        value: SLOT_FILLING_NOTE,
+                        array: false,
+                    },
+                ],
+            });
+        }
 
         req.setInference(result);
 
