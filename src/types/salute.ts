@@ -3,7 +3,7 @@ import { SaluteSession } from '../lib/session';
 
 import { ServerAction } from './global';
 import { AppState, Message, NLPRequest } from './request';
-import { NLPResponse } from './response';
+import { NLPResponse, ErrorCommand } from './response';
 
 interface IntentSlot {
     name: string; // имя сущности
@@ -61,6 +61,7 @@ export interface SaluteRequest<V = SaluteRequestVariable> {
 export interface SaluteResponse {
     appendBubble: (bubble: string) => void;
     appendCommand: <T extends SaluteCommand>(command: T) => void;
+    appendError: (error: ErrorCommand['smart_app_error']) => void;
     appendSuggestions: (suggestions: string[]) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;
@@ -74,19 +75,20 @@ export interface SaluteIntentVariable {
     questions?: string[];
 }
 
-export type SaluteIntentVariables = string[] | { [key: string]: SaluteIntentVariable };
-
 export interface TextIntent {
     matchers: string[];
-    variables?: SaluteIntentVariables;
 }
 
 export interface ServerActionIntent {
-    actionId: string;
-    variables?: SaluteIntentVariables;
+    action: string;
 }
 
-export type SaluteIntent = ServerActionIntent | TextIntent;
+export type SaluteIntent = (
+    | (Required<TextIntent> & Partial<ServerActionIntent>)
+    | (Required<ServerActionIntent> & Partial<TextIntent>)
+) & {
+    variables?: Record<string, SaluteIntentVariable>;
+};
 
 export interface DefaultScenario {
     default: SaluteHandler;
@@ -94,7 +96,7 @@ export interface DefaultScenario {
     close_app?: SaluteHandler;
 }
 
-export type IntentsDict = Record<string, TextIntent | ServerActionIntent>;
+export type IntentsDict = Record<string, SaluteIntent>;
 
 export type SaluteMiddleware = (options: {
     req: SaluteRequest;

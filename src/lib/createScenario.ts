@@ -1,4 +1,4 @@
-import { DefaultScenario, IntentsDict, SaluteHandler } from '../types/salute';
+import { DefaultScenario, IntentsDict, SaluteHandler, SaluteIntent } from '../types/salute';
 
 export type ScenarioObject<T = string> = {
     callback: SaluteHandler;
@@ -39,7 +39,7 @@ type CustomScenario<T = string> = {
     [Key in keyof T]: SaluteHandler | ScenarioObject<T>;
 };
 
-export function createScenario<T = IntentsDict>(intents: T) {
+export function createScenario<T extends Record<string, SaluteIntent> = IntentsDict>(intents: T) {
     return (handlers: DefaultScenario & Partial<CustomScenario<T>>) => {
         const resolve = (...path: Array<keyof T | keyof DefaultScenario | string>): ScenarioIntent | undefined => {
             const handler = path.reduce((vert: SaluteHandler | ScenarioObject<T>, branch: string) => {
@@ -66,10 +66,34 @@ export function createScenario<T = IntentsDict>(intents: T) {
             return cb(...options);
         };
 
+        const findActionPath = (action: string): keyof T | undefined => {
+            const result = Object.keys(intents).find((i) => intents[i].action === action);
+
+            return result ? (result as keyof T) : undefined;
+        };
+
+        const getIntentMissingVariables = (
+            intent: keyof T,
+            variables: Record<string, unknown>,
+        ): { name: string; question?: string }[] => {
+            const missing = [];
+            const vars = intents[intent].variables || {};
+
+            Object.keys(vars).forEach((v) => {
+                if (vars[v].required && variables[v] === undefined) {
+                    missing.push({ name: v, question: (vars[v].questions || [])[0] });
+                }
+            });
+
+            return missing;
+        };
+
         return {
             intents,
             handlers,
             ask,
+            findActionPath,
+            getIntentMissingVariables,
             resolve,
         };
     };
