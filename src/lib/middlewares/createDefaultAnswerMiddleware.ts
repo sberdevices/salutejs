@@ -12,7 +12,7 @@ export const createDefaultAnswerMiddleware: SaluteMiddlewareCreator = ({ scenari
         answer.payload.pronounceText == null &&
         !answer.payload.suggestions?.buttons?.length
     ) {
-        return scenario.ask('default', { req, res, session });
+        return scenario.ask('failure', { req, res, session });
     }
 
     return Promise.resolve();

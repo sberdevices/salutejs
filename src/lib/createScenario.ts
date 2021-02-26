@@ -1,9 +1,9 @@
 import { DefaultScenario, IntentsDict, SaluteHandler, SaluteIntent } from '../types/salute';
 
-export type ScenarioObject<T = string> = {
-    callback: SaluteHandler;
-    children: { [Key in keyof T]: SaluteHandler | ScenarioObject<T> };
-};
+export interface ScenarioObject<H = SaluteHandler> {
+    callback: H;
+    children?: Record<string, SaluteHandler | ScenarioObject>;
+}
 
 export class ScenarioIntentCallback {
     private _type: 'handler' | 'children';
@@ -39,8 +39,8 @@ export class ScenarioIntentCallback {
 
 type SaluteHandlerArgs = Parameters<SaluteHandler>;
 
-type CustomScenario<T = string> = {
-    [Key in keyof T]: SaluteHandler | ScenarioObject<T>;
+type CustomScenario<T> = {
+    [K in keyof T]: SaluteHandler | ScenarioObject;
 };
 
 export function createScenario<T extends Record<string, SaluteIntent> = IntentsDict>(intents: T) {
@@ -48,7 +48,7 @@ export function createScenario<T extends Record<string, SaluteIntent> = IntentsD
         const resolve = (
             ...path: Array<keyof T | keyof DefaultScenario | string>
         ): ScenarioIntentCallback | undefined => {
-            const handler = path.reduce((vert: SaluteHandler | ScenarioObject<T>, branch: string) => {
+            const handler = path.reduce((vert: SaluteHandler | ScenarioObject, branch: string) => {
                 if (vert == null) {
                     return vert;
                 }

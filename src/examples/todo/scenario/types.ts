@@ -1,3 +1,4 @@
+import { SaluteSession } from '../../../lib/session';
 import { SaluteCommand, SaluteRequestVariable } from '../../../types/salute';
 
 export interface Note {
@@ -36,4 +37,8 @@ export interface DeleteNoteCommand extends SaluteCommand {
 
 export interface NoteVariable extends SaluteRequestVariable {
     note: string;
+}
+
+export interface ApproveNoteSession extends SaluteSession {
+    itemId: string;
 }
