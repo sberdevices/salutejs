@@ -56,6 +56,16 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
         showDebugInfo: false,
     };
 
+    private static normalizeInference(source: Inference): Inference {
+        return {
+            ...source,
+            variants: source.variants.map((v) => ({
+                ...v,
+                intent: { ...v.intent, path: v.intent.path.replace(/^\//, '') },
+            })),
+        };
+    }
+
     private _options: Partial<SmartAppBrainInferenceRequest> = {};
 
     constructor(private accessToken: string, host = process.env.SMARTAPP_BRAIN_HOST) {
@@ -100,7 +110,7 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
             method: 'POST',
             body: JSON.stringify(payload),
         }).then((resp: SmartAppBrainInferenceResponse) => {
-            req.setInference(resp);
+            req.setInference(SmartAppBrainRecognizer.normalizeInference(resp));
         });
     };
 }

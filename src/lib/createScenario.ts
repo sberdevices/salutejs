@@ -5,10 +5,10 @@ export type ScenarioObject<T = string> = {
     children: { [Key in keyof T]: SaluteHandler | ScenarioObject<T> };
 };
 
-export class ScenarioIntent {
+export class ScenarioIntentCallback {
     private _type: 'handler' | 'children';
 
-    constructor(private _handler: SaluteHandler | ScenarioObject) {
+    constructor(private _handler: SaluteHandler | ScenarioObject, private _path: string) {
         this._type = typeof this._handler === 'function' ? 'handler' : 'children';
     }
 
@@ -31,6 +31,10 @@ export class ScenarioIntent {
 
         return Object.keys((this._handler as ScenarioObject).children || {}).length > 0;
     }
+
+    get path() {
+        return this._path;
+    }
 }
 
 type SaluteHandlerArgs = Parameters<SaluteHandler>;
@@ -41,7 +45,9 @@ type CustomScenario<T = string> = {
 
 export function createScenario<T extends Record<string, SaluteIntent> = IntentsDict>(intents: T) {
     return (handlers: DefaultScenario & Partial<CustomScenario<T>>) => {
-        const resolve = (...path: Array<keyof T | keyof DefaultScenario | string>): ScenarioIntent | undefined => {
+        const resolve = (
+            ...path: Array<keyof T | keyof DefaultScenario | string>
+        ): ScenarioIntentCallback | undefined => {
             const handler = path.reduce((vert: SaluteHandler | ScenarioObject<T>, branch: string) => {
                 if (vert == null) {
                     return vert;
@@ -54,7 +60,7 @@ export function createScenario<T extends Record<string, SaluteIntent> = IntentsD
                 return vert[branch];
             }, handlers);
 
-            return handler == null ? undefined : new ScenarioIntent(handler);
+            return handler == null ? undefined : new ScenarioIntentCallback(handler, path.join('/'));
         };
 
         const ask = (intent: keyof T | keyof DefaultScenario | string, ...options: SaluteHandlerArgs) => {
@@ -75,13 +81,14 @@ export function createScenario<T extends Record<string, SaluteIntent> = IntentsD
         const getIntentMissingVariables = (
             intent: keyof T,
             variables: Record<string, unknown>,
-        ): { name: string; question?: string }[] => {
+        ): { name: string; question: string }[] => {
             const missing = [];
             const vars = intents[intent].variables || {};
 
             Object.keys(vars).forEach((v) => {
-                if (vars[v].required && variables[v] === undefined) {
-                    missing.push({ name: v, question: (vars[v].questions || [])[0] });
+                if (vars[v].required && variables[v] === undefined && vars[v].questions?.length) {
+                    const questionNo = Math.floor(Math.random() * vars[v].questions.length);
+                    missing.push({ name: v, question: vars[v].questions[questionNo] });
                 }
             });
 
