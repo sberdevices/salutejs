@@ -1,4 +1,4 @@
-import { IntentsDict } from '../../../types/salute';
+import { IntentsDict } from '../../..';
 
 export const intents: IntentsDict = {
     add_note: {

@@ -1,13 +1,6 @@
 import express from 'express';
 
-import { createCycleScenarioMiddleware } from '../../../lib/middlewares/createCycleScenarioMiddleware';
-import { createSystemIntentsMiddleware } from '../../../lib/middlewares/createSystemIntentsMiddleware';
-import { createServerActionMiddleware } from '../../../lib/middlewares/createServerActionMiddleware';
-import { createDefaultAnswerMiddleware } from '../../../lib/middlewares/createDefaultAnswerMiddleware';
-import { createStringSimilarityRecognizerMiddleware } from '../../../lib/middlewares/createStringSimilarityRecognizerMiddleware';
-import { createScenario } from '../../../lib/createScenario';
-import { SaluteMemoryStorage } from '../../../lib/session';
-import { createScenarioWalker } from '../../..';
+import { createScenario, createSaluteRequestHandler } from '../../..';
 
 import * as handlers from './handlers';
 import { intents } from './intents';
@@ -17,16 +10,7 @@ app.use(express.json());
 
 const scenario = createScenario(intents)(handlers);
 
-export const scenarioWalker = createScenarioWalker({
-    storage: new SaluteMemoryStorage(),
-    middlewares: [
-        createSystemIntentsMiddleware({ scenario }),
-        createServerActionMiddleware({ scenario }),
-        createStringSimilarityRecognizerMiddleware({ scenario }),
-        createCycleScenarioMiddleware({ scenario }),
-        createDefaultAnswerMiddleware({ scenario }),
-    ],
-});
+export const scenarioWalker = createSaluteRequestHandler(scenario);
 
 if (process.env.NODE_ENV !== 'test') {
     app.post('/hook', async (req, res) => {

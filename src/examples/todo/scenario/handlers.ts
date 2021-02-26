@@ -1,5 +1,4 @@
-import { SaluteHandler, SaluteRequest } from '../../../types/salute';
-import { ScenarioObject } from '../../../lib/createScenario';
+import { SaluteHandler, SaluteRequest, ScenarioObject } from '../../..';
 
 import { AddNoteCommand, ApproveNoteSession, DeleteNoteCommand, DoneNoteCommand, NoteVariable } from './types';
 

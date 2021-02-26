@@ -1,5 +1,4 @@
-import { SaluteSession } from '../../../lib/session';
-import { SaluteCommand, SaluteRequestVariable } from '../../../types/salute';
+import { SaluteSession, SaluteCommand, SaluteRequestVariable } from '../../..';
 
 export interface Note {
     id: string;
