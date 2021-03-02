@@ -39,6 +39,8 @@ const resolveVariantAndIntent = (
 ///                                   |                                            |
 ///                                   да                                           |
 ///                                   |                                            |
+///                       Очистка переменных сессии                                |
+///                                   |                                            |
 ///                              Вызов колбека                                     |
 ///                                   |                                            |
 ///                       Есть вложенные интенты? ─── нет ──── Очистка сессии ─────┤
@@ -144,14 +146,27 @@ export const createCycleScenarioMiddleware = ({
 
     // все обязательные переменные заполнены, сбрасываем флаг слотфиллинга
     session.slotFilling = false;
+    // очищаем переменные сессии, не хотим их видеть в чилдах
+    session.variables = {};
 
     // вызываем обработчик интента
-    await current.callback({ req, res, session });
+    await current.callback({
+        req,
+        res,
+        session: session.state,
+        history: {
+            get path() {
+                return session.path;
+            },
+            variables: session.variables,
+        },
+    });
 
     // сбрасываем сессию, если нет потомков
     if (!current.hasChildren) {
         session.path = [];
         session.variables = {};
+        session.state = {};
     }
 
     return Promise.resolve();

@@ -6,13 +6,13 @@ export const createServerActionMiddleware: SaluteMiddlewareCreator = ({ scenario
     session,
 }) => {
     if (req.serverAction) {
-        const path = scenario.findActionPath(req.serverAction.action_id);
+        const path = scenario.findActionPath(req.serverAction.type);
         const next = path ? scenario.resolve(...session.path, path) : undefined;
 
         if (next) {
             session.path.push(path);
-            Object.keys(req.serverAction.parameters).forEach((key) => {
-                req.setVariable(key, req.serverAction.parameters[key]);
+            Object.keys(req.serverAction.payload || {}).forEach((key) => {
+                req.setVariable(key, req.serverAction.payload[key]);
             });
 
             Object.keys(session.variables).forEach((name) => {
@@ -31,12 +31,26 @@ export const createServerActionMiddleware: SaluteMiddlewareCreator = ({ scenario
                 return;
             }
 
-            await next.callback({ req, res, session });
+            // очищаем переменные сессии, не хотим их видеть в чилдах
+            session.variables = {};
+
+            await next.callback({
+                req,
+                res,
+                session: session.state,
+                history: {
+                    get path() {
+                        return session.path;
+                    },
+                    variables: session.variables,
+                },
+            });
 
             // сбрасываем сессию, если нет потомков
             if (!next.hasChildren) {
                 session.path.splice(0, session.path.length);
                 session.variables = {};
+                session.state = {};
             }
         }
     }

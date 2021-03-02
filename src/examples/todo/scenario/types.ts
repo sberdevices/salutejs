@@ -1,4 +1,4 @@
-import { SaluteCommand, SaluteRequestVariable } from '../../../types/salute';
+import { SaluteCommand, SaluteRequestVariable } from '../../..';
 
 export interface Note {
     id: string;

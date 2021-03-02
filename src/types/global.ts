@@ -146,9 +146,9 @@ export interface ServerAction {
      * Любые параметры, которые требуются для запуска смартапа.
      * Параметры должны быть представлены в виде валидного JSON-объекта.
      */
-    parameters: unknown;
+    payload: unknown;
     /** Действие, которое обрабатывает бэкенд смартапа. Значение по умолчанию: run_app. */
-    action_id: string;
+    type: string;
 }
 
 declare global {

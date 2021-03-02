@@ -66,7 +66,12 @@ export interface SaluteResponse {
     readonly message: NLPResponse;
 }
 
-export type SaluteHandler = (options: { req: SaluteRequest; res: SaluteResponse; session: SaluteSession }) => void;
+export type SaluteHandler<
+    Rq extends SaluteRequest = SaluteRequest,
+    S extends Record<string, unknown> = Record<string, unknown>,
+    Rs extends SaluteResponse = SaluteResponse,
+    H extends Record<string, unknown> = Record<string, unknown>
+> = (options: { req: Rq; res: Rs; session: S; history: H }) => void;
 
 export interface SaluteIntentVariable {
     required?: boolean;
@@ -89,7 +94,7 @@ export type SaluteIntent = (
 };
 
 export interface DefaultScenario {
-    default: SaluteHandler;
+    failure: SaluteHandler;
     run_app: SaluteHandler;
     close_app?: SaluteHandler;
 }
@@ -102,3 +107,8 @@ export type SaluteMiddleware = (options: {
     session: SaluteSession;
 }) => Promise<void>;
 export type SaluteMiddlewareCreator = (options: { scenario: Scenario }) => SaluteMiddleware;
+
+export interface SaluteHistory<T extends Record<string, unknown> = Record<string, unknown>> {
+    readonly path: string[];
+    variables: T;
+}
