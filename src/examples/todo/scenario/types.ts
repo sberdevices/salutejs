@@ -1,4 +1,4 @@
-import { SaluteSession, SaluteCommand, SaluteRequestVariable } from '../../..';
+import { SaluteCommand, SaluteRequestVariable } from '../../..';
 
 export interface Note {
     id: string;
@@ -36,8 +36,4 @@ export interface DeleteNoteCommand extends SaluteCommand {
 
 export interface NoteVariable extends SaluteRequestVariable {
     note: string;
-}
-
-export interface ApproveNoteSession extends SaluteSession {
-    itemId: string;
 }

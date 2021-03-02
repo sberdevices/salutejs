@@ -1,6 +1,6 @@
 import { SaluteHandler, SaluteRequest, ScenarioObject } from '../../..';
 
-import { AddNoteCommand, ApproveNoteSession, DeleteNoteCommand, DoneNoteCommand, NoteVariable } from './types';
+import { AddNoteCommand, DeleteNoteCommand, DoneNoteCommand, NoteVariable } from './types';
 
 export const run_app: SaluteHandler = ({ res }) => {
     res.appendSuggestions(['Запиши купить молоко', 'Добавь запись помыть машину']);
@@ -35,7 +35,7 @@ export const done_note: SaluteHandler<SaluteRequest<NoteVariable>> = ({ req, res
     }
 };
 
-const delete_note_approved: SaluteHandler<SaluteRequest<NoteVariable>, ApproveNoteSession> = ({ res, session }) => {
+const delete_note_approved: SaluteHandler<SaluteRequest<NoteVariable>, { itemId: string }> = ({ res, session }) => {
     const { itemId } = session;
 
     res.appendCommand<DeleteNoteCommand>({
@@ -47,7 +47,7 @@ const delete_note_approved: SaluteHandler<SaluteRequest<NoteVariable>, ApproveNo
     res.appendBubble('Удалено');
 };
 
-export const delete_note: ScenarioObject<SaluteHandler<SaluteRequest<NoteVariable>, ApproveNoteSession>> = {
+export const delete_note: ScenarioObject<SaluteHandler<SaluteRequest<NoteVariable>, { itemId: string }>> = {
     callback: ({ req, res, session }) => {
         const { note } = req.variables;
         const item = req.state?.item_selector.items.find((i) => i.title.toLowerCase() === note.toLowerCase());

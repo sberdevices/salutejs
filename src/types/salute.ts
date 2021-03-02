@@ -68,9 +68,10 @@ export interface SaluteResponse {
 
 export type SaluteHandler<
     Rq extends SaluteRequest = SaluteRequest,
-    S extends SaluteSession = SaluteSession,
-    Rs extends SaluteResponse = SaluteResponse
-> = (options: { req: Rq; res: Rs; session: S }) => void;
+    S extends Record<string, unknown> = Record<string, unknown>,
+    Rs extends SaluteResponse = SaluteResponse,
+    H extends Record<string, unknown> = Record<string, unknown>
+> = (options: { req: Rq; res: Rs; session: S; history: H }) => void;
 
 export interface SaluteIntentVariable {
     required?: boolean;
@@ -106,3 +107,8 @@ export type SaluteMiddleware = (options: {
     session: SaluteSession;
 }) => Promise<void>;
 export type SaluteMiddlewareCreator = (options: { scenario: Scenario }) => SaluteMiddleware;
+
+export interface SaluteHistory<T extends Record<string, unknown> = Record<string, unknown>> {
+    readonly path: string[];
+    variables: T;
+}

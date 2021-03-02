@@ -4,7 +4,7 @@ export interface SaluteSession {
     variables: {
         [key: string]: unknown;
     };
-    [key: string]: unknown;
+    state: Record<string, unknown>;
 }
 
 export interface SaluteSessionStorage {
@@ -22,6 +22,7 @@ export class SaluteMemoryStorage implements SaluteSessionStorage {
                 path: [],
                 variables: {},
                 slotFilling: false,
+                state: {},
             },
         );
     }
@@ -37,6 +38,7 @@ export class SaluteMemoryStorage implements SaluteSessionStorage {
             path: [],
             variables: {},
             slotFilling: false,
+            state: {},
         };
 
         return Promise.resolve();

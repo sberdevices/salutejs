@@ -31,12 +31,26 @@ export const createServerActionMiddleware: SaluteMiddlewareCreator = ({ scenario
                 return;
             }
 
-            await next.callback({ req, res, session });
+            // очищаем переменные сессии, не хотим их видеть в чилдах
+            session.variables = {};
+
+            await next.callback({
+                req,
+                res,
+                session: session.state,
+                history: {
+                    get path() {
+                        return session.path;
+                    },
+                    variables: session.variables,
+                },
+            });
 
             // сбрасываем сессию, если нет потомков
             if (!next.hasChildren) {
                 session.path.splice(0, session.path.length);
                 session.variables = {};
+                session.state = {};
             }
         }
     }
