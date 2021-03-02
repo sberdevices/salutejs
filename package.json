@@ -9,7 +9,8 @@
     "build": "rm -rf dist && tsc",
     "lint": "eslint --ext .js,.ts ./src",
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' ./src/examples/todo/scenario/app.ts",
-    "test": "jest"
+    "test": "jest",
+    "cli": "ts-node ./bin/cli.ts"
   },
   "repository": {
     "type": "git",

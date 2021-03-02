@@ -1,0 +1,155 @@
+{
+    "project": {
+        "id": "tsitata_dnya-2485-tnW",
+        "name": "tsitata_dnya-2485-tnW",
+        "folder": "/jaicp"
+    },
+    "settings": {
+        "language": "ru",
+        "spellingCorrection": false,
+        "classificationAlgorithm": "sts",
+        "timezone": "Europe/Moscow",
+        "extendedSettings": {
+            "patternsEnabled": null,
+            "tokenizerEngine": "mystem",
+            "stsSettings": null,
+            "cnnSettings": null,
+            "classicMLSettings": null,
+            "dictionaryAutogeneration": null,
+            "shareIntents": null,
+            "shareEntities": null
+        },
+        "shared": false
+    },
+    "intents": [
+        {
+            "id": 130280,
+            "path": "/бронь",
+            "description": null,
+            "answer": "Вы хотите забронировать столик?",
+            "customData": null,
+            "enabled": true,
+            "shared": false,
+            "phrases": [
+                {
+                    "text": "Столик на двоих",
+                    "entities": null,
+                    "stagedPhraseIdx": null
+                },
+                {
+                    "text": "Столик для 3",
+                    "entities": null,
+                    "stagedPhraseIdx": null
+                },
+                {
+                    "text": "Столик на двоих на завтра",
+                    "entities": null,
+                    "stagedPhraseIdx": null
+                }
+            ],
+            "patterns": [],
+            "slots": [
+                {
+                    "name": "гостей",
+                    "entity": "duckling.number",
+                    "required": true,
+                    "prompts": [
+                        "Сколько гостей?",
+                        "На склько человек?"
+                    ],
+                    "array": null
+                },
+                {
+                    "name": "дата",
+                    "entity": "duckling.date",
+                    "required": true,
+                    "prompts": [],
+                    "array": true
+                }
+            ]
+        },
+        {
+            "id": 126786,
+            "path": "/выключиться",
+            "description": null,
+            "answer": null,
+            "customData": null,
+            "enabled": true,
+            "shared": false,
+            "phrases": [],
+            "patterns": [],
+            "slots": []
+        },
+        {
+            "id": 123264,
+            "path": "/цитата",
+            "description": "Пользователь просит цитату",
+            "answer": "Случайная цитата",
+            "customData": null,
+            "enabled": true,
+            "shared": false,
+            "phrases": [
+                {
+                    "text": "Цитата дня",
+                    "entities": null,
+                    "stagedPhraseIdx": null
+                },
+                {
+                    "text": "Скажи цитату",
+                    "entities": null,
+                    "stagedPhraseIdx": null
+                },
+                {
+                    "text": "Скажи цитату Цицерона",
+                    "entities": null,
+                    "stagedPhraseIdx": null
+                }
+            ],
+            "patterns": [],
+            "slots": [
+                {
+                    "name": "автора",
+                    "entity": "автор",
+                    "required": false,
+                    "prompts": [],
+                    "array": null
+                }
+            ]
+        }
+    ],
+    "entities": [
+        {
+            "entity": {
+                "name": "автор",
+                "type": "annotation",
+                "id": 72526,
+                "enabled": true,
+                "shared": false,
+                "priority": 1,
+                "noSpelling": false,
+                "noMorph": false,
+                "itemsCount": null
+            },
+            "records": [
+                {
+                    "type": "synonyms",
+                    "rule": [
+                        "цицерон",
+                        "цицерона"
+                    ],
+                    "value": "",
+                    "id": 6184348
+                }
+            ]
+        }
+    ],
+    "enabledSystemEntities": [
+        "duckling.number",
+        "duckling.time",
+        "duckling.duration",
+        "duckling.phone-number",
+        "duckling.email",
+        "duckling.url",
+        "duckling.date"
+    ]
+}
