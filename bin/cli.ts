@@ -7,7 +7,7 @@ import { SmartAppBrainRecognizer } from '../src/lib/recognisers/smartAppBrain';
 import projectData from './project-data.json';
 
 dotenv.config({
-    path: path.resolve(__dirname, '..', '.env'),
+    path: path.resolve(process.cwd(), '.env'),
 });
 
 const brain = new SmartAppBrainRecognizer(process.env.ACCESS_TOKEN);
