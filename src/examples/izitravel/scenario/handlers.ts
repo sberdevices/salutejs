@@ -1,4 +1,5 @@
 import { SaluteHandler } from '../../..';
+import { SaluteRequest } from '../../../types/salute';
 
 const config = {
     screen: {
@@ -37,4 +38,22 @@ export const run_app: SaluteHandler = ({ res, req }) => {
 export const failure: SaluteHandler = ({ res }) => {
     res.setPronounceText('Я не понимаю');
     res.appendBubble('Я не понимаю');
+};
+
+interface ReqWithOrder extends SaluteRequest {
+    order: number;
+}
+
+export const openItemIndex: SaluteHandler<ReqWithOrder> = ({ req, res }) => {
+    const { screen } = req.state;
+    if (screen === 'Screen.TourPage') {
+        res.appendSuggestions(config.suggestions['Screen.TourStop']);
+    }
+
+    req.state.item_selector.items.forEach((item) => {
+        if (item.number === req.variables.order) {
+            // @ts-ignore
+            res.appendCommand({ ...(item.action || {}), payload: { id: item.id, number: item.number } });
+        }
+    });
 };

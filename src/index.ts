@@ -2,7 +2,7 @@ import { createCycleScenarioMiddleware } from './lib/middlewares/createCycleScen
 import { createSystemIntentsMiddleware } from './lib/middlewares/createSystemIntentsMiddleware';
 import { createServerActionMiddleware } from './lib/middlewares/createServerActionMiddleware';
 import { createDefaultAnswerMiddleware } from './lib/middlewares/createDefaultAnswerMiddleware';
-import { createStringSimilarityRecognizerMiddleware } from './lib/middlewares/createStringSimilarityRecognizerMiddleware';
+import { createSmartAppBrainRecognizerMiddleware } from './lib/middlewares/createSmartAppBrainRecognizerMiddleware';
 import { createScenarioWalker } from './lib/createScenarioWalker';
 import { Scenario } from './lib/createScenario';
 import { SaluteMemoryStorage, SaluteSessionStorage } from './lib/session';
@@ -18,7 +18,7 @@ export const createSaluteRequestHandler = (
         middlewares: [
             createSystemIntentsMiddleware({ scenario }),
             createServerActionMiddleware({ scenario }),
-            createStringSimilarityRecognizerMiddleware({ scenario }),
+            createSmartAppBrainRecognizerMiddleware({ scenario }),
             createCycleScenarioMiddleware({ scenario }),
             createDefaultAnswerMiddleware({ scenario }),
         ],

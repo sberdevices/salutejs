@@ -68,7 +68,7 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
 
     private _options: Partial<SmartAppBrainInferenceRequest> = {};
 
-    constructor(private accessToken: string, host = process.env.SMARTAPP_BRAIN_HOST) {
+    constructor(private accessToken: string, host = 'https://smartapp-code.sberdevices.ru') {
         super(host);
 
         assert(host, 'Необходимо указать хост SmartAppBrain');
