@@ -9,6 +9,7 @@
     "build": "rm -rf dist && tsc",
     "lint": "eslint --ext .js,.ts ./src",
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' ./src/examples/todo/scenario/app.ts",
+    "start-izi": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' ./src/examples/izitravel/scenario/app.ts",
     "test": "jest"
   },
   "repository": {

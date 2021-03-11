@@ -3,7 +3,7 @@ import { SaluteSession } from '../lib/session';
 
 import { ServerAction } from './global';
 import { AppState, Message, NLPRequest } from './request';
-import { NLPResponse, ErrorCommand } from './response';
+import { NLPResponse, ErrorCommand, DataCommand } from './response';
 
 interface IntentSlot {
     name: string; // имя сущности
@@ -60,6 +60,7 @@ export interface SaluteResponse {
     appendBubble: (bubble: string) => void;
     appendCommand: <T extends SaluteCommand>(command: T) => void;
     appendError: (error: ErrorCommand['smart_app_error']) => void;
+    appendItem: (item: { command: DataCommand | ErrorCommand }) => void;
     appendSuggestions: (suggestions: string[]) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;

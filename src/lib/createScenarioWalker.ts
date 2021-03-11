@@ -1,5 +1,5 @@
 import { NLPRequest, NLPRequestMTS, NLPRequestSA } from '../types/request';
-import { NLPResponse, NLPResponseATU, NLPResponseType, ErrorCommand } from '../types/response';
+import { NLPResponse, NLPResponseATU, NLPResponseType, ErrorCommand, DataCommand } from '../types/response';
 import { Inference, SaluteCommand, SaluteMiddleware, SaluteRequest, SaluteResponse } from '../types/salute';
 
 import { SaluteSessionStorage } from './session';
@@ -64,6 +64,9 @@ const initSaluteResponse = (req: NLPRequest): SaluteResponse => {
         },
         appendError: (error: ErrorCommand['smart_app_error']) => {
             message.payload.items.push({ command: { type: 'smart_app_error', smart_app_error: error } });
+        },
+        appendItem: (item: { command: DataCommand | ErrorCommand }) => {
+            message.payload.items.push(item);
         },
         appendSuggestions: (suggestions: string[]) => {
             if (message.payload.suggestions == null) {
