@@ -51,9 +51,17 @@ export const openItemIndex: SaluteHandler<ReqWithOrder> = ({ req, res }) => {
     }
 
     req.state.item_selector.items.forEach((item) => {
-        if (item.number === req.variables.order) {
-            // @ts-ignore
-            res.appendCommand({ ...(item.action || {}), payload: { id: item.id, number: item.number } });
+        if (item.number === +req.variables.number) {
+            res.appendItem({
+                command: {
+                    type: 'smart_app_data',
+                    action: {
+                        // @ts-ignore
+                        ...(item.action || {}),
+                        payload: { id: item.id, number: item.number, ...item.action?.payload },
+                    },
+                },
+            });
         }
     });
 };

@@ -8,7 +8,10 @@ import { intents } from './intents';
 const app = express();
 app.use(express.json());
 
-const scenario = createScenario(intents)(handlers);
+const scenario = createScenario(intents)({
+    ...handlers,
+    'Navigation/OpenItemIndex': handlers.openItemIndex,
+});
 
 export const scenarioWalker = createSaluteRequestHandler(scenario);
 

@@ -62,6 +62,10 @@ const initSaluteResponse = (req: NLPRequest): SaluteResponse => {
         appendCommand: <T extends SaluteCommand>(command: T) => {
             message.payload.items.push({ command: { type: 'smart_app_data', smart_app_data: { ...command } } });
         },
+        // TODO: fix types
+        appendItem: (item) => {
+            message.payload.items.push(item);
+        },
         appendError: (error: ErrorCommand['smart_app_error']) => {
             message.payload.items.push({ command: { type: 'smart_app_error', smart_app_error: error } });
         },

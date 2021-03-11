@@ -1,7 +1,7 @@
 import { IntentsDict } from '../../..';
 
 export const intents: IntentsDict = {
-    openItemIndex: {
+    'Navigation/OpenItemIndex': {
         matchers: ['покажи', 'открой', 'открой номер'],
         variables: {
             number: {

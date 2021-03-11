@@ -59,6 +59,7 @@ export interface SaluteRequest<V = SaluteRequestVariable> {
 export interface SaluteResponse {
     appendBubble: (bubble: string) => void;
     appendCommand: <T extends SaluteCommand>(command: T) => void;
+    appendItem: (command: any) => void;
     appendError: (error: ErrorCommand['smart_app_error']) => void;
     appendItem: (item: { command: DataCommand | ErrorCommand }) => void;
     appendSuggestions: (suggestions: string[]) => void;
