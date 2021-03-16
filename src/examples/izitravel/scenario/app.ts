@@ -11,6 +11,10 @@ app.use(express.json());
 const scenario = createScenario(intents)({
     ...handlers,
     'Navigation/OpenItemIndex': handlers.openItemIndex,
+    'Izi/RunAudiotour': handlers.runAudioTour,
+    'Navigation/Push': handlers.push,
+    'Izi/ToMainPage': handlers.toMainPage,
+    'Izi/ShowAll': handlers.showAll,
 });
 
 export const scenarioWalker = createSaluteRequestHandler(scenario);

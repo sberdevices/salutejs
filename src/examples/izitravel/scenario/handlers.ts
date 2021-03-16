@@ -44,6 +44,19 @@ interface ReqWithOrder extends SaluteRequest {
     order: number;
 }
 
+const createIziAction = (item: any) => {
+    return {
+        command: {
+            type: 'smart_app_data',
+            action: {
+                // @ts-ignore
+                ...(item.action || {}),
+                payload: { id: item.id, number: item.number, ...item.action?.payload },
+            },
+        },
+    };
+};
+
 export const openItemIndex: SaluteHandler<ReqWithOrder> = ({ req, res }) => {
     const { screen } = req.state;
     if (screen === 'Screen.TourPage') {
@@ -52,16 +65,65 @@ export const openItemIndex: SaluteHandler<ReqWithOrder> = ({ req, res }) => {
 
     req.state.item_selector.items.forEach((item) => {
         if (item.number === +req.variables.number) {
-            res.appendItem({
-                command: {
-                    type: 'smart_app_data',
-                    action: {
-                        // @ts-ignore
-                        ...(item.action || {}),
-                        payload: { id: item.id, number: item.number, ...item.action?.payload },
-                    },
-                },
-            });
+            res.appendItem(createIziAction(item));
         }
     });
+};
+
+export const runAudioTour: SaluteHandler = ({ req, res }) => {
+    res.appendItem(
+        createIziAction({
+            action: {
+                type: 'run_audiotour',
+            },
+        }),
+    );
+};
+
+export const push: SaluteHandler = ({ req, res }) => {
+    // @ts-ignore
+    const { id: uiElementId } = JSON.parse(req.variables.UIElement);
+    // @ts-ignore
+    const { id: elementId } = JSON.parse(req.variables.element);
+    const item = req.state.item_selector.items.find((item) => item.id === uiElementId);
+
+    const { screen } = req.state;
+
+    if (screen === 'Screen.TourStop' || (screen === 'Screen.TourPage' && elementId === 'run_audiotour')) {
+        res.appendSuggestions(config.suggestions['Screen.TourStop']);
+    }
+
+    res.appendItem(createIziAction(item));
+};
+
+export const toMainPage: SaluteHandler = ({ req, res }) => {
+    const { screen } = req.state;
+
+    switch (screen) {
+        case config.screen.MainPage:
+            res.setPronounceText(config.message.TO_MAIN_PAGE.ON_MAIN_PAGE);
+            break;
+        case config.screen.TourPage:
+            res.appendItem({
+                type: 'GOTO',
+                payload: {
+                    screen: config.screen.MainPage,
+                },
+            });
+            break;
+        default:
+            res.setPronounceText(config.message.TO_MAIN_PAGE.CONFIRMATION);
+            break;
+    }
+};
+
+export const showAll: SaluteHandler = (arg) => {
+    const { req, res } = arg;
+    const { screen } = req.state;
+
+    if (screen === config.screen.MainPage) {
+        res.setPronounceText(config.message.PAGE_LOADED.ALL_ON_MAIN_PAGE);
+    } else {
+        toMainPage(arg);
+    }
 };

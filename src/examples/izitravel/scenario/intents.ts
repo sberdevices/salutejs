@@ -9,6 +9,25 @@ export const intents: IntentsDict = {
             },
         },
     },
+    'Izi/RunAudiotour': {
+        matchers: [
+            'Запустить аудио тур',
+            'начать аудио тур',
+            'начать воспроизведение',
+            'начнем экскурсию',
+            'начать аудиотур',
+            'Запустить аудиотур',
+        ],
+    },
+    'Navigation/Push': {
+        matchers: ['@UIElement', 'открой @UIElement', 'нажать @UIElement', 'нажми @UIElement'],
+    },
+    'Izi/ShowAll': {
+        matchers: ['Что еще у тебя есть'],
+    },
+    'Izi/ToMainPage': {
+        matchers: ['Все экскурсии', 'Покажи все экскурсии'],
+    },
     yes: {
         matchers: ['да', 'продолжить'],
     },
