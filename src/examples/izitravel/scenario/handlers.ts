@@ -96,25 +96,33 @@ export const push: SaluteHandler = ({ req, res }) => {
     res.appendItem(createIziAction(item));
 };
 
-export const toMainPage: SaluteHandler = ({ req, res }) => {
-    const { screen } = req.state;
+export const toMainPageFromMainPage: SaluteHandler = ({ req, res }) => {
+    res.setPronounceText(config.message.TO_MAIN_PAGE.ON_MAIN_PAGE);
+};
 
-    switch (screen) {
-        case config.screen.MainPage:
-            res.setPronounceText(config.message.TO_MAIN_PAGE.ON_MAIN_PAGE);
-            break;
-        case config.screen.TourPage:
-            res.appendItem({
+export const toMainPageFromTourPage: SaluteHandler = ({ req, res }) => {
+    res.appendItem(
+        createIziAction({
+            action: {
                 type: 'GOTO',
                 payload: {
                     screen: config.screen.MainPage,
                 },
-            });
-            break;
-        default:
-            res.setPronounceText(config.message.TO_MAIN_PAGE.CONFIRMATION);
-            break;
-    }
+            },
+        }),
+    );
+};
+
+export const ToMainPageNo: SaluteHandler = ({ req, res }) => {
+    res.setPronounceText('А жаль');
+};
+
+export const toMainPage: SaluteHandler = ({ req, res }) => {
+    res.setPronounceText(config.message.TO_MAIN_PAGE.CONFIRMATION);
+};
+
+export const showAllFromMainPage: SaluteHandler = ({ res }) => {
+    res.setPronounceText(config.message.PAGE_LOADED.ALL_ON_MAIN_PAGE);
 };
 
 export const showAll: SaluteHandler = (arg) => {

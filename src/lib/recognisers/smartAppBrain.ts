@@ -96,7 +96,7 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
     }
 
     public inference = async ({ req }: { req: SaluteRequest }) => {
-        const payload = this.buildInferenceRequest(req.message.original_text);
+        const payload = this.buildInferenceRequest(req.message?.original_text);
 
         if (req.message == null) {
             return Promise.resolve();

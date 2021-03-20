@@ -57,11 +57,12 @@ export interface SaluteRequest<V = SaluteRequestVariable> {
 }
 
 export interface SaluteResponse {
+    dispatch: any;
     appendBubble: (bubble: string) => void;
     appendCommand: <T extends SaluteCommand>(command: T) => void;
     appendItem: (command: any) => void;
     appendError: (error: ErrorCommand['smart_app_error']) => void;
-    appendItem: (item: { command: DataCommand | ErrorCommand }) => void;
+    // appendItem: (item: { command: DataCommand | ErrorCommand }) => void;
     appendSuggestions: (suggestions: string[]) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;
@@ -73,7 +74,7 @@ export type SaluteHandler<
     S extends Record<string, unknown> = Record<string, unknown>,
     Rs extends SaluteResponse = SaluteResponse,
     H extends Record<string, unknown> = Record<string, unknown>
-> = (options: { req: Rq; res: Rs; session: S; history: H }) => void;
+> = (options: { req: Rq; res: Rs; session: S; history: H }, path?: string[]) => void;
 
 export interface SaluteIntentVariable {
     required?: boolean;
