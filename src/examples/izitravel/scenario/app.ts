@@ -8,13 +8,25 @@ import { intents } from './intents';
 const app = express();
 app.use(express.json());
 
-const scenario = createScenario(intents)({
-    ...handlers,
-    'Navigation/OpenItemIndex': handlers.openItemIndex,
-    'Izi/RunAudiotour': handlers.runAudioTour,
-    'Navigation/Push': handlers.push,
-    'Izi/ToMainPage': handlers.toMainPage,
-    'Izi/ShowAll': handlers.showAll,
+const scenario2 = createScenario2({
+    ItemSelector: {
+        intent: 'Navigation/OpenItemIndex',
+        predicate: () => true,
+        handle: handlers.openItemIndex,
+    },
+    RunAudioTour: {
+        intent: 'Izi/RunAudiotour',
+        handle: handlers.runAudioTour,
+    },
+    // GoToMainPage: {
+    //     intent: 'Izi/ToMainPage',
+    //     handle: handlers.toMainPage,
+    //     children: {
+    //         ['GoToMainPage/Confirmation/Yes']: {
+    //             predicate: () => true,
+    //         }
+    //     }
+    // }
 });
 
 export const scenarioWalker = createSaluteRequestHandler(scenario);

@@ -1,6 +1,17 @@
 import { NLPRequest, NLPRequestMTS, NLPRequestSA } from '../types/request';
 import { NLPResponse, NLPResponseATU, NLPResponseType, ErrorCommand, DataCommand } from '../types/response';
-import { Inference, SaluteCommand, SaluteMiddleware, SaluteRequest, SaluteResponse } from '../types/salute';
+import {
+    Inference,
+    IntentsDict,
+    SaluteCommand,
+    SaluteMiddleware,
+    SaluteRequest,
+    SaluteResponse,
+} from '../types/salute';
+import { createCycleScenarioMiddleware } from './middlewares/createCycleScenarioMiddleware';
+import { createDefaultAnswerMiddleware } from './middlewares/createDefaultAnswerMiddleware';
+import { createServerActionMiddleware } from './middlewares/createServerActionMiddleware';
+import { SmartAppBrainRecognizer } from './recognisers';
 
 import { SaluteSessionStorage } from './session';
 
@@ -118,4 +129,55 @@ export const createScenarioWalker = ({ middlewares, storage }: ScenarioWalkerPro
     await storage.save({ id: request.sessionId, session });
 
     return res.message;
+};
+
+const createScenarioServer = (intents: IntentsDict, storage: ScenarioWalkerProps['storage']) => {
+    const scenario = createScenario(intents);
+
+    const systemMessageMiddleware = createSystemIntentsMiddleware({ scenario });
+    const serverActionMiddleware = createServerActionMiddleware({ scenario });
+    const systemMessageMiddleware = createSystemIntentsMiddleware({ scenario });
+
+    const middlewares: [(req: SaluteRequest) => boolean, SaluteMiddleware][] = [
+        [
+            createSystemIntentsMiddleware({ scenario }),
+            createServerActionMiddleware({ scenario }),
+            new SmartAppBrainRecognizer(process.env.ACCESS_TOKEN, process.env.SMARTAPP_BRAIN_HOST).inference,
+            
+            
+            createCycleScenarioMiddleware({ scenario }),
+            
+            
+            
+            createDefaultAnswerMiddleware({ scenario }),
+        ].map((e) => [() => true, e]),
+    ];
+
+    const handle = (predicate: SaluteRequest, middleware: SaluteMiddleware) => {
+        middlewares.push([predicate, middleware]);
+    };
+
+    const handleRequest = async (request) => {
+        const req: SaluteRequest = initSaluteRequest(request);
+        const res: SaluteResponse = initSaluteResponse(request);
+
+        const session = await storage.resolve(request.sessionId);
+        await systemMessageMiddleware({ req, res, session });
+        await systemMessageMiddleware({ req, res, session });
+        for (const [predicate, current] of middlewares) {
+            if (predicate(req)) {
+                // eslint-disable-next-line no-await-in-loop
+                await current({ req, res, session });
+            }
+        }
+
+        await storage.save({ id: request.sessionId, session });
+
+        return res.message;
+    };
+
+    return {
+        handle,
+        handleRequest,
+    };
 };
