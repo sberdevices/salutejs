@@ -1,6 +1,6 @@
 import { DefaultScenario, IntentsDict, SaluteHandler, SaluteIntent, SaluteRequest } from '../types/salute';
 
-type ScenarioSchema = Record<
+export type ScenarioSchema = Record<
     string,
     {
         match: (req: SaluteRequest) => boolean;

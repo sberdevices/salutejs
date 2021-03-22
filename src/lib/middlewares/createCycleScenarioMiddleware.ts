@@ -150,17 +150,20 @@ export const createCycleScenarioMiddleware = ({
     session.variables = {};
 
     // вызываем обработчик интента
-    await current.callback({
-        req,
-        res,
-        session: session.state,
-        history: {
-            get path() {
-                return session.path;
+    await current.callback(
+        {
+            req,
+            res,
+            session: session.state,
+            history: {
+                get path() {
+                    return session.path;
+                },
+                variables: session.variables,
             },
-            variables: session.variables,
         },
-    });
+        () => {},
+    );
 
     // сбрасываем сессию, если нет потомков
     if (!current.hasChildren) {

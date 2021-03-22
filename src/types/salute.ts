@@ -1,4 +1,5 @@
 import { Scenario } from '../lib/createScenario';
+import { ScenarioSchema } from '../lib/createScenario2';
 import { SaluteSession } from '../lib/session';
 
 import { ServerAction } from './global';
@@ -54,6 +55,10 @@ export interface SaluteRequest<V = SaluteRequestVariable> {
     readonly variables: V;
     setInference: (value: Inference) => void;
     setVariable: (name: string, value: unknown) => void;
+    currentState?: {
+        path: string[];
+        state: ScenarioSchema['string'];
+    };
 }
 
 export interface SaluteResponse {
@@ -74,7 +79,7 @@ export type SaluteHandler<
     S extends Record<string, unknown> = Record<string, unknown>,
     Rs extends SaluteResponse = SaluteResponse,
     H extends Record<string, unknown> = Record<string, unknown>
-> = (options: { req: Rq; res: Rs; session: S; history: H }, path?: string[]) => void;
+> = (options: { req: Rq; res: Rs; session: S; history: H }, dispatch: (path: string[]) => void) => void;
 
 export interface SaluteIntentVariable {
     required?: boolean;
