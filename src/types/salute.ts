@@ -1,6 +1,4 @@
-import { Scenario } from '../lib/createScenario';
 import { ScenarioSchema } from '../lib/createUserScenario';
-import { SaluteSession } from '../lib/session';
 
 import { ServerAction } from './global';
 import { AppState, Message, NLPRequest } from './request';
@@ -62,13 +60,11 @@ export interface SaluteRequest<V = SaluteRequestVariable, S = AppState> {
 }
 
 export interface SaluteResponse {
-    dispatch: any;
     appendBubble: (bubble: string) => void;
     appendCommand: <T extends SaluteCommand>(command: T) => void;
     /** @deprecated */
     appendItem: (command: any) => void;
     appendError: (error: ErrorCommand['smart_app_error']) => void;
-    // appendItem: (item: { command: DataCommand | ErrorCommand }) => void;
     appendSuggestions: (suggestions: string[]) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;
@@ -102,22 +98,4 @@ export type SaluteIntent = (
     variables?: Record<string, SaluteIntentVariable>;
 };
 
-export interface DefaultScenario {
-    failure: SaluteHandler;
-    run_app: SaluteHandler;
-    close_app?: SaluteHandler;
-}
-
 export type IntentsDict = Record<string, SaluteIntent>;
-
-export type SaluteMiddleware = (options: {
-    req: SaluteRequest;
-    res: SaluteResponse;
-    session: SaluteSession;
-}) => Promise<void>;
-export type SaluteMiddlewareCreator = (options: { scenario: Scenario }) => SaluteMiddleware;
-
-export interface SaluteHistory<T extends Record<string, unknown> = Record<string, unknown>> {
-    readonly path: string[];
-    variables: T;
-}

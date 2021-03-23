@@ -1,10 +1,4 @@
-import { SaluteMiddlewareCreator } from '../../types/salute';
-
-export const createServerActionMiddleware: SaluteMiddlewareCreator = ({ scenario }) => async ({
-    req,
-    res,
-    session,
-}) => {
+export const createServerActionMiddleware = ({ scenario }) => async ({ req, res, session }) => {
     if (req.serverAction) {
         const path = scenario.findActionPath(req.serverAction.type);
         const next = path ? scenario.resolve(...session.path, path) : undefined;
