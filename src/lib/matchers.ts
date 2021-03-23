@@ -31,6 +31,7 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest>() {
 
     const text = (expected: string | RegExp) => (req: R) => {
         const actual = req.message.original_text;
+
         if (expected instanceof RegExp) {
             if (typeof actual === 'string') return expected.test(actual);
         }
@@ -40,6 +41,12 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest>() {
 
     const state = (expected: Partial<R['state']>) => (req: R) => compare(expected, req.state);
 
+    const selectItems = (expected: Partial<R['state']['item_selector']['items'][number]>) => (req: R) =>
+        req.state.item_selector?.items?.filter((i) => compare(expected, i));
+
+    const selectItem = (expected: Partial<R['state']['item_selector']['items'][number]>) => (req: R) =>
+        selectItems(expected)(req)[0];
+
     const match = (...matchers: Array<(req: R) => boolean>) => (req: R): boolean => {
         for (let i = 0; i < matchers.length; i++) {
             if (!matchers[i](req)) return false;
@@ -48,5 +55,5 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest>() {
         return true;
     };
 
-    return { match, intent, text, state };
+    return { match, intent, text, state, selectItem, selectItems };
 }

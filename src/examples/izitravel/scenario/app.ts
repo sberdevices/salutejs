@@ -24,7 +24,7 @@ dotEnv();
 const app = express();
 app.use(express.json());
 
-const { match, intent, text, state } = createMatchers<IziRequest>();
+const { match, intent, text, state, selectItem } = createMatchers<IziRequest>();
 
 const userScenario = createUserScenario<IziRequest, IziHandler>({
     ToMainPageFromMainPage: {
@@ -63,16 +63,13 @@ const userScenario = createUserScenario<IziRequest, IziHandler>({
         match: intent('Navigation/OpenItemIndex'),
         handle: ({ req, res }) => {
             const { screen } = req.state;
+            const number = Number(req.variables.number);
+
             if (screen === 'Screen.TourPage') {
                 res.appendSuggestions(config.suggestions['Screen.TourStop']);
             }
 
-            // TODO: add to matchers
-            req.state.item_selector.items.forEach((item) => {
-                if (item.number === +req.variables.number) {
-                    res.appendItem(createLegacyAction(item));
-                }
-            });
+            res.appendItem(createLegacyAction(selectItem({ number })(req)));
         },
     },
     RunAudioTour: {
@@ -90,18 +87,16 @@ const userScenario = createUserScenario<IziRequest, IziHandler>({
     Push: {
         match: intent('Navigation/Push'),
         handle: ({ req, res }) => {
-            const { id: uiElementId } = JSON.parse(req.variables.UIElement);
-            const { id: elementId } = JSON.parse(req.variables.element);
-            // TODO: add to matchers
-            const item = req.state.item_selector.items.find((item) => item.id === uiElementId);
-
             const { screen } = req.state;
+            const { UIElement, element } = req.variables;
+            const { id: uiElementId } = JSON.parse(UIElement);
+            const { id: elementId } = JSON.parse(element);
 
             if (screen === 'Screen.TourStop' || (screen === 'Screen.TourPage' && elementId === 'run_audiotour')) {
                 res.appendSuggestions(config.suggestions['Screen.TourStop']);
             }
 
-            res.appendItem(createLegacyAction(item));
+            res.appendItem(createLegacyAction(selectItem({ id: uiElementId })(req)));
         },
     },
     ShowAllFromMainPage: {
