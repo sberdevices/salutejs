@@ -6,8 +6,6 @@ import {
     createSystemScenario,
     createSaluteRequest,
     createSaluteResponse,
-    SaluteResponse,
-    SaluteRequest,
     SaluteMemoryStorage,
     SmartAppBrainRecognizer,
     createScenarioWalker,
@@ -29,33 +27,23 @@ const { match, intent, text, state, selectItem } = createMatchers<IziRequest>();
 const userScenario = createUserScenario<IziRequest, IziHandler>({
     ToMainPageFromMainPage: {
         match: match(intent('Izi/ToMainPage'), state({ screen: 'Screen.MainPage' })),
-        handle: ({ res }) => {
-            res.setPronounceText(config.message.TO_MAIN_PAGE.ON_MAIN_PAGE);
-        },
+        handle: ({ res }) => res.setPronounceText(config.message.TO_MAIN_PAGE.ON_MAIN_PAGE),
     },
     ToMainPageFromTourPage: {
         match: match(intent('Izi/ToMainPage'), state({ screen: 'Screen.TourPage' })),
-        handle: ({ res }) => {
-            res.appendItem(createLegacyGoToAction('Screen.MainPage'));
-        },
+        handle: ({ res }) => res.appendItem(createLegacyGoToAction('Screen.MainPage')),
     },
     ToMainPage: {
         match: intent('Izi/ToMainPage'),
-        handle: ({ res }) => {
-            res.setPronounceText(config.message.TO_MAIN_PAGE.CONFIRMATION);
-        },
+        handle: ({ res }) => res.setPronounceText(config.message.TO_MAIN_PAGE.CONFIRMATION),
         children: {
             ToMainPageYes: {
                 match: text('да'),
-                handle: ({ res }) => {
-                    res.appendItem(createLegacyGoToAction('Screen.MainPage'));
-                },
+                handle: ({ res }) => res.appendItem(createLegacyGoToAction('Screen.MainPage')),
             },
             ToMainPageNo: {
                 match: text('нет'),
-                handle: ({ res }) => {
-                    res.setPronounceText('А жаль');
-                },
+                handle: ({ res }) => res.setPronounceText('А жаль'),
             },
         },
     },
@@ -74,15 +62,14 @@ const userScenario = createUserScenario<IziRequest, IziHandler>({
     },
     RunAudioTour: {
         match: intent('Izi/RunAudiotour'),
-        handle: ({ res }) => {
+        handle: ({ res }) =>
             res.appendItem(
                 createLegacyAction({
                     action: {
                         type: 'run_audiotour',
                     },
                 }),
-            );
-        },
+            ),
     },
     Push: {
         match: intent('Navigation/Push'),
@@ -101,21 +88,15 @@ const userScenario = createUserScenario<IziRequest, IziHandler>({
     },
     ShowAllFromMainPage: {
         match: match(intent('Izi/RunAudiotour'), state({ screen: 'Screen.MainPage' })),
-        handle: ({ res }) => {
-            res.setPronounceText(config.message.PAGE_LOADED.ALL_ON_MAIN_PAGE);
-        },
+        handle: ({ res }) => res.setPronounceText(config.message.PAGE_LOADED.ALL_ON_MAIN_PAGE),
     },
     ShowAll: {
         match: match(intent('Izi/ShowAll'), state({ screen: 'Screen.MainPage' })),
-        handle: (_, dispatch) => {
-            dispatch(['ToMainPage']);
-        },
+        handle: (_, dispatch) => dispatch(['ToMainPage']),
     },
     SlotFillingIntent: {
         match: intent('SlotFillingIntent'),
-        handle: ({ res, req }) => {
-            res.setPronounceText(`Вы попросили ${req.variables.a} яблок`);
-        },
+        handle: ({ res, req }) => res.setPronounceText(`Вы попросили ${req.variables.a} яблок`),
     },
 });
 
@@ -140,15 +121,13 @@ const scenarioWalker = createScenarioWalker({
 const storage = new SaluteMemoryStorage();
 
 app.post('/hook', async ({ body }, response) => {
-    const req: SaluteRequest = createSaluteRequest(body);
-    const res: SaluteResponse = createSaluteResponse(body);
+    const req = createSaluteRequest(body);
+    const res = createSaluteResponse(body);
 
     const sessionId = body.uuid.userId;
-
     const session = await storage.resolve(sessionId);
 
     await scenarioWalker({ req, res, session });
-
     await storage.save({ id: sessionId, session });
 
     response.status(200).json(res.message);
