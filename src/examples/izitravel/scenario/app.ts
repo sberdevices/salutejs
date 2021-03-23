@@ -11,81 +11,67 @@ import {
     SaluteMemoryStorage,
     SmartAppBrainRecognizer,
     createScenarioWalker,
+    createMatchers,
 } from '../../..';
 
 import * as handlers from './handlers';
 import { intents } from './intents';
+import { IziRequest } from './types';
 
 config();
 
 const app = express();
-
 app.use(express.json());
 
-// MATCHERS PROPOSAL
-// const userScenario = createUserScenario({
-//     StateId: {
-//         match: match(
-//             intent('Izi/ToMainPage', 0.3), // confidence
-//             state({ screen: 'Screen.MainPage' }),
-//         ),
-//     },
-// });
-// -----------------
+const { match, intent, text, state } = createMatchers<IziRequest>();
 
 const userScenario = createUserScenario({
     ToMainPageFromMainPage: {
-        match: (req) =>
-            req.inference?.variants[0].intent.path === 'Izi/ToMainPage' && req.state.screen === 'Screen.MainPage',
+        match: match(intent('Izi/ToMainPage'), state({ screen: 'Screen.MainPage' })),
         handle: handlers.toMainPageFromMainPage,
     },
     ToMainPageFromTourPage: {
-        match: (req) =>
-            req.inference?.variants[0].intent.path === 'Izi/ToMainPage' && req.state.screen === 'Screen.TourPage',
+        match: match(intent('Izi/ToMainPage'), state({ screen: 'Screen.TourPage' })),
         handle: handlers.toMainPageFromTourPage,
     },
     ToMainPage: {
-        match: (req) => req.inference?.variants[0].intent.path === 'Izi/ToMainPage',
+        match: intent('Izi/ToMainPage'),
         handle: handlers.toMainPage,
         children: {
             ToMainPageYes: {
-                match: (req) => req.message.original_text === 'да',
-                // match: (req) => req.inference?.variants[0].intent.path === 'yes',
+                match: text('да'),
                 handle: handlers.toMainPageFromTourPage,
             },
             ToMainPageNo: {
-                match: (req) => req.message.original_text === 'нет',
-                // match: (req) => req.inference?.variants[0].intent.path === 'no',
+                match: text('нет'),
                 handle: handlers.ToMainPageNo,
             },
         },
     },
     OpenItemIndex: {
-        match: (req) => req.inference?.variants[0].intent.path === 'Navigation/OpenItemIndex',
+        match: intent('Navigation/OpenItemIndex'),
         handle: handlers.openItemIndex,
     },
     RunAudioTour: {
-        match: (req) => req.inference?.variants[0].intent.path === 'Izi/RunAudiotour',
+        match: intent('Izi/RunAudiotour'),
         handle: handlers.runAudioTour,
     },
     Push: {
-        match: (req) => req.inference?.variants[0].intent.path === 'Navigation/Push',
+        match: intent('Navigation/Push'),
         handle: handlers.push,
     },
     ShowAllFromMainPage: {
-        match: (req) =>
-            req.inference?.variants[0].intent.path === 'Izi/ShowAll' && req.state.screen === 'Screen.MainPage',
+        match: match(intent('Izi/RunAudiotour'), state({ screen: 'Screen.MainPage' })),
         handle: handlers.showAllFromMainPage,
     },
     ShowAll: {
-        match: (req) =>
-            req.inference?.variants[0].intent.path === 'Izi/ShowAll' && req.state.screen !== 'Screen.MainPage',
+        match: match(intent('Izi/ShowAll'), state({ screen: 'Screen.MainPage' })),
         handle: (_, dispatch) => {
             dispatch(['ToMainPage']);
         },
     },
     SlotFillingIntent: {
-        match: (req) => req.inference?.variants[0].intent.path === 'SlotFillingIntent',
+        match: intent('SlotFillingIntent'),
         handle: handlers.slotFillingIntent,
     },
 });
@@ -104,23 +90,21 @@ const scenarioWalker = createScenarioWalker({
 
 const storage = new SaluteMemoryStorage();
 
-if (process.env.NODE_ENV !== 'test') {
-    app.post('/hook', async ({ body }, response) => {
-        const req: SaluteRequest = createSaluteRequest(body);
-        const res: SaluteResponse = createSaluteResponse(body);
+app.post('/hook', async ({ body }, response) => {
+    const req: SaluteRequest = createSaluteRequest(body);
+    const res: SaluteResponse = createSaluteResponse(body);
 
-        const sessionId = body.uuid.userId;
+    const sessionId = body.uuid.userId;
 
-        const session = await storage.resolve(sessionId);
+    const session = await storage.resolve(sessionId);
 
-        await scenarioWalker({ req, res, session });
+    await scenarioWalker({ req, res, session });
 
-        await storage.save({ id: sessionId, session });
+    await storage.save({ id: sessionId, session });
 
-        response.status(200).json(res.message);
-    });
+    response.status(200).json(res.message);
+});
 
-    app.listen(3000, () => {
-        console.log('Listening on 3000');
-    });
-}
+app.listen(3000, () => {
+    console.log('Listening on 3000');
+});

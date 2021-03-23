@@ -1,4 +1,6 @@
 export * from './types/salute';
+export * from './types/request';
+export * from './types/response';
 export * from './lib/session';
 export * from './lib/createSystemScenario';
 export * from './lib/createUserScenario';
@@ -7,3 +9,4 @@ export * from './lib/createSaluteResponse';
 export * from './lib/missingVariables';
 export * from './lib/createScenarioWalker';
 export * from './lib/recognisers';
+export * from './lib/matchers';

@@ -1,9 +1,5 @@
-import { SaluteHandler, SaluteRequest } from '../../..';
-
 import config from './config';
-
-type IziRequest = SaluteRequest<{ UIElement?: string; element?: string; number?: string; a?: string }>;
-type IziHandler = SaluteHandler<IziRequest>;
+import { IziHandler } from './types';
 
 const createLegacyAction = (item: any) => {
     return {
@@ -33,6 +29,7 @@ export const openItemIndex: IziHandler = ({ req, res }) => {
         res.appendSuggestions(config.suggestions['Screen.TourStop']);
     }
 
+    // TODO: add to matchers
     req.state.item_selector.items.forEach((item) => {
         if (item.number === +req.variables.number) {
             res.appendItem(createLegacyAction(item));
@@ -53,6 +50,7 @@ export const runAudioTour: IziHandler = ({ res }) => {
 export const push: IziHandler = ({ req, res }) => {
     const { id: uiElementId } = JSON.parse(req.variables.UIElement);
     const { id: elementId } = JSON.parse(req.variables.element);
+    // TODO: add to matchers
     const item = req.state.item_selector.items.find((item) => item.id === uiElementId);
 
     const { screen } = req.state;
