@@ -1,5 +1,5 @@
 import express from 'express';
-import { config } from 'dotenv';
+import { config as dotEnv } from 'dotenv';
 
 import {
     createUserScenario,
@@ -14,55 +14,101 @@ import {
     createMatchers,
 } from '../../..';
 
-import * as handlers from './handlers';
 import { intents } from './intents';
-import { IziRequest } from './types';
+import config from './config';
+import { IziHandler, IziRequest } from './types';
+import { createLegacyAction, createLegacyGoToAction } from './legacyAction';
 
-config();
+dotEnv();
 
 const app = express();
 app.use(express.json());
 
 const { match, intent, text, state } = createMatchers<IziRequest>();
 
-const userScenario = createUserScenario({
+const userScenario = createUserScenario<IziRequest, IziHandler>({
     ToMainPageFromMainPage: {
         match: match(intent('Izi/ToMainPage'), state({ screen: 'Screen.MainPage' })),
-        handle: handlers.toMainPageFromMainPage,
+        handle: ({ res }) => {
+            res.setPronounceText(config.message.TO_MAIN_PAGE.ON_MAIN_PAGE);
+        },
     },
     ToMainPageFromTourPage: {
         match: match(intent('Izi/ToMainPage'), state({ screen: 'Screen.TourPage' })),
-        handle: handlers.toMainPageFromTourPage,
+        handle: ({ res }) => {
+            res.appendItem(createLegacyGoToAction('Screen.MainPage'));
+        },
     },
     ToMainPage: {
         match: intent('Izi/ToMainPage'),
-        handle: handlers.toMainPage,
+        handle: ({ res }) => {
+            res.setPronounceText(config.message.TO_MAIN_PAGE.CONFIRMATION);
+        },
         children: {
             ToMainPageYes: {
                 match: text('да'),
-                handle: handlers.toMainPageFromTourPage,
+                handle: ({ res }) => {
+                    res.appendItem(createLegacyGoToAction('Screen.MainPage'));
+                },
             },
             ToMainPageNo: {
                 match: text('нет'),
-                handle: handlers.ToMainPageNo,
+                handle: ({ res }) => {
+                    res.setPronounceText('А жаль');
+                },
             },
         },
     },
     OpenItemIndex: {
         match: intent('Navigation/OpenItemIndex'),
-        handle: handlers.openItemIndex,
+        handle: ({ req, res }) => {
+            const { screen } = req.state;
+            if (screen === 'Screen.TourPage') {
+                res.appendSuggestions(config.suggestions['Screen.TourStop']);
+            }
+
+            // TODO: add to matchers
+            req.state.item_selector.items.forEach((item) => {
+                if (item.number === +req.variables.number) {
+                    res.appendItem(createLegacyAction(item));
+                }
+            });
+        },
     },
     RunAudioTour: {
         match: intent('Izi/RunAudiotour'),
-        handle: handlers.runAudioTour,
+        handle: ({ res }) => {
+            res.appendItem(
+                createLegacyAction({
+                    action: {
+                        type: 'run_audiotour',
+                    },
+                }),
+            );
+        },
     },
     Push: {
         match: intent('Navigation/Push'),
-        handle: handlers.push,
+        handle: ({ req, res }) => {
+            const { id: uiElementId } = JSON.parse(req.variables.UIElement);
+            const { id: elementId } = JSON.parse(req.variables.element);
+            // TODO: add to matchers
+            const item = req.state.item_selector.items.find((item) => item.id === uiElementId);
+
+            const { screen } = req.state;
+
+            if (screen === 'Screen.TourStop' || (screen === 'Screen.TourPage' && elementId === 'run_audiotour')) {
+                res.appendSuggestions(config.suggestions['Screen.TourStop']);
+            }
+
+            res.appendItem(createLegacyAction(item));
+        },
     },
     ShowAllFromMainPage: {
         match: match(intent('Izi/RunAudiotour'), state({ screen: 'Screen.MainPage' })),
-        handle: handlers.showAllFromMainPage,
+        handle: ({ res }) => {
+            res.setPronounceText(config.message.PAGE_LOADED.ALL_ON_MAIN_PAGE);
+        },
     },
     ShowAll: {
         match: match(intent('Izi/ShowAll'), state({ screen: 'Screen.MainPage' })),
@@ -72,13 +118,21 @@ const userScenario = createUserScenario({
     },
     SlotFillingIntent: {
         match: intent('SlotFillingIntent'),
-        handle: handlers.slotFillingIntent,
+        handle: ({ res, req }) => {
+            res.setPronounceText(`Вы попросили ${req.variables.a} яблок`);
+        },
     },
 });
 
 const systemScenario = createSystemScenario({
-    RUN_APP: handlers.run_app,
-    NO_MATCH: handlers.failure,
+    RUN_APP: ({ res }) => {
+        res.appendSuggestions(config.suggestions['Screen.MainPage']);
+        res.setPronounceText(config.message.HELLO);
+    },
+    NO_MATCH: ({ res }) => {
+        res.setPronounceText('Я не понимаю');
+        res.appendBubble('Я не понимаю');
+    },
 });
 
 const scenarioWalker = createScenarioWalker({

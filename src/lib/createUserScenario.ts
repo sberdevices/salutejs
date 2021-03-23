@@ -1,15 +1,17 @@
 import { SaluteHandler, SaluteRequest } from '../types/salute';
 
-export type ScenarioSchema = Record<
+export type ScenarioSchema<R = SaluteRequest, H = SaluteHandler> = Record<
     string,
     {
-        match: (req: SaluteRequest) => boolean;
-        handle: SaluteHandler;
-        children?: ScenarioSchema;
+        match: (req: R) => boolean;
+        handle: H;
+        children?: ScenarioSchema<R, H>;
     }
 >;
 
-export const createUserScenario = (scenarioSchema: ScenarioSchema) => {
+export function createUserScenario<R extends SaluteRequest = SaluteRequest, H extends SaluteHandler = SaluteHandler>(
+    scenarioSchema: ScenarioSchema<R, H>,
+) {
     const getByPath = (path: string[]) => {
         let obj = scenarioSchema[path[0]];
         for (const p of path.slice(1)) {
@@ -23,10 +25,10 @@ export const createUserScenario = (scenarioSchema: ScenarioSchema) => {
         return obj;
     };
 
-    const resolve = (path: string[], req: SaluteRequest) => {
+    const resolve = (path: string[], req: R) => {
         let matchedState: {
             path: string[];
-            state: ScenarioSchema['string'];
+            state: ScenarioSchema<R, H>['string'];
         };
 
         if (path.length > 0) {
@@ -57,4 +59,4 @@ export const createUserScenario = (scenarioSchema: ScenarioSchema) => {
         getByPath,
         resolve,
     };
-};
+}
