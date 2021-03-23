@@ -1,55 +1,15 @@
-import { SaluteHandler } from '../../..';
-import { SaluteRequest } from '../../../types/salute';
+import { SaluteHandler, SaluteRequest } from '../../..';
 
-const config = {
-    screen: {
-        MainPage: 'Screen.MainPage',
-        TourPage: 'Screen.TourPage',
-        TourStop: 'Screen.TourStop',
-    },
-    message: {
-        PAGE_LOADED: {
-            ALL_ON_MAIN_PAGE: 'Это пока все аудиогиды. Скоро появятся новые.',
-            TourPage: 'Открываю для вас аудиогид',
-        },
-        ENTITY_NOT_FOUND: 'Пока нет такого аудиогида',
-        TO_MAIN_PAGE: {
-            ON_MAIN_PAGE: 'Мы уже на главной',
-            CONFIRMATION: 'Вы уверены, что хотите перейти на главную?',
-        },
-        TO_EXHIBIT_PAGE: {
-            CONFIRMATION: 'Вы хотите поставить на паузу?',
-        },
-        HELLO: 'Антоша Лапушка',
-    },
-    suggestions: {
-        'Screen.MainPage': ['Открой первую экскурсию'],
-        'Screen.TourPage': ['Начнем экскурсию', 'Покажи содержание', 'Все экскурсии'],
-        'Screen.TourStop': ['Play', 'Пауза', 'Следующая остановка', 'Выйти из прослушивания'],
-    },
-};
+import config from './config';
 
-export const run_app: SaluteHandler = ({ res, req }) => {
-    console.log('run_app');
-    res.appendSuggestions(config.suggestions['Screen.MainPage']);
-    res.setPronounceText(config.message.HELLO);
-};
+type IziRequest = SaluteRequest<{ UIElement?: string; element?: string; number?: string; a?: string }>;
+type IziHandler = SaluteHandler<IziRequest>;
 
-export const failure: SaluteHandler = ({ res }) => {
-    res.setPronounceText('Я не понимаю');
-    res.appendBubble('Я не понимаю');
-};
-
-interface ReqWithOrder extends SaluteRequest {
-    order: number;
-}
-
-const createIziAction = (item: any) => {
+const createLegacyAction = (item: any) => {
     return {
         command: {
             type: 'smart_app_data',
             action: {
-                // @ts-ignore
                 ...(item.action || {}),
                 payload: { id: item.id, number: item.number, ...item.action?.payload },
             },
@@ -57,7 +17,17 @@ const createIziAction = (item: any) => {
     };
 };
 
-export const openItemIndex: SaluteHandler<ReqWithOrder> = ({ req, res }) => {
+export const run_app: IziHandler = ({ res }) => {
+    res.appendSuggestions(config.suggestions['Screen.MainPage']);
+    res.setPronounceText(config.message.HELLO);
+};
+
+export const failure: IziHandler = ({ res }) => {
+    res.setPronounceText('Я не понимаю');
+    res.appendBubble('Я не понимаю');
+};
+
+export const openItemIndex: IziHandler = ({ req, res }) => {
     const { screen } = req.state;
     if (screen === 'Screen.TourPage') {
         res.appendSuggestions(config.suggestions['Screen.TourStop']);
@@ -65,14 +35,14 @@ export const openItemIndex: SaluteHandler<ReqWithOrder> = ({ req, res }) => {
 
     req.state.item_selector.items.forEach((item) => {
         if (item.number === +req.variables.number) {
-            res.appendItem(createIziAction(item));
+            res.appendItem(createLegacyAction(item));
         }
     });
 };
 
-export const runAudioTour: SaluteHandler = ({ req, res }) => {
+export const runAudioTour: IziHandler = ({ res }) => {
     res.appendItem(
-        createIziAction({
+        createLegacyAction({
             action: {
                 type: 'run_audiotour',
             },
@@ -80,10 +50,8 @@ export const runAudioTour: SaluteHandler = ({ req, res }) => {
     );
 };
 
-export const push: SaluteHandler = ({ req, res }) => {
-    // @ts-ignore
+export const push: IziHandler = ({ req, res }) => {
     const { id: uiElementId } = JSON.parse(req.variables.UIElement);
-    // @ts-ignore
     const { id: elementId } = JSON.parse(req.variables.element);
     const item = req.state.item_selector.items.find((item) => item.id === uiElementId);
 
@@ -93,16 +61,16 @@ export const push: SaluteHandler = ({ req, res }) => {
         res.appendSuggestions(config.suggestions['Screen.TourStop']);
     }
 
-    res.appendItem(createIziAction(item));
+    res.appendItem(createLegacyAction(item));
 };
 
-export const toMainPageFromMainPage: SaluteHandler = ({ req, res }) => {
+export const toMainPageFromMainPage: IziHandler = ({ res }) => {
     res.setPronounceText(config.message.TO_MAIN_PAGE.ON_MAIN_PAGE);
 };
 
-export const toMainPageFromTourPage: SaluteHandler = ({ req, res }) => {
+export const toMainPageFromTourPage: IziHandler = ({ res }) => {
     res.appendItem(
-        createIziAction({
+        createLegacyAction({
             action: {
                 type: 'GOTO',
                 payload: {
@@ -113,18 +81,18 @@ export const toMainPageFromTourPage: SaluteHandler = ({ req, res }) => {
     );
 };
 
-export const ToMainPageNo: SaluteHandler = ({ req, res }) => {
+export const ToMainPageNo: IziHandler = ({ res }) => {
     res.setPronounceText('А жаль');
 };
 
-export const toMainPage: SaluteHandler = ({ req, res }) => {
+export const toMainPage: IziHandler = ({ res }) => {
     res.setPronounceText(config.message.TO_MAIN_PAGE.CONFIRMATION);
 };
 
-export const showAllFromMainPage: SaluteHandler = ({ res }) => {
+export const showAllFromMainPage: IziHandler = ({ res }) => {
     res.setPronounceText(config.message.PAGE_LOADED.ALL_ON_MAIN_PAGE);
 };
 
-export const slotFillingIntent: SaluteHandler = ({ res, req }) => {
+export const slotFillingIntent: IziHandler = ({ res, req }) => {
     res.setPronounceText(`Вы попросили ${req.variables.a} яблок`);
 };

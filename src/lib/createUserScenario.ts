@@ -1,4 +1,4 @@
-import { DefaultScenario, IntentsDict, SaluteHandler, SaluteIntent, SaluteRequest } from '../types/salute';
+import { SaluteHandler, SaluteRequest } from '../types/salute';
 
 export type ScenarioSchema = Record<
     string,
@@ -9,29 +9,8 @@ export type ScenarioSchema = Record<
     }
 >;
 
-type SystemScenario = {
-    RUN_APP: SaluteHandler;
-    CLOSE_APP: SaluteHandler;
-    NO_MATCH: SaluteHandler;
-};
-
-export const createSystemScenario = (systemScenarioSchema?: Partial<SystemScenario>): SystemScenario => {
-    return {
-        RUN_APP: ({ res }) => {
-            res.setPronounceText('Добро пожаловать');
-        },
-        CLOSE_APP: ({ res }) => {},
-        NO_MATCH: ({ res }) => {
-            res.setPronounceText('Не понятно');
-        },
-        ...systemScenarioSchema,
-    };
-};
-
-export const createScenario2 = (scenarioSchema: ScenarioSchema) => {
+export const createUserScenario = (scenarioSchema: ScenarioSchema) => {
     const getByPath = (path: string[]) => {
-        // path === ['state1', 'state2']
-        // { children: { state1: { children: { state2: {} }}}}
         let obj = scenarioSchema[path[0]];
         for (const p of path.slice(1)) {
             if (obj.children) {

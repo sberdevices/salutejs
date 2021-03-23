@@ -1,10 +1,10 @@
 import { Scenario } from '../lib/createScenario';
-import { ScenarioSchema } from '../lib/createScenario2';
+import { ScenarioSchema } from '../lib/createUserScenario';
 import { SaluteSession } from '../lib/session';
 
 import { ServerAction } from './global';
 import { AppState, Message, NLPRequest } from './request';
-import { NLPResponse, ErrorCommand, DataCommand } from './response';
+import { NLPResponse, ErrorCommand } from './response';
 
 interface IntentSlot {
     name: string; // имя сущности
@@ -45,13 +45,13 @@ export interface SaluteCommand {
 
 export type SaluteRequestVariable = Record<string, unknown>;
 
-export interface SaluteRequest<V = SaluteRequestVariable> {
+export interface SaluteRequest<V = SaluteRequestVariable, S = AppState> {
     readonly message: Message;
     readonly serverAction?: ServerAction;
     readonly intent: string;
     readonly inference?: Inference;
     readonly request: NLPRequest;
-    readonly state?: AppState;
+    readonly state?: S;
     readonly variables: V;
     setInference: (value: Inference) => void;
     setVariable: (name: string, value: unknown) => void;
@@ -65,6 +65,7 @@ export interface SaluteResponse {
     dispatch: any;
     appendBubble: (bubble: string) => void;
     appendCommand: <T extends SaluteCommand>(command: T) => void;
+    /** @deprecated */
     appendItem: (command: any) => void;
     appendError: (error: ErrorCommand['smart_app_error']) => void;
     // appendItem: (item: { command: DataCommand | ErrorCommand }) => void;
