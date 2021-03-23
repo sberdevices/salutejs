@@ -22,6 +22,17 @@ const app = express();
 
 app.use(express.json());
 
+// MATCHERS PROPOSAL
+// const userScenario = createUserScenario({
+//     StateId: {
+//         match: match(
+//             intent('Izi/ToMainPage', 0.3), // confidence
+//             state({ screen: 'Screen.MainPage' }),
+//         ),
+//     },
+// });
+// -----------------
+
 const userScenario = createUserScenario({
     ToMainPageFromMainPage: {
         match: (req) =>
