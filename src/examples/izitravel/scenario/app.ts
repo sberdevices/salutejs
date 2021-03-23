@@ -70,6 +70,10 @@ const scenario = createScenario2({
             dispatch(['ToMainPage']);
         },
     },
+    SlotFillingIntent: {
+        match: (req) => req.inference?.variants[0].intent.path === 'SlotFillingIntent',
+        handle: handlers.slotFillingIntent,
+    },
 });
 
 const systemScenario = createSystemScenario({
@@ -80,17 +84,33 @@ const systemScenario = createSystemScenario({
 const smartAppBrainRecognizer = new SmartAppBrainRecognizer(process.env.ACCESS_TOKEN, process.env.SMARTAPP_BRAIN_HOST);
 const storage = new SaluteMemoryStorage();
 
+const getIntentMissingVariables = (
+    intent: string,
+    variables: Record<string, unknown>,
+): { name: string; question: string }[] => {
+    const missing = [];
+    const vars = intents[intent]?.variables || {};
+
+    Object.keys(vars).forEach((v) => {
+        if (vars[v].required && variables[v] === undefined && vars[v].questions?.length) {
+            const questionNo = Math.floor(Math.random() * vars[v].questions.length);
+            missing.push({ name: v, question: vars[v].questions[questionNo] });
+        }
+    });
+
+    return missing;
+};
+
 const scenarioLogic = async (req: SaluteRequest, res: SaluteResponse, session: SaluteSession) => {
     const dispatch = (path: string[]) => {
         const state = scenario.getByPath(path);
         if (state) {
             session.path = path;
-            state.handle({ req, res, session: session.state, history: {} }, dispatch);
-
             req.currentState = {
                 path: session.path,
                 state,
             };
+            state.handle({ req, res, session: session.state, history: {} }, dispatch);
         }
     };
 
@@ -98,79 +118,69 @@ const scenarioLogic = async (req: SaluteRequest, res: SaluteResponse, session: S
 
     if (req.intent === 'run_app') {
         systemScenario.RUN_APP(saluteHandlerOpts, dispatch);
+        return;
     }
 
     if (req.intent === 'close_app') {
         systemScenario.CLOSE_APP(saluteHandlerOpts, dispatch);
+        return;
     }
 
     // INFERENCE LOGIC START
     await smartAppBrainRecognizer.inference({ req });
 
-    // TODO: make this more clever (confidence)
-    const variant = req.inference.variants[0];
-    variant.slots.forEach((slot) => {
-        req.setVariable(slot.name, slot.value);
-    });
-
     Object.keys(session.variables).forEach((name) => {
         req.setVariable(name, session.variables[name]);
     });
 
-    // SLOTFILING LOGIC START
-    const slotFillingMinRating = 0;
-    let currentIntent = variant;
+    // TODO: make this more clever (confidence)
+    // TODO2: make variant nullable FTW
+    const variant = req.inference?.variants.length > 0 ? req.inference.variants[0] : null;
 
-    // при слотфиллинге, устанавливаем предыдущий интент как текущий, если он есть в результатах распознавания
-    if (session.path.length && session.slotFilling) {
-        // ищем предущий интент в результатах распознавания
-        const connected = (req.inference?.variants || []).find(
-            (v) =>
-                v.confidence >= slotFillingMinRating && v.intent.path === session.intents[session.intents.length - 1],
-        );
-        currentIntent = connected || variant;
-        // заполненную переменную ожидаем увидеть в слотах интента
-    }
-
-    // ищем незаполненные переменные, задаем вопрос пользователю
-    const getIntentMissingVariables = (
-        intent: string,
-        variables: Record<string, unknown>,
-    ): { name: string; question: string }[] => {
-        const missing = [];
-        const vars = intents[intent].variables || {};
-
-        Object.keys(vars).forEach((v) => {
-            if (vars[v].required && variables[v] === undefined && vars[v].questions?.length) {
-                const questionNo = Math.floor(Math.random() * vars[v].questions.length);
-                missing.push({ name: v, question: vars[v].questions[questionNo] });
-            }
+    if (variant) {
+        variant.slots.forEach((slot) => {
+            req.setVariable(slot.name, slot.value);
         });
 
-        return missing;
-    };
+        // SLOTFILING LOGIC START
+        const slotFillingMinRating = 0;
+        let currentIntent = variant;
 
-    const missingVars = getIntentMissingVariables(currentIntent.intent.path, req.variables);
-    if (missingVars.length) {
-        // сохраняем состояние в сессии
-        Object.keys(req.variables).forEach((name) => {
-            session.variables[name] = req.variables[name];
-        });
-
-        // задаем вопрос
-        const { question } = missingVars[0];
-
-        res.appendBubble(question);
-        res.setPronounceText(question);
-
-        // устанавливаем флаг слотфиллинга, на него будем смотреть при следующем запросе пользователя
-        session.slotFilling = true;
-        // сохранили интент со слотфилингом
-        if (session.intents[session.intents.length - 1] !== currentIntent.intent.path) {
-            session.intents.push(currentIntent.intent.path);
+        // при слотфиллинге, устанавливаем предыдущий интент как текущий, если он есть в результатах распознавания
+        if (session.path.length && session.slotFilling) {
+            // ищем предущий интент в результатах распознавания
+            const connected = (req.inference?.variants || []).find(
+                (v) =>
+                    v.confidence >= slotFillingMinRating &&
+                    v.intent.path === session.intents[session.intents.length - 1],
+            );
+            currentIntent = connected || variant;
+            // заполненную переменную ожидаем увидеть в слотах интента
         }
 
-        return Promise.resolve();
+        // ищем незаполненные переменные, задаем вопрос пользователю
+        const missingVars = getIntentMissingVariables(currentIntent.intent.path, req.variables);
+        if (missingVars.length) {
+            // сохраняем состояние в сессии
+            Object.keys(req.variables).forEach((name) => {
+                session.variables[name] = req.variables[name];
+            });
+
+            // задаем вопрос
+            const { question } = missingVars[0];
+
+            res.appendBubble(question);
+            res.setPronounceText(question);
+
+            // устанавливаем флаг слотфиллинга, на него будем смотреть при следующем запросе пользователя
+            session.slotFilling = true;
+            // сохранили интент со слотфилингом
+            if (session.intents[session.intents.length - 1] !== currentIntent.intent.path) {
+                session.intents.push(currentIntent.intent.path);
+            }
+
+            return;
+        }
     }
 
     // SLOTFILING LOGIC END
@@ -189,13 +199,16 @@ const scenarioLogic = async (req: SaluteRequest, res: SaluteResponse, session: S
         } else {
             session.intents.push(variant.intent.path);
         }
-    } else {
-        systemScenario.NO_MATCH(saluteHandlerOpts, dispatch);
+
+        return;
     }
+
+    systemScenario.NO_MATCH(saluteHandlerOpts, dispatch);
 };
 
 if (process.env.NODE_ENV !== 'test') {
     app.post('/hook', async ({ body }, response) => {
+        console.log('----- request -----');
         const req: SaluteRequest = initSaluteRequest(body);
         const res: SaluteResponse = initSaluteResponse(body);
 

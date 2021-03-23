@@ -79,7 +79,7 @@ export type SaluteHandler<
     S extends Record<string, unknown> = Record<string, unknown>,
     Rs extends SaluteResponse = SaluteResponse,
     H extends Record<string, unknown> = Record<string, unknown>
-> = (options: { req: Rq; res: Rs; session: S; history: H }, dispatch: (path: string[]) => void) => void;
+> = (options: { req: Rq; res: Rs; session: S; history: H }, dispatch?: (path: string[]) => void) => void;
 
 export interface SaluteIntentVariable {
     required?: boolean;

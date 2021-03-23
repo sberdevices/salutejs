@@ -125,13 +125,6 @@ export const showAllFromMainPage: SaluteHandler = ({ res }) => {
     res.setPronounceText(config.message.PAGE_LOADED.ALL_ON_MAIN_PAGE);
 };
 
-export const showAll: SaluteHandler = (arg) => {
-    const { req, res } = arg;
-    const { screen } = req.state;
-
-    if (screen === config.screen.MainPage) {
-        res.setPronounceText(config.message.PAGE_LOADED.ALL_ON_MAIN_PAGE);
-    } else {
-        toMainPage(arg);
-    }
+export const slotFillingIntent: SaluteHandler = ({ res, req }) => {
+    res.setPronounceText(`Вы попросили ${req.variables.a} яблок`);
 };

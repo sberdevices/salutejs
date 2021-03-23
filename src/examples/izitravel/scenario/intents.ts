@@ -34,4 +34,13 @@ export const intents: IntentsDict = {
     no: {
         matchers: ['нет', 'отменить'],
     },
+    SlotFillingIntent: {
+        matchers: [],
+        variables: {
+            a: {
+                required: true,
+                questions: ['Сколько?'],
+            },
+        },
+    },
 };
