@@ -1,12 +1,4 @@
-export interface SaluteSession {
-    path: string[];
-    slotFilling: boolean;
-    variables: {
-        [key: string]: unknown;
-    };
-    currentIntent?: string;
-    state: Record<string, unknown>;
-}
+import { SaluteSession } from '@salutejs/types';
 
 export interface SaluteSessionStorage {
     resolve: (id: string) => Promise<SaluteSession>;

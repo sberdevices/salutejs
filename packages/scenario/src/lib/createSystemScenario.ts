@@ -1,4 +1,4 @@
-import { SaluteHandler } from '../types/salute';
+import { SaluteHandler } from '@salutejs/types';
 
 export type SystemScenario = {
     RUN_APP: SaluteHandler;

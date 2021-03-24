@@ -1,5 +1,4 @@
-import { NLPRequest, NLPRequestMTS, NLPRequestSA } from '../types/request';
-import { Inference, SaluteRequest } from '../types/salute';
+import { NLPRequest, NLPRequestMTS, NLPRequestSA, Inference, SaluteRequest } from '@salutejs/types';
 
 export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
     let inference: Inference;

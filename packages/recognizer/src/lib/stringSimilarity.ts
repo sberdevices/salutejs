@@ -1,9 +1,5 @@
 import ss from 'string-similarity';
-
-import { Inference, IntentsDict, TextIntent } from '../../types/salute';
-import { Scenario } from '../createScenario';
-
-import { Recognizer } from './abstract';
+import { Inference, IntentsDict, TextIntent, Recognizer } from '@salutejs/types';
 
 function getRestOfMessageText(message) {
     const { original_text } = message;
@@ -25,8 +21,8 @@ const SLOT_FILLING_NOTE = 'купить хлеб';
 export class StringSimilarityRecognizer implements Recognizer {
     private _intents: IntentsDict;
 
-    constructor({ scenario }: { scenario: Scenario }) {
-        this._intents = scenario.intents as IntentsDict;
+    constructor({ intents }: { intents: IntentsDict }) {
+        this._intents = intents;
     }
 
     inference = async ({ req }) => {

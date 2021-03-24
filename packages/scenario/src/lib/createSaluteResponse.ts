@@ -1,6 +1,12 @@
-import { NLPRequest } from '../types/request';
-import { NLPResponse, NLPResponseATU, NLPResponseType, ErrorCommand } from '../types/response';
-import { SaluteCommand, SaluteResponse } from '../types/salute';
+import {
+    NLPRequest,
+    NLPResponse,
+    NLPResponseATU,
+    NLPResponseType,
+    ErrorCommand,
+    SaluteCommand,
+    SaluteResponse,
+} from '@salutejs/types';
 
 export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
     const { messageId, sessionId, uuid, payload } = req;
@@ -19,7 +25,6 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
     };
 
     return {
-        dispatch: () => {},
         appendBubble: (bubble: string) => {
             message.payload.items.push({ bubble: { text: bubble, expand_policy: 'auto_expand' } });
         },

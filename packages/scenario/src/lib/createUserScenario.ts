@@ -1,13 +1,4 @@
-import { SaluteHandler, SaluteRequest } from '../types/salute';
-
-export type ScenarioSchema<R = SaluteRequest, H = SaluteHandler> = Record<
-    string,
-    {
-        match: (req: R) => boolean;
-        handle: H;
-        children?: ScenarioSchema<R, H>;
-    }
->;
+import { SaluteHandler, SaluteRequest, ScenarioSchema } from '@salutejs/types';
 
 export function createUserScenario<R extends SaluteRequest = SaluteRequest, H extends SaluteHandler = SaluteHandler>(
     scenarioSchema: ScenarioSchema<R, H>,
