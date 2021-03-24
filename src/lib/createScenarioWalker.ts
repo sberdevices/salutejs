@@ -73,9 +73,8 @@ export const createScenarioWalker = ({
         // SLOTFILING LOGIC START
         let currentIntent = variant;
 
-        // при слотфиллинге, устанавливаем предыдущий интент как текущий, если он есть в результатах распознавания
         if (session.path.length && session.slotFilling) {
-            // ищем предущий интент в результатах распознавания
+            // ищем связь с текущим интентом в сессии и результатах распознавания
             const connected = (req.inference?.variants || []).find(
                 (v) => v.confidence >= slotFillingConfidence && v.intent.path === session.currentIntent,
             );
