@@ -9,6 +9,7 @@ export interface IziItentsVariables extends SaluteRequestVariable {
     element?: string;
     number?: string;
     a?: string;
+    phrase?: string;
 }
 
 export type IziRequest = SaluteRequest<IziItentsVariables, IziAppState>;

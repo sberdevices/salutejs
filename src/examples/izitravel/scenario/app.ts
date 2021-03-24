@@ -22,7 +22,7 @@ dotEnv();
 const app = express();
 app.use(express.json());
 
-const { match, intent, text, state, selectItem } = createMatchers<IziRequest>();
+const { match, intent, text, action, state, selectItem } = createMatchers<IziRequest>();
 
 const userScenario = createUserScenario<IziRequest, IziHandler>({
     ToMainPageFromMainPage: {
@@ -97,6 +97,10 @@ const userScenario = createUserScenario<IziRequest, IziHandler>({
     SlotFillingIntent: {
         match: intent('SlotFillingIntent'),
         handle: ({ res, req }) => res.setPronounceText(`Вы попросили ${req.variables.a} яблок`),
+    },
+    EchoAction: {
+        match: action('echo'),
+        handle: ({ res, req }) => res.setPronounceText(req.variables.phrase),
     },
 });
 

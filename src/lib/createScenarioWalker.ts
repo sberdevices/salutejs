@@ -54,59 +54,92 @@ export const createScenarioWalker = ({
         return;
     }
 
-    // INFERENCE LOGIC START
-    await recognizer.inference({ req, res, session });
-
+    // restore request from session
     Object.keys(session.variables).forEach((name) => {
         req.setVariable(name, session.variables[name]);
     });
 
-    // TODO: make this more clever (confidence)
-    // TODO2: make variant nullable FTW
-    const variant = req.inference?.variants.length > 0 ? req.inference.variants[0] : null;
-
-    if (variant) {
-        variant.slots.forEach((slot) => {
-            req.setVariable(slot.name, slot.value);
+    // restore request from server_action payload
+    if (req.serverAction) {
+        Object.keys(req.serverAction.payload || {}).forEach((key) => {
+            req.setVariable(key, req.serverAction.payload[key]);
         });
+    }
 
-        // SLOTFILING LOGIC START
-        let currentIntent = variant;
+    if (req.voiceAction) {
+        // INFERENCE LOGIC START
+        await recognizer.inference({ req, res, session });
 
-        if (session.path.length && session.slotFilling) {
-            // ищем связь с текущим интентом в сессии и результатах распознавания
-            const connected = (req.inference?.variants || []).find(
-                (v) => v.confidence >= slotFillingConfidence && v.intent.path === session.currentIntent,
-            );
-            currentIntent = connected || variant;
-        }
+        // TODO: make this more clever (confidence)
+        // TODO2: make variant nullable FTW
+        const variant = req.inference?.variants.length > 0 ? req.inference.variants[0] : null;
 
-        // ищем незаполненные переменные, задаем вопрос пользователю
-        const missingVars = lookupMissingVariables(currentIntent.intent.path, intents, req.variables);
-        if (missingVars.length) {
-            // сохраняем состояние в сессии
-            Object.keys(req.variables).forEach((name) => {
-                session.variables[name] = req.variables[name];
+        if (variant) {
+            variant.slots.forEach((slot) => {
+                req.setVariable(slot.name, slot.value);
             });
 
-            // задаем вопрос
-            const { question } = missingVars[0];
+            // SLOTFILING LOGIC START
+            let currentIntent = variant;
 
-            res.appendBubble(question);
-            res.setPronounceText(question);
+            if (session.path.length && session.slotFilling) {
+                // ищем связь с текущим интентом в сессии и результатах распознавания
+                const connected = (req.inference?.variants || []).find(
+                    (v) => v.confidence >= slotFillingConfidence && v.intent.path === session.currentIntent,
+                );
+                currentIntent = connected || variant;
+            }
 
-            // устанавливаем флаг слотфиллинга, на него будем смотреть при следующем запросе пользователя
-            session.slotFilling = true;
-            // сохранили интент со слотфилингом
+            // ищем незаполненные переменные, задаем вопрос пользователю
+            const missingVars = lookupMissingVariables(currentIntent.intent.path, intents, req.variables);
+            if (missingVars.length) {
+                // сохраняем состояние в сессии
+                Object.keys(req.variables).forEach((name) => {
+                    session.variables[name] = req.variables[name];
+                });
+
+                // задаем вопрос
+                const { question } = missingVars[0];
+
+                res.appendBubble(question);
+                res.setPronounceText(question);
+
+                // устанавливаем флаг слотфиллинга, на него будем смотреть при следующем запросе пользователя
+                session.slotFilling = true;
+
+                session.currentIntent = currentIntent.intent.path;
+
+                return;
+            }
+            // SLOTFILING LOGIC END
+
             session.currentIntent = currentIntent.intent.path;
-
-            return;
+            // INFERENCE LOGIC END
         }
-        // SLOTFILING LOGIC END
-        // INFERENCE LOGIC END
     }
 
     const scenarioState = userScenario.resolve(session.path, req);
+
+    if (req.serverAction) {
+        if (!scenarioState) {
+            res.appendError({
+                code: 404,
+                description: `Missing handler for action: "${req.serverAction.type}"`,
+            });
+
+            return;
+        }
+
+        const missingVars = lookupMissingVariables(req.serverAction.type, intents, req.variables);
+        if (missingVars.length) {
+            res.appendError({
+                code: 500,
+                description: `Missing required variables: ${missingVars.map(({ name }) => `"${name}"`).join(', ')}`,
+            });
+
+            return;
+        }
+    }
 
     if (scenarioState) {
         req.currentState = scenarioState;
@@ -116,8 +149,6 @@ export const createScenarioWalker = ({
             session.path = [];
             session.variables = {};
             session.currentIntent = undefined;
-        } else {
-            session.currentIntent = variant.intent.path;
         }
 
         return;

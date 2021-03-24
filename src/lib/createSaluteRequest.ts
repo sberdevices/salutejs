@@ -24,6 +24,13 @@ export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
         get serverAction() {
             return (request as NLPRequestSA).payload.server_action;
         },
+        get voiceAction() {
+            return (
+                !(request as NLPRequestSA).payload.server_action &&
+                (request as NLPRequestMTS).payload.intent !== 'close_app' &&
+                (request as NLPRequestMTS).payload.intent !== 'run_app'
+            );
+        },
         get variables() {
             return variables;
         },

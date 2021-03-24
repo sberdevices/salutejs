@@ -43,9 +43,10 @@ export interface SaluteCommand {
 
 export type SaluteRequestVariable = Record<string, unknown>;
 
-export interface SaluteRequest<V = SaluteRequestVariable, S = AppState> {
+export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = ServerAction> {
     readonly message: Message;
-    readonly serverAction?: ServerAction;
+    readonly serverAction?: A;
+    readonly voiceAction: boolean;
     readonly intent: string;
     readonly inference?: Inference;
     readonly request: NLPRequest;

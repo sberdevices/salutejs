@@ -41,6 +41,8 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest>() {
 
     const state = (expected: Partial<R['state']>) => (req: R) => compare(expected, req.state);
 
+    const action = (expected: R['serverAction']['type']) => (req: R) => req.serverAction?.type === expected;
+
     const selectItems = (expected: Partial<R['state']['item_selector']['items'][number]>) => (req: R) =>
         req.state.item_selector?.items?.filter((i) => compare(expected, i));
 
@@ -55,5 +57,5 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest>() {
         return true;
     };
 
-    return { match, intent, text, state, selectItem, selectItems };
+    return { match, intent, text, state, selectItem, selectItems, action };
 }
