@@ -11,6 +11,7 @@ interface ScenarioWalkerOptions {
     recognizer: Recognizer;
     systemScenario: SystemScenario;
     userScenario: ReturnType<typeof createUserScenario>;
+    slotFillingConfidence?: number;
 }
 
 export const createScenarioWalker = ({
@@ -18,6 +19,7 @@ export const createScenarioWalker = ({
     recognizer,
     systemScenario,
     userScenario,
+    slotFillingConfidence = 0,
 }: ScenarioWalkerOptions) => async ({
     req,
     res,
@@ -69,16 +71,13 @@ export const createScenarioWalker = ({
         });
 
         // SLOTFILING LOGIC START
-        const slotFillingMinRating = 0;
         let currentIntent = variant;
 
         // при слотфиллинге, устанавливаем предыдущий интент как текущий, если он есть в результатах распознавания
         if (session.path.length && session.slotFilling) {
             // ищем предущий интент в результатах распознавания
             const connected = (req.inference?.variants || []).find(
-                (v) =>
-                    v.confidence >= slotFillingMinRating &&
-                    v.intent.path === session.intents[session.intents.length - 1],
+                (v) => v.confidence >= slotFillingConfidence && v.intent.path === session.currentIntent,
             );
             currentIntent = connected || variant;
         }
@@ -100,9 +99,7 @@ export const createScenarioWalker = ({
             // устанавливаем флаг слотфиллинга, на него будем смотреть при следующем запросе пользователя
             session.slotFilling = true;
             // сохранили интент со слотфилингом
-            if (session.intents[session.intents.length - 1] !== currentIntent.intent.path) {
-                session.intents.push(currentIntent.intent.path);
-            }
+            session.currentIntent = currentIntent.intent.path;
 
             return;
         }
@@ -119,9 +116,9 @@ export const createScenarioWalker = ({
         if (!req.currentState.state.children) {
             session.path = [];
             session.variables = {};
-            session.intents = [];
+            session.currentIntent = undefined;
         } else {
-            session.intents.push(variant.intent.path);
+            session.currentIntent = variant.intent.path;
         }
 
         return;
