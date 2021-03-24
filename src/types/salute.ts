@@ -1,5 +1,4 @@
-import { Scenario } from '../lib/createScenario';
-import { SaluteSession } from '../lib/session';
+import { ScenarioSchema } from '../lib/createUserScenario';
 
 import { ServerAction } from './global';
 import { AppState, Message, NLPRequest } from './request';
@@ -44,21 +43,28 @@ export interface SaluteCommand {
 
 export type SaluteRequestVariable = Record<string, unknown>;
 
-export interface SaluteRequest<V = SaluteRequestVariable> {
+export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = ServerAction> {
     readonly message: Message;
-    readonly serverAction?: ServerAction;
+    readonly serverAction?: A;
+    readonly voiceAction: boolean;
     readonly intent: string;
     readonly inference?: Inference;
     readonly request: NLPRequest;
-    readonly state?: AppState;
+    readonly state?: S;
     readonly variables: V;
     setInference: (value: Inference) => void;
     setVariable: (name: string, value: unknown) => void;
+    currentState?: {
+        path: string[];
+        state: ScenarioSchema['string'];
+    };
 }
 
 export interface SaluteResponse {
     appendBubble: (bubble: string) => void;
     appendCommand: <T extends SaluteCommand>(command: T) => void;
+    /** @deprecated */
+    appendItem: (command: any) => void;
     appendError: (error: ErrorCommand['smart_app_error']) => void;
     appendSuggestions: (suggestions: string[]) => void;
     setIntent: (text: string) => void;
@@ -71,7 +77,7 @@ export type SaluteHandler<
     S extends Record<string, unknown> = Record<string, unknown>,
     Rs extends SaluteResponse = SaluteResponse,
     H extends Record<string, unknown> = Record<string, unknown>
-> = (options: { req: Rq; res: Rs; session: S; history: H }) => void;
+> = (options: { req: Rq; res: Rs; session: S; history: H }, dispatch?: (path: string[]) => void) => void;
 
 export interface SaluteIntentVariable {
     required?: boolean;
@@ -93,22 +99,4 @@ export type SaluteIntent = (
     variables?: Record<string, SaluteIntentVariable>;
 };
 
-export interface DefaultScenario {
-    failure: SaluteHandler;
-    run_app: SaluteHandler;
-    close_app?: SaluteHandler;
-}
-
 export type IntentsDict = Record<string, SaluteIntent>;
-
-export type SaluteMiddleware = (options: {
-    req: SaluteRequest;
-    res: SaluteResponse;
-    session: SaluteSession;
-}) => Promise<void>;
-export type SaluteMiddlewareCreator = (options: { scenario: Scenario }) => SaluteMiddleware;
-
-export interface SaluteHistory<T extends Record<string, unknown> = Record<string, unknown>> {
-    readonly path: string[];
-    variables: T;
-}

@@ -68,7 +68,7 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
 
     private _options: Partial<SmartAppBrainInferenceRequest> = {};
 
-    constructor(private accessToken: string, host = process.env.SMARTAPP_BRAIN_HOST) {
+    constructor(private accessToken: string, host: string) {
         super(host);
 
         assert(host, 'Необходимо указать хост SmartAppBrain');
@@ -96,7 +96,7 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
     }
 
     public inference = async ({ req }: { req: SaluteRequest }) => {
-        const payload = this.buildInferenceRequest(req.message.original_text);
+        const payload = this.buildInferenceRequest(req.message?.original_text);
 
         if (req.message == null) {
             return Promise.resolve();

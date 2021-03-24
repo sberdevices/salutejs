@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { createScenario, createSaluteRequestHandler } from '../../..';
+import { StringSimilarityRecognizer } from '../../../lib/recognisers/stringSimilarity';
 
 import * as handlers from './handlers';
 import { intents } from './intents';
@@ -10,7 +11,9 @@ app.use(express.json());
 
 const scenario = createScenario(intents)(handlers);
 
-export const scenarioWalker = createSaluteRequestHandler(scenario);
+export const scenarioWalker = createSaluteRequestHandler(scenario, {
+    recognizer: new StringSimilarityRecognizer({ scenario }),
+});
 
 if (process.env.NODE_ENV !== 'test') {
     app.post('/hook', async (req, res) => {

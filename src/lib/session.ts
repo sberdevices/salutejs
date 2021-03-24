@@ -4,6 +4,7 @@ export interface SaluteSession {
     variables: {
         [key: string]: unknown;
     };
+    currentIntent?: string;
     state: Record<string, unknown>;
 }
 
