@@ -1,4 +1,4 @@
-import { SaluteRequest } from '../types/salute';
+import { SaluteRequest } from '@salutejs/types';
 
 export const compare = (expected, actual) => {
     if (typeof expected !== typeof actual) return false;

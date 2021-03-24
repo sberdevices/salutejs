@@ -1,6 +1,5 @@
 import assert from 'assert';
-
-import { Inference, SaluteRequest } from '../../types/salute';
+import { Inference, SaluteRequest } from '@salutejs/types';
 
 import { AbstractRecognizer } from './abstract';
 

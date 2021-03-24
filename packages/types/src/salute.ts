@@ -1,5 +1,3 @@
-import { ScenarioSchema } from '../lib/createUserScenario';
-
 import { ServerAction } from './global';
 import { AppState, Message, NLPRequest } from './request';
 import { NLPResponse, ErrorCommand } from './response';
@@ -100,3 +98,26 @@ export type SaluteIntent = (
 };
 
 export type IntentsDict = Record<string, SaluteIntent>;
+
+export interface SaluteSession {
+    path: string[];
+    slotFilling: boolean;
+    variables: {
+        [key: string]: unknown;
+    };
+    currentIntent?: string;
+    state: Record<string, unknown>;
+}
+
+export interface Recognizer {
+    inference: (options: { req: SaluteRequest; res: SaluteResponse; session: SaluteSession }) => void;
+}
+
+export type ScenarioSchema<R = SaluteRequest, H = SaluteHandler> = Record<
+    string,
+    {
+        match: (req: R) => boolean;
+        handle: H;
+        children?: ScenarioSchema<R, H>;
+    }
+>;

@@ -1,12 +1,7 @@
 import fetch, { RequestInfo, RequestInit } from 'node-fetch';
-
-import { SaluteMiddleware } from '../../types/salute';
+import { Recognizer, SaluteRequest, SaluteResponse, SaluteSession } from '@salutejs/types';
 
 type URL = string;
-
-export interface Recognizer {
-    inference: SaluteMiddleware;
-}
 
 export abstract class AbstractRecognizer implements Recognizer {
     private host: URL;
@@ -19,5 +14,5 @@ export abstract class AbstractRecognizer implements Recognizer {
         return fetch(`${this.host}${url}`, init).then((response) => response.json());
     }
 
-    public abstract inference: SaluteMiddleware;
+    public abstract inference: (options: { req: SaluteRequest; res: SaluteResponse; session: SaluteSession }) => void;
 }

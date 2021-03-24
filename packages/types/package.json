@@ -1,0 +1,24 @@
+{
+  "name": "@salutejs/types",
+  "version": "0.0.1",
+  "description": "Scenario types for Salute family",
+  "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
+  "license": "Sber Public License at-nc-sa v.2",
+  "main": "dist/index.d.js",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "lint": "eslint --ext .js,.ts ./src",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sberdevices/salutejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sberdevices/salutejs/issues"
+  },
+  "homepage": "https://github.com/sberdevices/salutejs#readme",
+  "devDependencies": {
+    "typescript": "4.1.3"
+  }
+}

@@ -1,10 +1,8 @@
-import { IntentsDict, SaluteRequest, SaluteResponse } from '../types/salute';
+import { IntentsDict, SaluteRequest, SaluteResponse, SaluteSession, Recognizer } from '@salutejs/types';
 
 import { createUserScenario } from './createUserScenario';
 import { SystemScenario } from './createSystemScenario';
 import { lookupMissingVariables } from './missingVariables';
-import { Recognizer } from './recognisers';
-import { SaluteSession } from './session';
 
 interface ScenarioWalkerOptions {
     intents: IntentsDict;
