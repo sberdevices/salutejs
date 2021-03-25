@@ -113,11 +113,11 @@ export interface Recognizer {
     inference: (options: { req: SaluteRequest; res: SaluteResponse; session: SaluteSession }) => void;
 }
 
-export type ScenarioSchema<R = SaluteRequest, H = SaluteHandler> = Record<
+export type ScenarioSchema = Record<
     string,
     {
-        match: (req: R) => boolean;
-        handle: H;
-        children?: ScenarioSchema<R, H>;
+        match: (req: SaluteRequest) => boolean;
+        handle: SaluteHandler;
+        children?: ScenarioSchema;
     }
 >;

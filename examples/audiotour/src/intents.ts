@@ -1,6 +1,6 @@
-import { IntentsDict } from '../../..';
+import { createIntents } from '@salutejs/scenario';
 
-export const intents: IntentsDict = {
+export const intents = createIntents({
     'Navigation/OpenItemIndex': {
         matchers: ['покажи', 'открой', 'открой номер'],
         variables: {
@@ -43,4 +43,4 @@ export const intents: IntentsDict = {
             },
         },
     },
-};
+});

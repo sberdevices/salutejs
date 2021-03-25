@@ -7,7 +7,9 @@
   "main": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint --ext .js,.ts ./src",
-    "test": "jest"
+    "test": "jest",
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build"
   },
   "repository": {
     "type": "git",

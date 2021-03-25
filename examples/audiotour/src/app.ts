@@ -1,4 +1,5 @@
 import express from 'express';
+import assert from 'assert';
 import { config as dotEnv } from 'dotenv';
 import {
     createUserScenario,
@@ -21,9 +22,9 @@ dotEnv();
 const app = express();
 app.use(express.json());
 
-const { match, intent, text, action, state, selectItem } = createMatchers<IziRequest>();
+const { match, intent, text, action, state, selectItem } = createMatchers<IziRequest, typeof intents>();
 
-const userScenario = createUserScenario<IziRequest, IziHandler>({
+const userScenario = createUserScenario({
     ToMainPageFromMainPage: {
         match: match(intent('Izi/ToMainPage'), state({ screen: 'Screen.MainPage' })),
         handle: ({ res }) => res.setPronounceText(config.message.TO_MAIN_PAGE.ON_MAIN_PAGE),
@@ -75,6 +76,10 @@ const userScenario = createUserScenario<IziRequest, IziHandler>({
         handle: ({ req, res }) => {
             const { screen } = req.state;
             const { UIElement, element } = req.variables;
+
+            assert(typeof UIElement === 'string');
+            assert(typeof element === 'string');
+
             const { id: uiElementId } = JSON.parse(UIElement);
             const { id: elementId } = JSON.parse(element);
 
@@ -99,7 +104,11 @@ const userScenario = createUserScenario<IziRequest, IziHandler>({
     },
     EchoAction: {
         match: action('echo'),
-        handle: ({ res, req }) => res.setPronounceText(req.variables.phrase),
+        handle: ({ res, req }) => {
+            const { phrase } = req.variables;
+            assert(typeof phrase === 'string');
+            res.setPronounceText(phrase);
+        },
     },
 });
 

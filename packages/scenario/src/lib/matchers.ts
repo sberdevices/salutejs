@@ -1,4 +1,4 @@
-import { SaluteRequest } from '@salutejs/types';
+import { IntentsDict, SaluteRequest } from '@salutejs/types';
 
 export const compare = (expected, actual) => {
     if (typeof expected !== typeof actual) return false;
@@ -25,9 +25,9 @@ export const compare = (expected, actual) => {
     });
 };
 
-export function createMatchers<R extends SaluteRequest = SaluteRequest>() {
+export function createMatchers<R extends SaluteRequest = SaluteRequest, I extends IntentsDict = IntentsDict>() {
     // TODO: map keys from intentsDict
-    const intent = (expected: string) => (req: R) => req.inference?.variants[0].intent.path === expected;
+    const intent = (expected: keyof I) => (req: R) => req.inference?.variants[0].intent.path === expected;
 
     const text = (expected: string | RegExp) => (req: R) => {
         const actual = req.message.original_text;
