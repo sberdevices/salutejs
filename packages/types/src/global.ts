@@ -139,23 +139,3 @@ export interface AppInfo {
     /** Объединённое значение полей projectId, applicationId и appversionId */
     frontendStateId?: string;
 }
-
-/** Информация о запускаемом смартапе и параметрах его запуска. Формируется бэкендом приложения. */
-export interface ServerAction {
-    /**
-     * Любые параметры, которые требуются для запуска смартапа.
-     * Параметры должны быть представлены в виде валидного JSON-объекта.
-     */
-    payload: unknown;
-    /** Действие, которое обрабатывает бэкенд смартапа. Значение по умолчанию: run_app. */
-    type: string;
-}
-
-declare global {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace jest {
-        interface Matchers<R> {
-            toBeEqualResponse(expected: NLPResponseATU);
-        }
-    }
-}
