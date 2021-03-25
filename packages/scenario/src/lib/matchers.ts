@@ -26,7 +26,6 @@ export const compare = (expected, actual) => {
 };
 
 export function createMatchers<R extends SaluteRequest = SaluteRequest, I extends IntentsDict = IntentsDict>() {
-    // TODO: map keys from intentsDict
     const intent = (expected: keyof I) => (req: R) => req.inference?.variants[0].intent.path === expected;
 
     const text = (expected: string | RegExp) => (req: R) => {
