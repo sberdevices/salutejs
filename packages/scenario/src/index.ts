@@ -5,3 +5,5 @@ export * from './lib/createSaluteResponse';
 export * from './lib/missingVariables';
 export * from './lib/createScenarioWalker';
 export * from './lib/matchers';
+
+export * from '@salutejs/types';

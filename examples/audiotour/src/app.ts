@@ -1,16 +1,15 @@
 import express from 'express';
 import { config as dotEnv } from 'dotenv';
-
 import {
     createUserScenario,
     createSystemScenario,
     createSaluteRequest,
     createSaluteResponse,
-    SaluteMemoryStorage,
-    SmartAppBrainRecognizer,
     createScenarioWalker,
     createMatchers,
-} from '../../..';
+} from '@salutejs/scenario';
+import { SaluteMemoryStorage } from '@salutejs/memory';
+import { SmartAppBrainRecognizer } from '@salutejs/recognizer';
 
 import { intents } from './intents';
 import config from './config';
