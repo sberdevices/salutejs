@@ -27,9 +27,7 @@ jobs:
           restore-keys: |
             npm-deps-${{ hashFiles('package-lock.json') }}
       - name: Setup packages
-        run: npm i
-#       - name: Lint
-#         run: npm run lint
+        run: npm run ci:prepare
 
       - name: Unit
-        run: npm run test
+        run: lerna run test

@@ -9,7 +9,8 @@
     "lint": "eslint --ext .js,.ts ./src",
     "test": "jest",
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build"
+    "build": "lerna run build",
+    "ci:prepare": "npm ci && npm run bootstrap && npm run build"
   },
   "repository": {
     "type": "git",
