@@ -1,7 +1,7 @@
-import { AppState, SaluteRequest, SaluteHandler, SaluteRequestVariable } from '../../..';
+import { AppState, SaluteRequest, SaluteHandler, SaluteRequestVariable } from '@salutejs/scenario';
 
 export interface IziAppState extends AppState {
-    screen: 'Screen.MainPage' | 'Screen.TourPage' | 'Screen.TourStop';
+    screen?: 'Screen.MainPage' | 'Screen.TourPage' | 'Screen.TourStop';
 }
 
 export interface IziItentsVariables extends SaluteRequestVariable {

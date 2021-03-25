@@ -1,8 +1,6 @@
-import { SaluteHandler, SaluteRequest, ScenarioSchema } from '@salutejs/types';
+import { SaluteRequest, ScenarioSchema } from '@salutejs/types';
 
-export function createUserScenario<R extends SaluteRequest = SaluteRequest, H extends SaluteHandler = SaluteHandler>(
-    scenarioSchema: ScenarioSchema<R, H>,
-) {
+export function createUserScenario<R extends SaluteRequest = SaluteRequest>(scenarioSchema: ScenarioSchema) {
     const getByPath = (path: string[]) => {
         let obj = scenarioSchema[path[0]];
         for (const p of path.slice(1)) {
@@ -19,7 +17,7 @@ export function createUserScenario<R extends SaluteRequest = SaluteRequest, H ex
     const resolve = (path: string[], req: R) => {
         let matchedState: {
             path: string[];
-            state: ScenarioSchema<R, H>['string'];
+            state: ScenarioSchema['string'];
         };
 
         if (path.length > 0) {
