@@ -1,4 +1,4 @@
-import { AppInfo, ServerAction, Device, UUID, Character } from './global';
+import { AppInfo, Device, UUID, Character } from './global';
 
 export enum NLPRequestType {
     /** Cообщение для смартапа от ассистента */
@@ -110,7 +110,7 @@ export interface Time {
 }
 
 export interface AppState {
-    [key: string]: any;
+    [key: string]: unknown;
     item_selector?: {
         ignored_words?: string[];
         /* Список соответствий голосовых команд действиям в веб-приложении */
@@ -267,7 +267,10 @@ export type NLPRequestMTS = NLPRequestBody<NLPRequestType.MESSAGE_TO_SKILL, MTSP
 
 export interface SAPayload extends SharedRequestPayload {
     app_info: AppInfo;
-    server_action: ServerAction;
+    server_action?: {
+        payload: unknown;
+        type: string;
+    };
 }
 
 /**
@@ -280,7 +283,10 @@ export type NLPRequestSA = NLPRequestBody<NLPRequestType.SERVER_ACTION, SAPayloa
 export interface RAPayload extends SharedRequestPayload {
     /** Интент, который приходит при запуске смартапа */
     intent: 'run_app';
-    server_action?: ServerAction;
+    server_action?: {
+        payload: unknown;
+        type: string;
+    };
 }
 
 /** RUN_APP */

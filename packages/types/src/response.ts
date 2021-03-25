@@ -50,7 +50,7 @@ export interface DeepLinkAction {
     deep_link: string;
 }
 
-/**  Произвольное сообщение для бэкенда смартапа */
+/**  Произвольное сообщение для смартапа */
 export interface ServerAction {
     type: 'server_action';
     message_name?: string;

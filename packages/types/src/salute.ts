@@ -1,4 +1,4 @@
-import { ServerAction } from './global';
+/* eslint-disable no-use-before-define */
 import { AppState, Message, NLPRequest } from './request';
 import { NLPResponse, ErrorCommand } from './response';
 
@@ -41,7 +41,7 @@ export interface SaluteCommand {
 
 export type SaluteRequestVariable = Record<string, unknown>;
 
-export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = ServerAction> {
+export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { payload: unknown; type: string }> {
     readonly message: Message;
     readonly serverAction?: A;
     readonly voiceAction: boolean;
