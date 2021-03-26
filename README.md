@@ -15,7 +15,7 @@ __Набор утилит для описания пользовательски
 - API для создания своих рекогнайзеров;
 - синхронизация интентов и сущностей с [SmartApp Brain](https://developer.sberdevices.ru/docs/ru/developer_tools/ide/platform_ux/nlu_core_caila/nlu_core_caila);
 - адаптеры для работы с сессией: inMemory, mongodb;
-- поддержка составления словарей реплик для всех персонажей;
+- поддержка составления словарей реплик для всех персонажей.
 
 
 ## Состав пакетов
@@ -23,7 +23,7 @@ __Набор утилит для описания пользовательски
 - [@salutejs/scenario](https://github.com/sberdevices/salutejs/tree/master/packages/scenario) - фреймворк описания пользовательских сценариев;
 - [@salutejs/recognizer](https://github.com/sberdevices/salutejs/tree/master/packages/recognizer) - набор стандартных рекогнайзеров;
 - [@salutejs/memory](https://github.com/sberdevices/salutejs/tree/master/packages/memory) - набор стандартных адаптеров для хранения сессии;
-- [@salutejs/i18n](https://github.com/sberdevices/salutejs/tree/master/packages/i18n) - библиотека описания словарей реплик персонажей;
+- [@salutejs/i18n](https://github.com/sberdevices/salutejs/tree/master/packages/i18n) - библиотека описания словарей реплик персонажей.
 
 
 #### Made with :heart: in SberDevices
