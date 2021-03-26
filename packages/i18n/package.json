@@ -19,6 +19,9 @@
     "README.md",
     "LICENSE.txt"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rm -rf dist && tsc",
     "lint": "eslint --ext .js,.ts ./src",
