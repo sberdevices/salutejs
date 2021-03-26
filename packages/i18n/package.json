@@ -32,5 +32,6 @@
   },
   "dependencies": {
     "@salutejs/types": "0.1.0"
-  }
+  },
+  "gitHead": "70298e562f327c87c550171469ad7a55e0d88cf6"
 }
