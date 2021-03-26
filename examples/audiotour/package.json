@@ -1,5 +1,6 @@
 {
   "name": "audiotour",
+  "private": "true",
   "version": "1.0.0",
   "license": "Sber Public License at-nc-sa v.2",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
