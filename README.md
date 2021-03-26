@@ -2,28 +2,31 @@
 
 # SaluteJS
 
-__Набор утилит для описания пользовательских сценариев семейства Виртуальных Ассистентов "Салют"__. 
+__Set of minimalistic utils for [Salute Assistants](https://sber.ru/salute) scenario implementation__.
 
-- инструментированый код: автокомплишен по интентам и стейту приложения;
-- типизация из коробки: встроенные типы полностью включают в себя описание [SmartApp API](https://developer.sberdevices.ru/docs/ru/developer_tools/amp/smartappapi_description_and_guide);
-- единые типы команд между сценарием и [Canvas Apps](https://developer.sberdevices.ru/docs/ru/methodology/research/canvasapp);
-- единый формат API с [Assistant Client](https://github.com/sberdevices/assistant-client);
-- интеграция с любыми nodejs web-фреймворками: [expressjs](https://github.com/expressjs), [hapi](https://github.com/hapijs/hapi), [koa](https://github.com/koajs/koa);
-- интеграция с любыми клиентскими фреймворками: [NextJS](https://github.com/vercel/next.js), [Gatsby](https://github.com/gatsbyjs);
-- использование любых видов рекогнайзеров: RegExp, [String Similarity](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient), [SmartApp Brain](https://developer.sberdevices.ru/docs/ru/developer_tools/ide/platform_ux/nlu_core_caila/nlu_core_caila)
+- directly in code autocomplete for intents and app state;
+- strongly typed out of the box: whole [SmartApp API](https://developer.sberdevices.ru/docs/ru/developer_tools/amp/smartappapi_description_and_guide) types inside;
+- common types between scenario and [Canvas Apps](https://developer.sberdevices.ru/docs/ru/methodology/research/canvasapp);
+- common API with [Assistant Client](https://github.com/sberdevices/assistant-client);
+- nodejs web-frameworks integration support: [expressjs](https://github.com/expressjs), [hapi](https://github.com/hapijs/hapi), [koa](https://github.com/koajs/koa);
+- client frameworks integration support: [NextJS](https://github.com/vercel/next.js), [Gatsby](https://github.com/gatsbyjs);
+- any types of recognizers: RegExp, [String Similarity](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient), [SmartApp Brain](https://developer.sberdevices.ru/docs/ru/developer_tools/ide/platform_ux/nlu_core_caila/nlu_core_caila)
 ;
-- API для создания своих рекогнайзеров;
-- синхронизация интентов и сущностей с [SmartApp Brain](https://developer.sberdevices.ru/docs/ru/developer_tools/ide/platform_ux/nlu_core_caila/nlu_core_caila);
-- адаптеры для работы с сессией: inMemory, mongodb;
-- поддержка составления словарей реплик для всех персонажей.
+- custom recognizer API;
+- intents and entities sync with [SmartApp Brain](https://developer.sberdevices.ru/docs/ru/developer_tools/ide/platform_ux/nlu_core_caila/nlu_core_caila);
+- session persisting adapters: memory, mongodb, redis;
+- assistants based phrases dictionary declaration support.
 
 
-## Состав пакетов
+## What's inside
 
 - [@salutejs/scenario](https://github.com/sberdevices/salutejs/tree/master/packages/scenario) - фреймворк описания пользовательских сценариев;
 - [@salutejs/recognizer](https://github.com/sberdevices/salutejs/tree/master/packages/recognizer) - набор стандартных рекогнайзеров;
 - [@salutejs/memory](https://github.com/sberdevices/salutejs/tree/master/packages/memory) - набор стандартных адаптеров для хранения сессии;
 - [@salutejs/i18n](https://github.com/sberdevices/salutejs/tree/master/packages/i18n) - библиотека описания словарей реплик персонажей.
 
+### Translations
 
-#### Made with :heart: in SberDevices
+- [Русский](https://github.com/sberdevices/salutejs/blob/master/README.ru.md)
+
+#### SberDevices with :heart:
