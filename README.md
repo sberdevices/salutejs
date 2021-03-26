@@ -8,10 +8,10 @@ __Set of minimalistic utils for [Salute Assistants](https://sber.ru/salute) scen
 - strongly typed out of the box: whole [SmartApp API](https://developer.sberdevices.ru/docs/ru/developer_tools/amp/smartappapi_description_and_guide) types inside;
 - common types between scenario and [Canvas Apps](https://developer.sberdevices.ru/docs/ru/methodology/research/canvasapp);
 - common API with [Assistant Client](https://github.com/sberdevices/assistant-client);
+- runtime enitity variables and state validation;
 - nodejs web-frameworks integration support: [expressjs](https://github.com/expressjs), [hapi](https://github.com/hapijs/hapi), [koa](https://github.com/koajs/koa);
 - client frameworks integration support: [NextJS](https://github.com/vercel/next.js), [Gatsby](https://github.com/gatsbyjs);
-- any types of recognizers: RegExp, [String Similarity](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient), [SmartApp Brain](https://developer.sberdevices.ru/docs/ru/developer_tools/ide/platform_ux/nlu_core_caila/nlu_core_caila)
-;
+- any types of recognizers: RegExp, [String Similarity](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient), [SmartApp Brain](https://developer.sberdevices.ru/docs/ru/developer_tools/ide/platform_ux/nlu_core_caila/nlu_core_caila);
 - custom recognizer API;
 - intents and entities sync with [SmartApp Brain](https://developer.sberdevices.ru/docs/ru/developer_tools/ide/platform_ux/nlu_core_caila/nlu_core_caila);
 - session persisting adapters: memory, mongodb, redis;
