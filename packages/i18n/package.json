@@ -15,7 +15,9 @@
     "url": "https://github.com/sberdevices/salutejs/issues"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE.txt"
   ],
   "scripts": {
     "build": "rm -rf dist && tsc",
