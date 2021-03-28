@@ -91,7 +91,7 @@ const systemScenario = createSystemScenario({
     RUN_APP: ({ res }) => { // реакция на запуск смартапа
         res.setPronounceText('Привет!');
     },
-    CLOSE_UP: ({ res, session }) => { // реакция на закрытие смартапа
+    CLOSE_APP: ({ res, session }) => { // реакция на закрытие смартапа
         db.save(session);
     },
     NO_MATCH: ({ res }) => { // реакция на не распознанную реплику
