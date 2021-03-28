@@ -1,7 +1,7 @@
 {
   "name": "audiotour",
   "private": "true",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "license": "Sber Public License at-nc-sa v.2",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "main": "index.js",
@@ -10,7 +10,7 @@
   "dependencies": {
     "@salutejs/memory": "0.1.1",
     "@salutejs/recognizer": "0.1.1",
-    "@salutejs/scenario": "0.1.1",
+    "@salutejs/scenario": "0.1.2",
     "dotenv": "8.2.0",
     "express": "4.17.1"
   }
