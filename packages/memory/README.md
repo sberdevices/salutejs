@@ -13,21 +13,27 @@ import { createSaluteRequest, createSaluteResponse, createScenarioWalker } from 
 import { SaluteMemoryStorage } from '@salutejs/memory';
 import express from 'express';
 
+//...
+
 const app = express();
 app.use(express.json());
 
 const storage = new SaluteMemoryStorage();
+const scenarioWalker = createScenarioWalker({
+    intents,
+    recognizer,
+    systemScenario,
+    userScenario,
+});
 
 app.post('/', async ({ body }, response) => {
     const req = createSaluteRequest(body);
     const res = createSaluteResponse(body);
-
-    const sessionId = body.uuid.sessionId;
-    const session = await storage.resolve(sessionId);
+    const session = await storage.resolve(body.uuid.sessionId);
 
     await scenarioWalker({ req, res, session });
 
-    await storage.save({ id: sessionId, session });
+    await storage.save({ id: body.uuid.sessionId, session });
 
     response.status(200).json(res.message);
 });
