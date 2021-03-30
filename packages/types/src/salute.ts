@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { AppState, Message, NLPRequest } from './request';
-import { NLPResponse, ErrorCommand } from './response';
+import { NLPResponse, ErrorCommand, EmotionType } from './response';
 
 interface IntentSlot {
     name: string; // имя сущности
@@ -67,6 +67,7 @@ export interface SaluteResponse {
     appendSuggestions: (suggestions: string[]) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;
+    setEmotion: (emotion: EmotionType) => void;
     readonly message: NLPResponse;
 }
 
@@ -117,6 +118,7 @@ export type ScenarioSchema = Record<
     string,
     {
         match: (req: SaluteRequest) => boolean;
+        schema: string;
         handle: SaluteHandler;
         children?: ScenarioSchema;
     }
