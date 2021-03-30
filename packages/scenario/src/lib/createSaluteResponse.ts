@@ -6,6 +6,7 @@ import {
     ErrorCommand,
     SaluteCommand,
     SaluteResponse,
+    EmotionType,
 } from '@salutejs/types';
 
 export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
@@ -56,6 +57,11 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
         },
         setPronounceText: (text: string) => {
             message.payload.pronounceText = text;
+        },
+        setEmotion: (emotion: EmotionType) => {
+            message.payload.emotion = {
+                emotionId: emotion,
+            };
         },
         get message(): NLPResponse {
             return message;
