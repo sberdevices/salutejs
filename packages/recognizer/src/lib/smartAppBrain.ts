@@ -1,7 +1,8 @@
-import assert from 'assert';
+import * as assert from 'assert';
 import { Inference, SaluteRequest } from '@salutejs/types';
 
 import { AbstractRecognizer } from './abstract';
+import { ProjectData } from './projectData';
 
 // Пример использования SmartAppBrain для распознования текста
 // const brain = new SmartAppBrainRecognizer(process.env.ACCESS_TOKEN);
@@ -70,7 +71,7 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
     constructor(private accessToken: string, host = 'https://smartapp-code.sberdevices.ru') {
         super(host);
 
-        assert(host, 'Необходимо указать хост SmartAppBrain');
+        assert.ok(host, 'Необходимо указать хост SmartAppBrain');
     }
 
     public get options(): Partial<SmartAppBrainInferenceRequest> {
@@ -110,6 +111,27 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
             body: JSON.stringify(payload),
         }).then((resp: SmartAppBrainInferenceResponse) => {
             req.setInference(SmartAppBrainRecognizer.normalizeInference(resp));
+        });
+    };
+
+    public export = async (): Promise<ProjectData> => {
+        return this.callApi(`/cailapub/api/caila/p/${this.accessToken}/export`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                accept: 'application/json',
+            },
+        });
+    };
+
+    public import = async (projectData: ProjectData): Promise<ProjectData> => {
+        return this.callApi(`/cailapub/api/caila/p/${this.accessToken}/import`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                accept: 'application/json',
+            },
+            body: JSON.stringify(projectData),
         });
     };
 }
