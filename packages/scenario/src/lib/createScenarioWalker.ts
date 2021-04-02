@@ -6,7 +6,7 @@ import { lookupMissingVariables } from './missingVariables';
 
 interface ScenarioWalkerOptions {
     intents: IntentsDict;
-    recognizer: Recognizer;
+    recognizer?: Recognizer;
     systemScenario: SystemScenario;
     userScenario: ReturnType<typeof createUserScenario>;
     slotFillingConfidence?: number;
@@ -64,7 +64,7 @@ export const createScenarioWalker = ({
         });
     }
 
-    if (req.voiceAction) {
+    if (req.voiceAction && typeof recognizer !== 'undefined') {
         // INFERENCE LOGIC START
         await recognizer.inference({ req, res, session });
 
