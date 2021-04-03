@@ -7,6 +7,7 @@ import {
     SaluteCommand,
     SaluteResponse,
     EmotionType,
+    Button,
 } from '@salutejs/types';
 
 export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
@@ -39,16 +40,20 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
         appendError: (error: ErrorCommand['smart_app_error']) => {
             message.payload.items.push({ command: { type: 'smart_app_error', smart_app_error: error } });
         },
-        appendSuggestions: (suggestions: string[]) => {
+        appendSuggestions: (suggestions: Array<string | Button>) => {
             if (message.payload.suggestions == null) {
                 message.payload.suggestions = { buttons: [] };
             }
 
             suggestions.forEach((suggest) => {
-                message.payload.suggestions.buttons.push({
-                    title: suggest,
-                    action: { type: 'text', text: suggest, should_send_to_backend: true },
-                });
+                if (typeof suggest === 'string') {
+                    message.payload.suggestions.buttons.push({
+                        title: suggest,
+                        action: { type: 'text', text: suggest, should_send_to_backend: true },
+                    });
+                } else {
+                    message.payload.suggestions.buttons.push(suggest);
+                }
             });
             message.payload.suggestions.buttons;
         },
