@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { AppState, Message, NLPRequest } from './request';
-import { NLPResponse, ErrorCommand, EmotionType } from './response';
+import { NLPResponse, ErrorCommand, EmotionType, Button } from './response';
 
 interface IntentSlot {
     name: string; // имя сущности
@@ -64,7 +64,7 @@ export interface SaluteResponse {
     /** @deprecated */
     appendItem: (command: any) => void;
     appendError: (error: ErrorCommand['smart_app_error']) => void;
-    appendSuggestions: (suggestions: string[]) => void;
+    appendSuggestions: (suggestions: Array<string | Button>) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;
     setEmotion: (emotion: EmotionType) => void;
