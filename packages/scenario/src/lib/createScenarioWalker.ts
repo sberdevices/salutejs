@@ -1,4 +1,12 @@
-import { IntentsDict, SaluteRequest, SaluteResponse, SaluteSession, Recognizer } from '@salutejs/types';
+import {
+    IntentsDict,
+    SaluteRequest,
+    SaluteResponse,
+    SaluteSession,
+    Recognizer,
+    SaluteRequestVariable,
+    AppState,
+} from '@salutejs/types';
 
 import { createUserScenario } from './createUserScenario';
 import { SystemScenario } from './createSystemScenario';
@@ -23,11 +31,11 @@ export const createScenarioWalker = ({
     res,
     session,
 }: {
-    req: SaluteRequest;
+    req: SaluteRequest<SaluteRequestVariable, AppState, { action_id?: string; type: string; payload: unknown }>;
     res: SaluteResponse;
     session: SaluteSession;
 }) => {
-    const dispatch = (path: string[]) => {
+    const dispatch = async (path: string[]) => {
         const state = userScenario.getByPath(path);
 
         if (state) {
@@ -36,13 +44,26 @@ export const createScenarioWalker = ({
                 path: session.path,
                 state,
             };
-            state.handle({ req, res, session: session.state, history: {} }, dispatch);
+            await state.handle({ req, res, session: session.state, history: {} }, dispatch);
         }
     };
 
     const saluteHandlerOpts = { req, res, session: session.state, history: {} };
 
     if (req.intent === 'run_app') {
+        if (req.serverAction?.action_id === 'PAY_DIALOG_FINISHED') {
+            if (typeof systemScenario.PAY_DIALOG_FINISHED === 'undefined') {
+                res.appendError({
+                    code: 404,
+                    description: 'Missing handler for action: "PAY_DIALOG_FINISHED"',
+                });
+                return;
+            }
+
+            systemScenario.PAY_DIALOG_FINISHED(saluteHandlerOpts, dispatch);
+            return;
+        }
+
         systemScenario.RUN_APP(saluteHandlerOpts, dispatch);
         return;
     }
@@ -141,7 +162,7 @@ export const createScenarioWalker = ({
 
     if (scenarioState) {
         req.currentState = scenarioState;
-        dispatch(scenarioState.path);
+        await dispatch(scenarioState.path);
 
         if (!req.currentState.state.children) {
             session.path = [];
