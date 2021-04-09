@@ -1,6 +1,11 @@
 import { SaluteRequest, ScenarioSchema } from '@salutejs/types';
 
 export function createUserScenario<R extends SaluteRequest = SaluteRequest>(scenarioSchema: ScenarioSchema) {
+    /**
+     * Возвращает вложенные обработчики для указанного пути в дереве диалогов
+     * @param path путь в дереве диалога
+     * @returns undefined или потомки
+     */
     const getByPath = (path: string[]) => {
         let obj = scenarioSchema[path[0]];
         for (const p of path.slice(1)) {
@@ -14,6 +19,11 @@ export function createUserScenario<R extends SaluteRequest = SaluteRequest>(scen
         return obj;
     };
 
+    /** Возвращает обработчик запроса для указанного пути в дереве диалогов
+     * @param path путь в дереве диалога, поиск будет выполнен среди вложенных обработчиков
+     * @param req объект запроса
+     * @returns Возвращает объект вида { path, state }, где state - обработчик, path - путь из дерева диалогов
+     */
     const resolve = (path: string[], req: R) => {
         let matchedState: {
             path: string[];
