@@ -1,0 +1,123 @@
+{
+    "card": {
+        "type": "list_card",
+        "paddings": {
+            "top": "9x",
+            "bottom": "12x",
+            "left": "8x",
+            "right": "8x"
+        },
+        "cells": [
+            {
+                "type": "text_cell_view",
+                "content": {
+                    "text": "Корзина",
+                    "typeface": "headline3",
+                    "text_color": "default"
+                },
+                "paddings": {
+                    "bottom": "2x"
+                }
+            },
+            {
+                "type": "left_right_cell_view",
+                "paddings": {
+                    "top": "6x",
+                    "bottom": "6x"
+                },
+                "divider": {
+                    "style": "default",
+                    "size": "d1"
+                },
+                "left": {
+                    "type": "simple_left_view",
+                    "texts": {
+                        "title": {
+                            "text": "BonAqua Вода чистая питьевая негазированная, 2 л",
+                            "typeface": "caption",
+                            "text_color": "default",
+                            "max_lines": 0
+                        },
+                        "subtitle": {
+                            "text": "2 шт",
+                            "typeface": "caption",
+                            "text_color": "secondary",
+                            "max_lines": 0
+                        }
+                    }
+                },
+                "right": {
+                    "type": "detail_right_view",
+                    "detail": {
+                        "text": "104 р",
+                        "typeface": "footnote2",
+                        "text_color": "default",
+                        "max_lines": 0
+                    }
+                }
+            },
+            {
+                "type": "left_right_cell_view",
+                "paddings": {
+                    "top": "6x",
+                    "bottom": "6x"
+                },
+                "divider": {
+                    "style": "default",
+                    "size": "d1"
+                },
+                "left": {
+                    "type": "simple_left_view",
+                    "texts": {
+                        "title": {
+                            "text": "Вода питьевая Baikal 430 глубинная Байкальская негазированная, 0.85 л",
+                            "typeface": "caption",
+                            "text_color": "default",
+                            "max_lines": 0
+                        },
+                        "subtitle": {
+                            "text": "3 шт",
+                            "typeface": "caption",
+                            "text_color": "secondary",
+                            "max_lines": 0
+                        }
+                    }
+                },
+                "right": {
+                    "type": "detail_right_view",
+                    "detail": {
+                        "text": "249 р",
+                        "typeface": "footnote2",
+                        "text_color": "default",
+                        "max_lines": 0
+                    }
+                }
+            },
+            {
+                "type": "left_right_cell_view",
+                "paddings": {
+                    "top": "10x"
+                },
+                "left": {
+                    "type": "simple_left_view",
+                    "texts": {
+                        "title": {
+                            "text": "Итого",
+                            "typeface": "footnote1",
+                            "text_color": "secondary"
+                        }
+                    }
+                },
+                "right": {
+                    "type": "detail_right_view",
+                    "detail": {
+                        "text": "353 р",
+                        "typeface": "footnote2",
+                        "text_color": "default",
+                        "max_lines": 0
+                    }
+                }
+            }
+        ]
+    }
+}

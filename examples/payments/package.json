@@ -1,0 +1,33 @@
+{
+  "name": "with-typescript",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "publish": "vercel --prod",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "@salutejs/scenario": "0.7.0",
+    "@sberdevices/assistant-client": "2.15.1",
+    "@sberdevices/plasma-icons": "^1.1.1",
+    "@sberdevices/plasma-tokens": "^1.1.0",
+    "@sberdevices/plasma-ui": "^1.3.1",
+    "@sberdevices/spatial-navigation": "1.0.2",
+    "@types/styled-components": "^5.1.9",
+    "debounce": "1.2.1",
+    "next": "10.2.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "styled-components": "^5.2.3"
+  },
+  "devDependencies": {
+    "@types/debounce": "1.2.0",
+    "@types/node": "^12.12.21",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "typescript": "4.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,69 @@
+{
+    "card": {
+        "type": "gallery_card",
+        "items": [
+            {
+                "type": "media_gallery_item",
+                "image": {
+                    "url": "https://cdn1.ozone.ru/multimedia/wc1200/1019658022.jpg",
+                    "size": {
+                        "width": "small",
+                        "aspect_ratio": 1
+                    }
+                },
+                "margins": {
+                    "top": "4x",
+                    "left": "6x",
+                    "right": "6x",
+                    "bottom": "5x"
+                },
+                "bottom_text": {
+                    "text": "52 р",
+                    "typeface": "caption",
+                    "text_color": "secondary",
+                    "max_lines": 1,
+                    "margins": {
+                        "top": "2x"
+                    }
+                },
+                "top_text": {
+                    "text": "BonAqua Вода чистая питьевая негазированная, 2 л",
+                    "typeface": "footnote1",
+                    "text_color": "default",
+                    "max_lines": 2
+                }
+            },
+            {
+                "type": "media_gallery_item",
+                "image": {
+                    "url": "https://www.waterbaikal.ru/image/cache/catalog/Bajkalskayavoda/Baikal430m/0.45/baikal_430_water-720x480.jpg",
+                    "size": {
+                        "width": "small",
+                        "aspect_ratio": 1
+                    }
+                },
+                "margins": {
+                    "top": "4x",
+                    "left": "6x",
+                    "right": "6x",
+                    "bottom": "5x"
+                },
+                "bottom_text": {
+                    "text": "83 р",
+                    "typeface": "caption",
+                    "text_color": "secondary",
+                    "max_lines": 1,
+                    "margins": {
+                        "top": "2x"
+                    }
+                },
+                "top_text": {
+                    "text": "Вода питьевая Baikal 430 глубинная Байкальская негазированная, 0.85 л",
+                    "typeface": "footnote1",
+                    "text_color": "default",
+                    "max_lines": 2
+                }
+            }
+        ]
+    }
+}
