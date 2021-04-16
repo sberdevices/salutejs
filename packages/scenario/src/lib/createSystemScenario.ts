@@ -4,6 +4,7 @@ export type SystemScenario = {
     RUN_APP: SaluteHandler;
     CLOSE_APP: SaluteHandler;
     NO_MATCH: SaluteHandler;
+    PAY_DIALOG_FINISHED?: SaluteHandler;
 };
 
 export const createSystemScenario = (systemScenarioSchema?: Partial<SystemScenario>): SystemScenario => {

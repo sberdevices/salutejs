@@ -5,6 +5,9 @@ export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
     const variables: { [key: string]: unknown } = {};
 
     return {
+        get appInfo() {
+            return (request as NLPRequestSA).payload.app_info;
+        },
         get message() {
             return (request as NLPRequestMTS).payload.message;
         },

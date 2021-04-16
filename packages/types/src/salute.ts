@@ -1,4 +1,5 @@
 /* eslint-disable no-use-before-define */
+import { AppInfo } from './global';
 import { AppState, Message, NLPRequest } from './request';
 import { NLPResponse, ErrorCommand, EmotionType, Button } from './response';
 
@@ -42,6 +43,7 @@ export interface SaluteCommand {
 export type SaluteRequestVariable = Record<string, unknown>;
 
 export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { payload: unknown; type: string }> {
+    readonly appInfo: AppInfo;
     readonly message: Message;
     readonly serverAction?: A;
     readonly voiceAction: boolean;
@@ -65,6 +67,8 @@ export interface SaluteResponse {
     appendItem: (command: any) => void;
     appendError: (error: ErrorCommand['smart_app_error']) => void;
     appendSuggestions: (suggestions: Array<string | Button>) => void;
+    askPayment: (invoiceId: string) => void;
+    runApp: (appInfo: { systemName: string } | { projectId: string }, parameters: Record<string, unknown>) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;
     setEmotion: (emotion: EmotionType) => void;
@@ -118,7 +122,7 @@ export type ScenarioSchema = Record<
     string,
     {
         match: (req: SaluteRequest) => boolean;
-        schema: string;
+        schema?: string;
         handle: SaluteHandler;
         children?: ScenarioSchema;
     }

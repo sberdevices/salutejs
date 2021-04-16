@@ -134,6 +134,18 @@ export interface CardCommand {
     card: Card;
 }
 
+export interface PolicyRunAppComand {
+    command: 'POLICY_RUN_APP';
+    nodes: {
+        server_action: {
+            app_info: {
+                systemName: string;
+            };
+            parameters: Record<string, unknown>;
+        };
+    };
+}
+
 /**
  * Доступные id контекстов для поиска.
  * Например, если задать для какого-то контекста префиксы ("позвони", "набери"),
@@ -230,7 +242,7 @@ export interface NLPResponseBody<T, P> {
     payload: P;
 }
 
-export type ATUItemsType = AssistantCommand | BubbleCommand | CardCommand;
+export type ATUItemsType = AssistantCommand | BubbleCommand | CardCommand | PolicyRunAppComand;
 
 export interface Button {
     /** Название кнопки, которое отображается в интерфейсе ассистента */
@@ -286,7 +298,16 @@ export interface ATUPayload extends SharedResponsePayload {
 export type NLPResponseATU = NLPRequestBody<NLPResponseType.ANSWER_TO_USER, ATUPayload>;
 
 export interface PRAPayload extends SharedResponsePayload {
-    server_action: ServerAction;
+    server_action: {
+        app_info:
+            | {
+                  systemName: string;
+              }
+            | {
+                  projectId: string;
+              };
+        parameters?: Record<string, unknown>;
+    };
 }
 
 /** POLICY_RUN_APP Response */
@@ -312,4 +333,4 @@ export interface EPayload extends SharedResponsePayload {
 /** ERROR Response */
 export type NLPResponseE = NLPRequestBody<NLPResponseType.ERROR, EPayload>;
 
-export type NLPResponse = NLPResponseATU | NLPResponseE | NLPResponseNF;
+export type NLPResponse = NLPResponseATU | NLPResponseE | NLPResponseNF | NLPResponsePRA;
