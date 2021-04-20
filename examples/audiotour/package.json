@@ -9,7 +9,7 @@
   "description": "",
   "dependencies": {
     "@salutejs/memory": "0.2.0",
-    "@salutejs/recognizer": "0.2.0",
+    "@salutejs/recognizer-smartapp-brain": "0.2.0",
     "@salutejs/scenario": "0.2.0",
     "dotenv": "8.2.0",
     "express": "4.17.1"
