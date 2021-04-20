@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('../dist/bin/brain.js');
+require('../dist/bin/brain');

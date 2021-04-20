@@ -1,4 +1,3 @@
-import * as assert from 'assert';
 import { Inference, SaluteRequest, Recognizer } from '@salutejs/types';
 import fetch, { RequestInfo, RequestInit } from 'node-fetch';
 
@@ -68,15 +67,19 @@ export class SmartAppBrainRecognizer implements Recognizer {
 
     private _options: Partial<SmartAppBrainInferenceRequest> = {};
 
-    protected async ask<T>(url: RequestInfo, init?: RequestInit): Promise<T> {
-        return fetch(`${this.host}/cailapub/api/caila/p/${this.accessToken}${url}`, init).then((response) =>
-            response.json(),
-        );
+    protected async ask<T>(url: RequestInfo, init: RequestInit = {}): Promise<T> {
+        return fetch(`${this.host}/cailapub/api/caila/p/${this.accessToken}${url}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                accept: 'application/json',
+            },
+            method: 'POST',
+            ...init,
+        }).then((response) => response.json());
     }
 
-    constructor(private accessToken: string, private host = 'https://smartapp-code.sberdevices.ru') {
-        assert.ok(host, 'Необходимо указать хост SmartAppBrain');
-    }
+    // eslint-disable-next-line no-useless-constructor
+    constructor(private accessToken: string, private host = 'https://smartapp-code.sberdevices.ru') {}
 
     public get options(): Partial<SmartAppBrainInferenceRequest> {
         return this._options;
@@ -106,36 +109,17 @@ export class SmartAppBrainRecognizer implements Recognizer {
             return Promise.resolve();
         }
 
-        return this.ask('/nlu/inference', {
-            headers: {
-                'Content-Type': 'application/json',
-                accept: 'application/json',
-            },
-            method: 'POST',
+        const resp: SmartAppBrainInferenceResponse = await this.ask('/nlu/inference', {
             body: JSON.stringify(payload),
-        }).then((resp: SmartAppBrainInferenceResponse) => {
-            req.setInference(SmartAppBrainRecognizer.normalizeInference(resp));
         });
+
+        req.setInference(SmartAppBrainRecognizer.normalizeInference(resp));
     };
 
-    public export = async (): Promise<ProjectData> => {
-        return this.ask('/export', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                accept: 'application/json',
-            },
-        });
-    };
+    public export = (): Promise<ProjectData> => this.ask('/export');
 
-    public import = async (projectData: ProjectData): Promise<ProjectData> => {
-        return this.ask('/import', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                accept: 'application/json',
-            },
+    public import = (projectData: ProjectData): Promise<ProjectData> =>
+        this.ask('/import', {
             body: JSON.stringify(projectData),
         });
-    };
 }
