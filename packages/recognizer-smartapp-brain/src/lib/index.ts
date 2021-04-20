@@ -1,7 +1,7 @@
 import * as assert from 'assert';
-import { Inference, SaluteRequest } from '@salutejs/types';
+import { Inference, SaluteRequest, Recognizer } from '@salutejs/types';
+import fetch, { RequestInfo, RequestInit } from 'node-fetch';
 
-import { AbstractRecognizer } from './abstract';
 import { ProjectData } from './projectData';
 
 // Пример использования SmartAppBrain для распознования текста
@@ -47,7 +47,7 @@ interface SmartAppBrainInferenceResponse extends Inference {
     phrase: Phrase;
 }
 
-export class SmartAppBrainRecognizer extends AbstractRecognizer {
+export class SmartAppBrainRecognizer implements Recognizer {
     private static defaultInfereRequestOptions: SmartAppBrainInferenceRequest = {
         phrase: {
             text: '',
@@ -68,9 +68,13 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
 
     private _options: Partial<SmartAppBrainInferenceRequest> = {};
 
-    constructor(private accessToken: string, host = 'https://smartapp-code.sberdevices.ru') {
-        super(host);
+    protected async ask<T>(url: RequestInfo, init?: RequestInit): Promise<T> {
+        return fetch(`${this.host}/cailapub/api/caila/p/${this.accessToken}${url}`, init).then((response) =>
+            response.json(),
+        );
+    }
 
+    constructor(private accessToken: string, private host = 'https://smartapp-code.sberdevices.ru') {
         assert.ok(host, 'Необходимо указать хост SmartAppBrain');
     }
 
@@ -102,7 +106,7 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
             return Promise.resolve();
         }
 
-        return this.callApi(`/cailapub/api/caila/p/${this.accessToken}/nlu/inference`, {
+        return this.ask('/nlu/inference', {
             headers: {
                 'Content-Type': 'application/json',
                 accept: 'application/json',
@@ -115,7 +119,7 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
     };
 
     public export = async (): Promise<ProjectData> => {
-        return this.callApi(`/cailapub/api/caila/p/${this.accessToken}/export`, {
+        return this.ask('/export', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -125,7 +129,7 @@ export class SmartAppBrainRecognizer extends AbstractRecognizer {
     };
 
     public import = async (projectData: ProjectData): Promise<ProjectData> => {
-        return this.callApi(`/cailapub/api/caila/p/${this.accessToken}/import`, {
+        return this.ask('/import', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

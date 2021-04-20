@@ -10,11 +10,11 @@ import {
     createMatchers,
 } from '@salutejs/scenario';
 import { SaluteMemoryStorage } from '@salutejs/memory';
-import { SmartAppBrainRecognizer } from '@salutejs/recognizer';
+import { SmartAppBrainRecognizer } from '@salutejs/recognizer-smartapp-brain';
 
 import { intents } from './intents';
 import config from './config';
-import { IziHandler, IziRequest } from './types';
+import { IziRequest } from './types';
 import { createLegacyAction, createLegacyGoToAction } from './legacyAction';
 
 dotEnv();

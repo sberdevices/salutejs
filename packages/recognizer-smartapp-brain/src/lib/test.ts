@@ -1,6 +1,7 @@
 import { PermittedSystemEntitiesType } from './permittedSystemEntities';
-import { SmartAppBrainRecognizer } from './smartAppBrain';
 import { convertIntentsForImport, getIntentsFromResponse } from './smartAppBrainSync';
+
+import { SmartAppBrainRecognizer } from '.';
 
 const brain = new SmartAppBrainRecognizer(process.env.ACCESS_TOKEN);
 
