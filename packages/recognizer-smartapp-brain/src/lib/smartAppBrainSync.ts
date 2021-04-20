@@ -11,17 +11,8 @@ export const getIntentsFromResponse = (resp: ProjectData) => {
         if (Array.isArray(intent.slots)) {
             for (const slot of intent.slots) {
                 variables[slot.name] = {
-                    // Eto ne tot required
-                    required: slot.required,
+                    required: true,
                     questions: slot.prompts,
-
-                    // TODO: hz no och vazhno nado popravit'
-                    // @ts-ignore
-                    entity: slot.entity,
-
-                    // TODO: Узнать, нужно ли это
-                    // @ts-ignore
-                    array: slot.array,
                 };
             }
         }
@@ -46,11 +37,6 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
             slots.push({
                 name: key,
                 prompts: value.questions,
-                required: value.required,
-                // @ts-ignore
-                entity: value.entity,
-                // @ts-ignore
-                array: value.array,
             });
         }
 
