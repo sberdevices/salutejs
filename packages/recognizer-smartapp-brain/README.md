@@ -19,4 +19,10 @@ const scenarioWalker = createScenarioWalker({
 });
 ```
 
+## Access token
+
+1. Создать проект в https://smartapp-code.sberdevices.ru
+2. Перейти в проект
+3. Настройки проекта -> Классификатор -> __API-ключ Brain__
+
 #### SberDevices with :heart:
