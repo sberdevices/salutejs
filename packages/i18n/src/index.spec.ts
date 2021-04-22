@@ -1,6 +1,6 @@
 import { CharacterId } from '@salutejs/types';
 
-import { i18n, setI18nCharacter } from '.';
+import { i18n } from '.';
 
 describe('i18n', () => {
     const keysetDict = {
@@ -29,7 +29,7 @@ describe('i18n', () => {
 
     describe('sber (default)', () => {
         it('should handle pluralization', () => {
-            const adapterI18n = i18n(keysetDict);
+            const adapterI18n = i18n()(keysetDict);
 
             expect(adapterI18n('{count} яблок у {number} студентов', { count: 0, number: 42 })).toEqual('нет яблок');
             expect(adapterI18n('{count} яблок у {number} студентов', { count: 1, number: 42 })).toEqual(
@@ -54,20 +54,18 @@ describe('i18n', () => {
     });
 
     describe('joy', () => {
-        beforeEach(() => {
-            setI18nCharacter(CharacterId.joy);
-        });
-
         it('should get simple text', () => {
-            expect(i18n(keysetDict)('Пример')).toEqual('Example');
+            expect(i18n(CharacterId.joy)(keysetDict)('Пример')).toEqual('Example');
         });
 
         it('should substitute params', () => {
-            expect(i18n(keysetDict)('ул. {street} неподалеку', { street: 'Тверская' })).toEqual('Тверская st. nearby');
+            expect(i18n(CharacterId.joy)(keysetDict)('ул. {street} неподалеку', { street: 'Тверская' })).toEqual(
+                'Тверская st. nearby',
+            );
         });
 
         it('should handle pluralization', () => {
-            const adapterI18n = i18n(keysetDict);
+            const adapterI18n = i18n(CharacterId.joy)(keysetDict);
 
             expect(adapterI18n('{count} яблок', { count: 0 })).toEqual('no apples');
             expect(adapterI18n('{count} яблок', { count: 1 })).toEqual('1 apple');
@@ -78,15 +76,11 @@ describe('i18n', () => {
 
     describe('missing translate', () => {
         it('missing in athena', () => {
-            setI18nCharacter(CharacterId.athena);
-
-            expect(i18n(keysetDict)('Только СБЕР')).toEqual('Только СБЕР');
+            expect(i18n(CharacterId.athena)(keysetDict)('Только СБЕР')).toEqual('Только СБЕР');
         });
 
         it('missing in everywhere', () => {
-            setI18nCharacter(CharacterId.athena);
-
-            expect(i18n(keysetDict)('Нигде нет перевода')).toEqual('Нигде нет перевода');
+            expect(i18n(CharacterId.athena)(keysetDict)('Нигде нет перевода')).toEqual('Нигде нет перевода');
         });
     });
 });

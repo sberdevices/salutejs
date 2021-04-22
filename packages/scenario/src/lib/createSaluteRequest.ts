@@ -1,10 +1,14 @@
-import { NLPRequest, NLPRequestMTS, NLPRequestSA, Inference, SaluteRequest } from '@salutejs/types';
+import { NLPRequest, NLPRequestMTS, NLPRequestSA, Inference, SaluteRequest, KeysetDictionary } from '@salutejs/types';
+import { i18n } from '@salutejs/i18n';
 
 export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
     let inference: Inference;
     const variables: { [key: string]: unknown } = {};
 
     return {
+        get character() {
+            return request.payload.character.id;
+        },
         get appInfo() {
             return (request as NLPRequestSA).payload.app_info;
         },
@@ -42,5 +46,12 @@ export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
         setVariable: (name: string, value: unknown) => {
             variables[name] = value;
         },
+        i18n: (keyset: KeysetDictionary) => {
+            return i18n(request.payload.character.id)(keyset);
+        },
     };
 };
+
+// const replica = req.i18n(keyset);
+// res.setPronounceText(replica('Привет'))
+// i18n -> scenario
