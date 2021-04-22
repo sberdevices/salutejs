@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { AppInfo } from './global';
+import { AppInfo, CharacterId } from './global';
 import { AppState, Message, NLPRequest } from './request';
 import { NLPResponse, ErrorCommand, EmotionType, Button } from './response';
 
@@ -43,6 +43,7 @@ export interface SaluteCommand {
 export type SaluteRequestVariable = Record<string, unknown>;
 
 export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { payload: unknown; type: string }> {
+    readonly character: CharacterId;
     readonly appInfo: AppInfo;
     readonly message: Message;
     readonly serverAction?: A;
@@ -58,6 +59,7 @@ export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { pa
         path: string[];
         state: ScenarioSchema['string'];
     };
+    i18n: (keyset: KeysetDictionary) => (key: string, options: I18nOptions) => string;
 }
 
 export interface SaluteResponse {
@@ -127,3 +129,18 @@ export type ScenarioSchema = Record<
         children?: ScenarioSchema;
     }
 >;
+
+export interface IPluralForms {
+    one: string;
+    some: string;
+    many?: string;
+    none?: string;
+}
+export type I18nBaseOptions = Record<string, string | Record<string, unknown> | number | undefined>;
+export type I18nPluralOptions = I18nBaseOptions & {
+    count: number;
+};
+export type I18nOptions = I18nBaseOptions | I18nPluralOptions;
+export type KeysetKey = string | IPluralForms;
+export type Keyset = Record<string, KeysetKey>;
+export type KeysetDictionary = Record<string, Keyset>;

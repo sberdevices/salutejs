@@ -1,27 +1,20 @@
-import { CharacterId } from '@salutejs/types';
+import {
+    CharacterId,
+    I18nBaseOptions,
+    I18nPluralOptions,
+    I18nOptions,
+    KeysetDictionary,
+    IPluralForms,
+} from '@salutejs/types';
 
 import ruPlural from './plural/ru';
 
-export interface IPluralForms {
-    one: string;
-    some: string;
-    many?: string;
-    none?: string;
-}
 export type PluralFunction = (count: number, params: IPluralForms) => string;
 
 const pluralMap = {
     ru: ruPlural,
 };
 
-export type KeysetKey = string | IPluralForms;
-export type Keyset = Record<string, KeysetKey>;
-export type KeysetDictionary = Record<string, Keyset>;
-export type I18nBaseOptions = Record<string, string | Record<string, unknown> | number | undefined>;
-export type I18nPluralOptions = I18nBaseOptions & {
-    count: number;
-};
-export type I18nOptions = I18nBaseOptions | I18nPluralOptions;
 export type I18nRaw = Array<string | Record<string, unknown> | number | undefined>;
 /**
  * Поддерживаемые персонажи.
@@ -35,10 +28,6 @@ export type Language = keyof typeof pluralMap;
  * Текущий язык
  */
 const _lang: Language = 'ru';
-/**
- * Текущий персонаж
- */
-let _character: Character = CharacterId.sber;
 /**
  * Язык для замены, если нет перевода для текущего языка
  */
@@ -96,12 +85,13 @@ function generateTextWithPlural(plural: IPluralForms, options: I18nPluralOptions
 /**
  * Разбора ключа.
  *
+ * @param character текущий персонаж
  * @param keyset словарь с переводами
  * @param key ключ для кейсета
  * @param options динамические параметры ключа
  */
-function _i18n(keyset: KeysetDictionary, key: string, options: I18nOptions = {}): I18nRaw {
-    const keysetKey = (keyset[_character] && keyset[_character][key]) || keyset[CharacterId.sber][key];
+function _i18n(character: Character, keyset: KeysetDictionary, key: string, options: I18nOptions = {}): I18nRaw {
+    const keysetKey = (keyset[character] && keyset[character][key]) || keyset[CharacterId.sber][key];
 
     if (typeof keysetKey === 'string') {
         return generateText(keysetKey, options);
@@ -116,23 +106,12 @@ function _i18n(keyset: KeysetDictionary, key: string, options: I18nOptions = {})
 /**
  * Локализация ключей по словарю.
  *
+ * @param character текущий персонаж
  * @param keyset словарь с переводами
  * @param key ключ для кейсета
  * @param options динамические параметры ключа
  */
-export const i18n = (keyset: KeysetDictionary) => (key: string, options: I18nOptions = {}) =>
-    _i18n(keyset, key, options).join('');
-/**
- * Устанавливает текущего персонажа.
- *
- * @param character id персонажа
- */
-export function setI18nCharacter(character: Character) {
-    _character = character;
-}
-/**
- * Возвращает текущего персонажа.
- */
-export function getI18nCharacter() {
-    return _character;
-}
+export const i18n = (character: Character = CharacterId.sber) => (keyset: KeysetDictionary) => (
+    key: string,
+    options: I18nOptions = {},
+) => _i18n(character, keyset, key, options).join('');
