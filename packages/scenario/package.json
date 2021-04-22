@@ -24,14 +24,14 @@
   },
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "lint": "eslint --ext .js,.ts ./src"
+    "lint": "eslint --ext .js,.ts ./src",
+    "test": "../../node_modules/.bin/jest --config ../../jest.config.ts"
   },
   "devDependencies": {
     "typescript": "4.1.3"
   },
   "dependencies": {
-    "@salutejs/types": "0.2.0",
-    "@salutejs/i18n": "0.2.0"
+    "@salutejs/types": "0.2.0"
   },
   "gitHead": "70298e562f327c87c550171469ad7a55e0d88cf6"
 }
