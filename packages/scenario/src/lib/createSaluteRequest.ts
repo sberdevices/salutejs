@@ -1,5 +1,6 @@
 import { NLPRequest, NLPRequestMTS, NLPRequestSA, Inference, SaluteRequest, KeysetDictionary } from '@salutejs/types';
-import { i18n } from '@salutejs/i18n';
+
+import { i18n } from './i18n';
 
 export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
     let inference: Inference;
@@ -51,7 +52,3 @@ export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
         },
     };
 };
-
-// const replica = req.i18n(keyset);
-// res.setPronounceText(replica('Привет'))
-// i18n -> scenario

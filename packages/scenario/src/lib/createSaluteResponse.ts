@@ -124,8 +124,6 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.pronounceText = text;
         },
-        // getI18nText()
-        // setI18nPronounceText()
         setEmotion: (emotion: EmotionType) => {
             if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
                 throw new Error('Wrong message type');
