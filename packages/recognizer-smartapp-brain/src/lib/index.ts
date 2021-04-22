@@ -55,16 +55,6 @@ export class SmartAppBrainRecognizer implements Recognizer {
         showDebugInfo: false,
     };
 
-    private static normalizeInference(source: Inference): Inference {
-        return {
-            ...source,
-            variants: source.variants.map((v) => ({
-                ...v,
-                intent: { ...v.intent, path: v.intent.path.replace(/^\//, '') },
-            })),
-        };
-    }
-
     private _options: Partial<SmartAppBrainInferenceRequest> = {};
 
     protected async ask<T>(url: RequestInfo, init: RequestInit = {}): Promise<T> {
@@ -113,7 +103,7 @@ export class SmartAppBrainRecognizer implements Recognizer {
             body: JSON.stringify(payload),
         });
 
-        req.setInference(SmartAppBrainRecognizer.normalizeInference(resp));
+        req.setInference(resp);
     };
 
     public export = (): Promise<ProjectData> => this.ask('/export');
