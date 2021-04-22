@@ -1,12 +1,10 @@
-#!/usr/bin/env node
 /* eslint-disable no-console */
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { join } from 'path';
-import { writeFile } from 'fs';
-import { promisify } from 'util';
+import { promises } from 'fs';
 import { Command } from 'commander';
 import logSymbols from 'log-symbols';
 import { IntentsDict } from '@salutejs/types';
@@ -15,7 +13,6 @@ import { permittedSystemEntites } from '../lib/permittedSystemEntities';
 import { convertIntentsForImport, getIntentsFromResponse } from '../lib/smartAppBrainSync';
 import { SmartAppBrainRecognizer } from '../lib';
 
-const writeFileAsync = promisify(writeFile);
 const cli = new Command();
 
 cli.command('pull')
@@ -27,7 +24,7 @@ cli.command('pull')
         const projectData = await brain.export();
         const intentsFromResponse = getIntentsFromResponse(projectData);
 
-        await writeFileAsync(intentsDictPath, JSON.stringify(intentsFromResponse, null, 2));
+        await promises.writeFile(intentsDictPath, JSON.stringify(intentsFromResponse, null, 2));
         console.log(logSymbols.success, 'Successfuly updated!');
     });
 
@@ -42,19 +39,24 @@ cli.command('push')
         const intentsConvertedForImport = convertIntentsForImport(intentsFromFS);
 
         const usedEntities = new Set<string>();
-        for (const [, value] of Object.entries(intentsFromFS)) {
-            const matchers = value.matchers || [];
+        for (const intent of Object.values(intentsFromFS)) {
+            const matchers = intent.matchers || [];
             matchers.forEach((phrase) => {
                 const matched = phrase.match(/@[a-zA-Z0-9._-]+/gi);
-                matched &&
+                if (matched) {
                     matched.forEach((entitity) => {
-                        const normalized = entitity.replace('@', '');
+                        const normalized = entitity.replace('/^@/', '');
                         if (!permittedSystemEntites.includes(normalized as any)) {
-                            throw new Error(`Non system entity. Alowed: ${permittedSystemEntites.join(', ')}`);
+                            throw new Error(
+                                `"${normalized}" is not a system entity. These are allowed: ${permittedSystemEntites.join(
+                                    ', ',
+                                )}`,
+                            );
                         }
 
                         usedEntities.add(normalized);
                     });
+                }
             });
         }
 
