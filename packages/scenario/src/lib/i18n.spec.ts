@@ -24,6 +24,7 @@ describe('i18n', () => {
             Пример: 'Пример',
             'ул. {street} неподалеку': 'ул. {street} совсем рядом',
             'Только СБЕР': 'Только СБЕР',
+            Привет: ['Дорый день!', 'Как долго вас не было!'],
         },
     };
 
@@ -50,6 +51,13 @@ describe('i18n', () => {
             expect(adapterI18n('{count} яблок у {number} студентов', { count: 1001, number: 42 })).toEqual(
                 '1001 яблоко у 42 студентов',
             );
+        });
+
+        it('should get random phrase', () => {
+            const adapterI18n = i18n()(keysetDict);
+            const phrase = adapterI18n('Привет');
+
+            expect(['Дорый день!', 'Как долго вас не было!'].includes(phrase)).toBeTruthy();
         });
     });
 

@@ -9,6 +9,6 @@ export type I18nPluralOptions = I18nBaseOptions & {
     count: number;
 };
 export type I18nOptions = I18nBaseOptions | I18nPluralOptions;
-export type KeysetKey = string | IPluralForms;
+export type KeysetKey = string | string[] | IPluralForms;
 export type Keyset = Record<string, KeysetKey>;
 export type KeysetDictionary = Record<string, Keyset>;
