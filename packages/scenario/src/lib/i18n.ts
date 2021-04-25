@@ -93,6 +93,10 @@ function generateTextWithPlural(plural: IPluralForms, options: I18nPluralOptions
 function _i18n(character: Character, keyset: KeysetDictionary, key: string, options: I18nOptions = {}): I18nRaw {
     const keysetKey = (keyset[character] && keyset[character][key]) || keyset[CharacterId.sber][key];
 
+    if (Array.isArray(keysetKey)) {
+        return generateText(keysetKey[Math.floor(Math.random() * keysetKey.length)], options);
+    }
+
     if (typeof keysetKey === 'string') {
         return generateText(keysetKey, options);
     }
