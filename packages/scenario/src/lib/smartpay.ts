@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-import { PaymentInvoiceQuery, PaymentInvoiceAnswer, PaymentResponse, PaymentStatus } from '../types';
+import { PaymentInvoiceQuery, PaymentInvoiceAnswer, PaymentResponse, PaymentStatus } from './types';
 
 const API_URL = 'https://smartmarket.online.sberbank.ru/smartpay/v1';
 

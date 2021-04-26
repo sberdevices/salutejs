@@ -28,10 +28,12 @@
     "test": "../../node_modules/.bin/jest --config ../../jest.config.ts"
   },
   "devDependencies": {
+    "@types/node-fetch": "2.5.10",
     "typescript": "4.1.3"
   },
   "dependencies": {
-    "@salutejs/types": "0.2.0"
+    "@salutejs/types": "0.2.0",
+    "node-fetch": "2.6.1"
   },
   "gitHead": "70298e562f327c87c550171469ad7a55e0d88cf6"
 }
