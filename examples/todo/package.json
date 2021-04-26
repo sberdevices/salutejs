@@ -1,0 +1,33 @@
+{
+  "name": "todo-app",
+  "private": "true",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
+  "license": "Sber Public License at-nc-sa v.2",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@salutejs/memory": "^0.2.0",
+    "@salutejs/scenario": "^0.2.0",
+    "@sberdevices/assistant-client": "2.11.9",
+    "@sberdevices/plasma-icons": "1.4.0",
+    "@sberdevices/plasma-tokens": "1.1.0",
+    "@sberdevices/plasma-ui": "1.6.2",
+    "next": "10.1.3",
+    "next-transpile-modules": "6.4.1",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "styled-components": "5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "14.14.41",
+    "@types/react": "17.0.4",
+    "@types/react-dom": "17.0.3",
+    "@types/styled-components": "^5.1.9",
+    "typescript": "4.2.4"
+  }
+}

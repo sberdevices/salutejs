@@ -17,3 +17,9 @@ dist/
 
 ##### ENV
 .env
+
+##### next.js
+.next
+
+##### vercel
+.vercel
