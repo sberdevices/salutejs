@@ -8,10 +8,13 @@ import { promises } from 'fs';
 import { Command } from 'commander';
 import logSymbols from 'log-symbols';
 import { IntentsDict } from '@salutejs/types';
+import { config as dotenv } from 'dotenv';
 
 import { permittedSystemEntites } from '../lib/permittedSystemEntities';
 import { convertIntentsForImport, getIntentsFromResponse } from '../lib/smartAppBrainSync';
 import { SmartAppBrainRecognizer } from '../lib';
+
+dotenv();
 
 const cli = new Command();
 
