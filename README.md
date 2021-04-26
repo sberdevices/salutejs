@@ -17,13 +17,12 @@ __Set of minimalistic utils for [Salute Assistants](https://sber.ru/salute) scen
 - session persisting adapters: memory, mongodb, redis;
 - assistants based phrases dictionary declaration support.
 
-
 ## What's inside
 
 - [@salutejs/scenario](https://github.com/sberdevices/salutejs/tree/master/packages/scenario) - user scenario framework;
-- [@salutejs/recognizer](https://github.com/sberdevices/salutejs/tree/master/packages/recognizer) - default recognizers;
-- [@salutejs/memory](https://github.com/sberdevices/salutejs/tree/master/packages/memory) - default session adapters;
-- [@salutejs/i18n](https://github.com/sberdevices/salutejs/tree/master/packages/i18n) - assitants based disctionary declarations.
+- [@salutejs/recognizer-smartapp-brain](https://github.com/sberdevices/salutejs/tree/master/packages/recognizer-smartapp-brain) - SmartApp Brain recognizer;
+- [@salutejs/recognizer-string-similarity](https://github.com/sberdevices/salutejs/tree/master/packages/recognizer-string-similarity) - string similarity recognizer;
+- [@salutejs/storage-adapter-memory](https://github.com/sberdevices/salutejs/tree/master/packages/storage-adapter-memory) - in memory session storage adapter;
 
 ### Translations
 

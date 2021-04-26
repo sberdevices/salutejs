@@ -17,13 +17,11 @@ __Набор утилит для описания пользовательски
 - адаптеры для работы с сессией: memory, mongodb, redis;
 - поддержка составления словарей реплик для всех персонажей.
 
-
 ## Состав пакетов
 
 - [@salutejs/scenario](https://github.com/sberdevices/salutejs/tree/master/packages/scenario) - фреймворк описания пользовательских сценариев;
-- [@salutejs/recognizer](https://github.com/sberdevices/salutejs/tree/master/packages/recognizer) - набор стандартных рекогнайзеров;
-- [@salutejs/memory](https://github.com/sberdevices/salutejs/tree/master/packages/memory) - набор стандартных адаптеров для хранения сессии;
-- [@salutejs/i18n](https://github.com/sberdevices/salutejs/tree/master/packages/i18n) - библиотека описания словарей реплик персонажей.
-
+- [@salutejs/recognizer-smartapp-brain](https://github.com/sberdevices/salutejs/tree/master/packages/recognizer-smartapp-brain) - рекогнайзер SmartApp Brain;
+- [@salutejs/recognizer-string-similarity](https://github.com/sberdevices/salutejs/tree/master/packages/recognizer-string-similarity) - рекогнайзер string similarity;
+- [@salutejs/storage-adapter-memory](https://github.com/sberdevices/salutejs/tree/master/packages/storage-adapter-memory) - адаптер для хранения сессии в памяти процесса;
 
 #### SberDevices with :heart:
