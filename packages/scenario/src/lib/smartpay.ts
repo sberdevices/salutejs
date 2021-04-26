@@ -75,7 +75,7 @@ export const findInvoiceByServiceIdOrderId = (
  * @param invoiceId идентификатор счета
  * @returns объект-результат запроса
  */
-export const compliteInvoice = (invoiceId: string): Promise<PaymentResponse> =>
+export const completeInvoice = (invoiceId: string): Promise<PaymentResponse> =>
     callApi(`${API_URL}/invoice/${encodeURIComponent(invoiceId)}`, {
         method: 'put',
     });
