@@ -10,7 +10,7 @@ export {
     createInvoice,
     findInvoiceById,
     findInvoiceByServiceIdOrderId,
-    compliteInvoice,
+    completeInvoice,
     reverseInvoice,
     refundInvoice,
 } from './lib/smartpay';
