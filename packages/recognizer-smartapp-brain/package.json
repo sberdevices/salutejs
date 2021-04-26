@@ -36,6 +36,7 @@
   "dependencies": {
     "@salutejs/types": "0.3.0",
     "commander": "7.2.0",
+    "dotenv": "8.2.0",
     "log-symbols": "4.1.0",
     "node-fetch": "2.6.1"
   },
