@@ -68,8 +68,12 @@ export class SmartAppBrainRecognizer implements Recognizer {
         }).then((response) => response.json());
     }
 
-    // eslint-disable-next-line no-useless-constructor
-    constructor(private accessToken: string, private host = 'https://smartapp-code.sberdevices.ru') {}
+    constructor(
+        private accessToken = process.env.SMARTAPP_BRAIN_TOKEN,
+        private host = 'https://smartapp-code.sberdevices.ru',
+    ) {
+        if (!accessToken) throw new Error('Wrong SmartApp Brain token.');
+    }
 
     public get options(): Partial<SmartAppBrainInferenceRequest> {
         return this._options;

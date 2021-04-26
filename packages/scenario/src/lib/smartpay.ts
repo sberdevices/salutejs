@@ -12,7 +12,7 @@ const callApi = <T>(
         headers: {
             accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.PAYMENT_TOKEN}`,
+            Authorization: `Bearer ${process.env.SMARTPAY_TOKEN}`,
         },
         method: method || 'get',
         body: body ? JSON.stringify(body) : undefined,

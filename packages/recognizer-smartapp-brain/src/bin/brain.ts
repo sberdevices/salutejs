@@ -16,7 +16,7 @@ import { SmartAppBrainRecognizer } from '../lib';
 const cli = new Command();
 
 cli.command('pull')
-    .option('-t, --token <token>', 'SmartApp Brain access token', process.env.TOKEN)
+    .option('-t, --token <token>', 'SmartApp Brain access token', process.env.SMARTAPP_BRAIN_TOKEN)
     .option('-p, --path <path>', 'Path to intents dictionary file', 'src/intents.json')
     .action(async ({ token, path }) => {
         const brain = new SmartAppBrainRecognizer(token);
@@ -29,7 +29,7 @@ cli.command('pull')
     });
 
 cli.command('push')
-    .option('-t, --token <token>', 'SmartApp Brain access token', process.env.TOKEN)
+    .option('-t, --token <token>', 'SmartApp Brain access token', process.env.SMARTAPP_BRAIN_TOKEN)
     .option('-p, --path <path>', 'Path to intents dictionary file', 'src/intents.json')
     .action(async ({ token, path }) => {
         const brain = new SmartAppBrainRecognizer(token);
