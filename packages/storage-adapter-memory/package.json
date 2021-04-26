@@ -1,7 +1,7 @@
 {
-  "name": "@salutejs/memory",
+  "name": "@salutejs/storage-adapter-memory",
   "version": "0.2.0",
-  "description": "Set of storage adapters for Salute family",
+  "description": "In memory storage adapter for SaluteJS",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "license": "Sber Public License at-nc-sa v.2",
   "main": "dist/index.js",

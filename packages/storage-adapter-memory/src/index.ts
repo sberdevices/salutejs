@@ -1,10 +1,4 @@
-import { SaluteSession } from '@salutejs/types';
-
-export interface SaluteSessionStorage {
-    resolve: (id: string) => Promise<SaluteSession>;
-    save: ({ id, session }: { id: string; session: SaluteSession }) => Promise<void>;
-    reset: (id: string) => Promise<void>;
-}
+import { SaluteSession, SaluteSessionStorage } from '@salutejs/types';
 
 export class SaluteMemoryStorage implements SaluteSessionStorage {
     private sessions: Record<string, SaluteSession> = {};
