@@ -4,7 +4,9 @@
   "description": "SmartApp Brain recognizer for SaluteJS",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "license": "Sber Public License at-nc-sa v.2",
-  "bin": "bin/brain.js",
+  "bin": {
+    "brain": "bin/brain.js"
+  },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "homepage": "https://github.com/sberdevices/salutejs#readme",
