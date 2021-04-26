@@ -1,12 +1,10 @@
-# @salutejs/memory
-
-Адаптеры для работы с сессией пользователя на уровне сценария.
-
-> npm i -S @salutejs/memory
-
-## SaluteMemoryStorage
+# @salutejs/storage-adapter-memory
 
 Адаптер для хранения сессии в памяти процесса.
+
+> npm i -S @salutejs/storage-adapter-memory
+
+## Использование
 
 ``` ts
 import { createSaluteRequest, createSaluteResponse, createScenarioWalker } from '@salutejs/scenario';
@@ -39,12 +37,5 @@ app.post('/', async ({ body }, response) => {
 });
 
 ```
-
-### Roadmap
-
-- Firebase
-- MongoDB
-- Redis
-
 
 #### SberDevices with :heart:
