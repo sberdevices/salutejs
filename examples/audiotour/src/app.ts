@@ -9,7 +9,7 @@ import {
     createScenarioWalker,
     createMatchers,
 } from '@salutejs/scenario';
-import { SaluteMemoryStorage } from '@salutejs/memory';
+import { SaluteMemoryStorage } from '@salutejs/storage-adapter-memory';
 import { SmartAppBrainRecognizer } from '@salutejs/recognizer-smartapp-brain';
 
 import { intents } from './intents';
