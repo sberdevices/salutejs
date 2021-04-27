@@ -60,7 +60,7 @@ export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { pa
         path: string[];
         state: ScenarioSchema['string'];
     };
-    i18n: (keyset: KeysetDictionary) => (key: string, options: I18nOptions) => string;
+    i18n: (keyset: KeysetDictionary) => (key: string, options?: I18nOptions) => string;
 }
 
 export interface SaluteResponse {
