@@ -1,0 +1,23 @@
+{
+  "/sum": {
+    "matchers": [
+      "Сложи @duckling.number и @duckling.number",
+      "Сколько будет @duckling.number и @duckling.number"
+    ],
+    "variables": {
+      "num1": {
+        "required": true,
+        "questions": [
+          "Что с чем?",
+          "Мне нужно больше чисел!"
+        ]
+      },
+      "num2": {
+        "required": true,
+        "questions": [
+          "А какое второе число?"
+        ]
+      }
+    }
+  }
+}
