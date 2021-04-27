@@ -1,5 +1,7 @@
 import { Device, UUID } from './global';
 import { NLPRequestBody } from './request';
+import { Bubble } from './bubble';
+import { Card } from './card';
 
 export enum NLPResponseType {
     /** Содержит ответ, который ассистент предоставит пользователю */
@@ -91,39 +93,6 @@ export interface InvoiceCommand {
 
 export interface AssistantCommand {
     command: DataCommand | ActionCommand | CloseAppCommand | PermissionCommand | InvoiceCommand | ErrorCommand;
-}
-
-export interface Bubble {
-    /** Текст, который отобразит ассистент. Не более 250 символов. */
-    text: string;
-    /** Указывает, что текст содержит маркдаун-разметку, которую необходимо обработать. */
-    markdown?: boolean;
-    /** Поведение шторки ассистента. Параметр актуален при работе с ассистентом на устройствах SberDevices. */
-    expand_policy: 'auto_expand' | 'force_expand' | 'preserve_panel_state'; // TODO: https://github.com/sberdevices/salutejs/issues/10
-}
-
-export type CardPadding = '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-
-/**
- * Карточки помогают смартапам организовать сложную информацию на экране ассистента.
- * Внешний вид карточек отличается в зависимости от типа смартапа (Chat App или Canvas App),
- * а так же в зависимости от типа поверхности (SberBox, SberPortal или приложение Сбер Салют).
- */
-export interface Card {
-    /** Описание отступов карточки */
-    paddings?: {
-        left: CardPadding;
-        right: CardPadding;
-        top: CardPadding;
-        bottom: CardPadding;
-    };
-    /** Указывает что карточка может отображаться как отключённая */
-    can_be_disabled?: boolean;
-    type: 'grid_card' | 'gallery_card';
-    card: {
-        type: 'grid_card' | 'gallery_card' | 'list_card';
-        [key: string]: unknown; // TODO: https://github.com/sberdevices/salutejs/issues/10
-    };
 }
 
 export interface BubbleCommand {
