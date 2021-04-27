@@ -7,8 +7,9 @@
   "main": "dist/index.d.ts",
   "scripts": {
     "release": "auto shipit",
-    "lint": "eslint --ext .js,.ts ./src",
     "test": "lerna run test",
+    "lint": "lerna run lint",
+    "test": "jest",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "build:w": "lerna run build:w",
