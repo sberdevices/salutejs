@@ -37,7 +37,7 @@ const intents = createIntents(intentsDict);
 const scenarioWalker = createScenarioWalker({
     // ...
     intents,
-    recognizer: new SmartAppBrainRecognizer(process.env.ACCESS_TOKEN),
+    recognizer: new SmartAppBrainRecognizer(process.env.SMARTAPP_BRAIN_TOKEN),
     // ...
 });
 ```
