@@ -102,7 +102,7 @@ const systemScenario = createSystemScenario({
 
 ## SmartPay
 
-Чтобы оплата работала, необходимо добавить переменную PAYMENT_TOKEN в environment.
+Чтобы оплата работала, необходимо добавить переменную `SMARTPAEY_TOKEN` в environment.
 
 ### Инициация диалога оплаты
 
@@ -111,7 +111,7 @@ const systemScenario = createSystemScenario({
 2. Отправить команду на открытие окна оплаты (вызвать хелпер `res.askPayment`).
 
 ```ts
-import { createInvoice } from '@salutejs/payments';
+import { createInvoice } from '@salutejs/scenario';
 import { SaluteHandler } from '@salutejs/types';
 
 const handler: SaluteHandler = async ({ req, res }) => {
