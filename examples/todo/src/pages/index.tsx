@@ -1,20 +1,27 @@
-import { memo, useReducer, useState, useRef, useEffect, FormEvent } from 'react';
-import type {
-    AssistantSmartAppData,
+import { useReducer, useState, useRef, useEffect, FormEvent } from 'react';
+import {
     AssistantCharacterType,
     AssistantAppState,
     AssistantClientCustomizedCommand,
     AssistantNavigationCommand,
+    AssistantSmartAppData,
+    createAssistant,
+    createSmartappDebugger,
 } from '@sberdevices/assistant-client';
-import { DeviceThemeProvider } from '@sberdevices/plasma-ui/components/Device';
-import { Container, Row, Col } from '@sberdevices/plasma-ui';
-import { TextField } from '@sberdevices/plasma-ui/components/TextField';
-import { Card, CardContent } from '@sberdevices/plasma-ui/components/Card';
-import { Cell } from '@sberdevices/plasma-ui/components/Cell';
-import { TextBox } from '@sberdevices/plasma-ui/components/TextBox';
-import { Checkbox } from '@sberdevices/plasma-ui/components/Checkbox';
+import {
+    Card,
+    CardContent,
+    Cell,
+    Container,
+    Row,
+    Col,
+    DeviceThemeProvider,
+    TextBox,
+    TextField,
+    Checkbox,
+} from '@sberdevices/plasma-ui';
 
-import { GlobalStyles } from '../components/GlobalStyles';
+import { GlobalStyles } from '../Components/GlobalStyles';
 import { Action, reducer } from '../store';
 
 if (process.browser) {
@@ -25,15 +32,11 @@ if (process.browser) {
 const NEXT_PUBLIC_DEV_TOKEN = process.env.NEXT_PUBLIC_DEV_TOKEN;
 const NEXT_PUBLIC_DEV_PHRASE = process.env.NEXT_PUBLIC_DEV_PHRASE;
 
-if (!NEXT_PUBLIC_DEV_TOKEN || !NEXT_PUBLIC_DEV_PHRASE) {
-    throw new Error('');
-}
-
 interface TodoCommand extends AssistantSmartAppData {
     smart_app_data: Action;
 }
 
-const IndexPage = memo(() => {
+const IndexPage = () => {
     const [appState, dispatch] = useReducer(reducer, {
         notes: [{ id: 'uinmh', title: 'купить хлеб', completed: false }],
     });
@@ -41,60 +44,59 @@ const IndexPage = memo(() => {
     const [character, setCharacter] = useState<AssistantCharacterType>('sber' as const);
     const [note, setNote] = useState('');
 
-    const assistantStateRef = useRef<AssistantAppState>();
-    const assistantRef = useRef<any>();
+    const assistantStateRef = useRef<AssistantAppState>({});
+    const assistantRef = useRef<ReturnType<typeof createAssistant>>();
 
     useEffect(() => {
-        import('@sberdevices/assistant-client').then(({ createAssistant }) => {
-            const initializeAssistant = () => {
-                return createAssistant<TodoCommand>({ getState: () => ({}) });
-                // return createSmartappDebugger({
-                //     token: NEXT_PUBLIC_DEV_TOKEN,
-                //     initPhrase: NEXT_PUBLIC_DEV_PHRASE,
-                //     getState: () => {
-                //         return {};
-                //     },
-                // });
-            };
+        const initializeAssistant = () => {
+            // return createAssistant<TodoCommand>({
+            //     getState: () => assistantStateRef.current,
+            // });
+            if (!NEXT_PUBLIC_DEV_TOKEN || !NEXT_PUBLIC_DEV_PHRASE) {
+                throw new Error('');
+            }
 
-            const assistant = initializeAssistant();
+            return createSmartappDebugger({
+                token: NEXT_PUBLIC_DEV_TOKEN,
+                initPhrase: NEXT_PUBLIC_DEV_PHRASE,
+                getState: () => assistantStateRef.current,
+            });
+        };
 
-            assistant.on('data', (command: AssistantClientCustomizedCommand<TodoCommand>) => {
-                switch (command.type) {
-                    case 'character':
-                        setCharacter(command.character.id);
-                        // 'sber' | 'eva' | 'joy';
+        const assistant = initializeAssistant();
+
+        assistant.on('data', (command: AssistantClientCustomizedCommand<TodoCommand>) => {
+            let navigation: AssistantNavigationCommand['navigation'];
+            switch (command.type) {
+                case 'character':
+                    setCharacter(command.character.id);
+                    // 'sber' | 'eva' | 'joy';
+                    break;
+                case 'navigation':
+                    navigation = (command as AssistantNavigationCommand).navigation;
+                    break;
+                case 'smart_app_data':
+                    dispatch(command.smart_app_data);
+                    break;
+                default:
+                    break;
+            }
+
+            if (navigation) {
+                switch (navigation.command) {
+                    case 'UP':
+                        window.scrollTo(0, window.scrollY - 500);
                         break;
-                    case 'navigation':
-                        break;
-                    case 'smart_app_data':
+                    case 'DOWN':
+                        window.scrollTo(0, window.scrollY + 500);
                         break;
                     default:
                         break;
                 }
-
-                const { navigation } = command as AssistantNavigationCommand;
-                if (navigation) {
-                    switch (navigation.command) {
-                        case 'UP':
-                            window.scrollTo(0, window.scrollY - 500);
-                            break;
-                        case 'DOWN':
-                            window.scrollTo(0, window.scrollY + 500);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                const { smart_app_data } = command as TodoCommand;
-                if (smart_app_data) {
-                    dispatch(smart_app_data);
-                }
-            });
-
-            assistantRef.current = assistant;
+            }
         });
+
+        assistantRef.current = assistant;
     }, []);
 
     useEffect(() => {
@@ -110,7 +112,7 @@ const IndexPage = memo(() => {
     }, [appState]);
 
     const doneNote = (title: string) => {
-        assistantRef.current?.sendData({ action: { action_id: 'done', parameters: { title } } });
+        assistantRef.current?.sendAction({ type: 'done', payload: { note: title } });
     };
 
     return (
@@ -153,6 +155,6 @@ const IndexPage = memo(() => {
             </Container>
         </DeviceThemeProvider>
     );
-});
+};
 
 export default IndexPage;

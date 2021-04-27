@@ -6,7 +6,6 @@
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "main": "src/index.js",
   "scripts": {
-    "build": "rm -rf dist && tsc",
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' ./src/index.ts"
   },
   "dependencies": {

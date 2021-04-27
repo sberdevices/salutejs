@@ -1,8 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Пример смартаппа на next.js
 
-## Getting Started
+## Запуск локально
 
-First, run the development server:
+1. Создать файл .env, заполнить поля в нем.
+2. Запустить dev-сервер
 
 ```bash
 npm run dev
@@ -10,13 +11,18 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Сделать туннель в интернет.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Например, используем `ngrok`.
+```bash
+ngrok http 3000
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+4. Зайти в (смартапп студию)[https://smartapp-studio.sberdevices.ru/].
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Создать канвас, задать следующие параметры:
+ - Webhook смартапа: туннель+/api/hook
+ - Frontend Endpoint: туннель
 
 ## Learn More
 

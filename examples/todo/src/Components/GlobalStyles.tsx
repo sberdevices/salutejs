@@ -1,17 +1,20 @@
+import { FC, useMemo } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import type { AssistantCharacterType } from '@sberdevices/assistant-client';
 import { darkJoy, darkEva, darkSber } from '@sberdevices/plasma-tokens/themes';
 import { text, background, gradient } from '@sberdevices/plasma-tokens';
 
-const ThemeBackgroundEva = createGlobalStyle(darkEva);
-const ThemeBackgroundSber = createGlobalStyle(darkSber);
-const ThemeBackgroundJoy = createGlobalStyle(darkJoy);
+const themes = {
+    sber: createGlobalStyle(darkEva),
+    eva: createGlobalStyle(darkSber),
+    joy: createGlobalStyle(darkJoy),
+};
 
 const DocStyles = createGlobalStyle`
   * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
-    -webkit-tap-highlight-color: transparent;  // i.e. Nexus5/Chrome and Kindle Fire HD 7''
+    -webkit-tap-highlight-color: transparent; /* i.e. Nexus5/Chrome and Kindle Fire HD 7'' */
   }
   html {
     font-size: 32px;
@@ -38,20 +41,12 @@ const DocStyles = createGlobalStyle`
   }
 `;
 
-export const GlobalStyles = ({ character }: { character: AssistantCharacterType }) => {
+export const GlobalStyles: FC<{ character: AssistantCharacterType }> = ({ character }) => {
+    const Theme = useMemo(() => themes[character], [character]);
+
     return (
         <>
-            {(() => {
-                switch (character) {
-                    default:
-                    case 'sber':
-                        return <ThemeBackgroundSber />;
-                    case 'eva':
-                        return <ThemeBackgroundEva />;
-                    case 'joy':
-                        return <ThemeBackgroundJoy />;
-                }
-            })()}
+            <Theme />
             <DocStyles />
         </>
     );

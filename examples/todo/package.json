@@ -7,28 +7,33 @@
   "license": "Sber Public License at-nc-sa v.2",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest",
+    "publish": "vercel --prod"
   },
   "dependencies": {
-    "@salutejs/memory": "^0.2.0",
-    "@salutejs/scenario": "^0.2.0",
-    "@sberdevices/assistant-client": "2.11.9",
+    "@salutejs/scenario": "0.4.0",
+    "@salutejs/storage-adapter-memory": "0.3.0",
+    "@sberdevices/assistant-client": "2.14.0",
     "@sberdevices/plasma-icons": "1.4.0",
     "@sberdevices/plasma-tokens": "1.1.0",
     "@sberdevices/plasma-ui": "1.6.2",
-    "@sberdevices/spatial-navigation": "^1.0.2",
+    "@sberdevices/spatial-navigation": "1.0.2",
     "next": "10.1.3",
     "next-transpile-modules": "6.4.1",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
     "styled-components": "5.2.1"
   },
   "devDependencies": {
-    "@types/node": "14.14.41",
-    "@types/react": "17.0.4",
-    "@types/react-dom": "17.0.3",
-    "@types/styled-components": "^5.1.9",
-    "typescript": "4.2.4"
+    "@types/jest": "26.0.23",
+    "@types/node": "12.12.30",
+    "@types/react": "16.9.38",
+    "@types/react-dom": "16.9.8",
+    "@types/styled-components": "5.1.9",
+    "jest": "26.6.3",
+    "ts-jest": "26.5.5",
+    "typescript": "4.2.4",
+    "vercel": "22.0.1"
   }
 }
