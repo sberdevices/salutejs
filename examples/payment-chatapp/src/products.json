@@ -1,0 +1,17 @@
+[
+    {
+        "code": "1",
+        "title": "BonAqua Вода чистая питьевая негазированная, 2 л",
+        "image": "https://cdn1.ozone.ru/multimedia/wc1200/1019658022.jpg",
+        "price": 8300,
+        "synonyms": ["большая", "большую", "бонаква", "bonaqua", "бонакву", "воду 2 литра", "первую", "1"]
+    },
+    {
+        "code": "2",
+        "title": "Вода питьевая Baikal 430 глубинная Байкальская негазированная, 0.85 л",
+        "image":
+            "https://www.waterbaikal.ru/image/cache/catalog/Bajkalskayavoda/Baikal430m/0.45/baikal_430_water-720x480.jpg",
+        "price": 5200,
+	    "synonyms": ["маленькая", "маленькую", "байкальскую", "воду байкал", "байкал", "вторую", "2"]
+    }
+]
