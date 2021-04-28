@@ -4,6 +4,7 @@ import { AppState, Message, NLPRequest } from './request';
 import { NLPResponse, ErrorCommand, EmotionType, Button } from './response';
 import { KeysetDictionary, I18nOptions } from './i18n';
 import { Card } from './card';
+import { Bubble } from './bubble';
 
 interface IntentSlot {
     name: string; // имя сущности
@@ -65,7 +66,7 @@ export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { pa
 }
 
 export interface SaluteResponse {
-    appendBubble: (bubble: string) => void;
+    appendBubble: (bubble: string, options?: { expand_policy?: Bubble['expand_policy']; markdown?: boolean }) => void;
     appendCard: (card: Card) => void;
     appendCommand: <T extends SaluteCommand>(command: T) => void;
     /** @deprecated */
