@@ -1,5 +1,3 @@
-import { NLPResponseATU } from './response';
-
 export enum AppType {
     DIALOG = 'DIALOG',
     WEB_APP = 'WEB_APP',
