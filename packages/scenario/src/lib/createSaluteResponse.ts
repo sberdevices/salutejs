@@ -118,11 +118,11 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.suggestions.buttons;
         },
-        askPayment: (invoiceId) => {
+        askPayment: (invoiceId: number) => {
             runApp(
                 { systemName: 'payment_app' },
                 {
-                    invoice_id: invoiceId,
+                    invoice_id: invoiceId.toString(),
                     app_info: {
                         projectId: (req as NLPRequestSA).payload.app_info.projectId,
                     },

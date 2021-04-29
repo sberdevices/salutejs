@@ -298,11 +298,11 @@ export interface PaymentResponse {
 
 export interface PaymentInvoiceAnswer {
     /** Код ответа */
-    code: number;
+    code?: number;
     /** Блок, содержащий описание ошибки / ответа */
     error: PaymentError;
     /** ID зарегистрированной оплаты */
-    invoice_id: string;
+    invoice_id?: number;
 }
 
 export enum PayDialogStatuses {

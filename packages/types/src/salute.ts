@@ -73,7 +73,7 @@ export interface SaluteResponse {
     appendItem: (command: any) => void;
     appendError: (error: ErrorCommand['smart_app_error']) => void;
     appendSuggestions: (suggestions: Array<string | Button>) => void;
-    askPayment: (invoiceId: string) => void;
+    askPayment: (invoiceId: number) => void;
     runApp: (appInfo: { systemName: string } | { projectId: string }, parameters: Record<string, unknown>) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;
