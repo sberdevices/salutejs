@@ -5,6 +5,8 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+import { ServerAction, DeepLinkAction, TextAction } from './response';
+
 export type Card = DiscoveryCard | GalleryCard | GridCard | ListCard | TitleCard;
 /**
  * Карточка с вертикальным списком ячеек для отображения в ленте.
@@ -250,7 +252,7 @@ export type Color =
     | 'liquid_30'
     | 'liquid_20'
     | 'liquid_10';
-export type Action = DeepLink | SendContactPhone | ServerAction | Text;
+export type Action = DeepLinkAction | SendContactPhone | ServerAction | TextAction;
 export type Actions = Action[];
 /**
  * Ширина контента в терминах сеток. https://www.figma.com/file/L6AlpyUxFuumKEEbh4ADIh/🤖SD-Styles?node-id=26%3A17 https://www.figma.com/file/c6KZ9jIXTB5zEmyTfA2Akv/Message-Based?node-id=1446%3A0
@@ -260,7 +262,7 @@ export type ContentWidth = 'xsmall' | 'small' | 'medium' | 'large' | 'resizable'
  * Горизонтальная галерея
  */
 export type GalleryCard = CardBase & {
-    items: [GalleryItem, ...GalleryItem[]];
+    items: Array<GalleryItem>;
     bottom_text?: TextView2;
     type: 'gallery_card';
     [k: string]: unknown;
@@ -826,20 +828,6 @@ export interface ImageView {
     [k: string]: unknown;
 }
 /**
- * Действие, которое обозначает обработку диплинка ассистентом или хост-приложением.
- */
-export interface DeepLink {
-    /**
-     * Тип действия.
-     */
-    type: 'deep_link';
-    /**
-     * Диплинк, который нужно открыть.
-     */
-    deep_link: string;
-    [k: string]: unknown;
-}
-/**
  * Действие, которое обозначает отправку номера телефона указанного контакта
  */
 export interface SendContactPhone {
@@ -855,48 +843,6 @@ export interface SendContactPhone {
      * Может содержать подстроку [[placeholder]]. Клиент должен подставить в строку шаблона вместо [[placeholder]] номер телефона контакта имеющий id указаный в send_contact_phone
      */
     template?: string;
-    [k: string]: unknown;
-}
-/**
- * Действие, которое обозначает обработку сервер-экшена ассистентом или хост-приложением.
- */
-export interface ServerAction {
-    /**
-     * Тип действия.
-     */
-    type: 'server_action';
-    /**
-     * Данная строка будет подставлена в исходящее с мобильного SDK системное сообщение в поле MESSAGE_NAME.
-     */
-    message_name?: string;
-    /**
-     * Используется для фильтрации данных, явно указывающая на то, что server_action не может повлиять на состояние UI в SDK (фильтруется озвучка, саджесты и возможность открыть новый экран).
-     */
-    mode?: 'background' | 'foreground';
-    /**
-     * Сервер-экшен, который нужно отправить.
-     */
-    server_action: {
-        [k: string]: unknown;
-    };
-    [k: string]: unknown;
-}
-/**
- * Действие, которое обозначает отправку сообщения от имени пользователя в чат с ассистентом.
- */
-export interface Text {
-    /**
-     * Тип действия.
-     */
-    type: 'text';
-    /**
-     * Текст сообщения от имени пользователя.
-     */
-    text: string;
-    /**
-     * true, если сообщение нужно отобразить в чате и отправить в бекэнд, false если сообщение нужно только отобразить в чате, и не отправлять на бекэнд
-     */
-    should_send_to_backend?: boolean & string;
     [k: string]: unknown;
 }
 /**

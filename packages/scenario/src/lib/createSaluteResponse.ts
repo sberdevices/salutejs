@@ -10,6 +10,8 @@ import {
     Button,
     NLPRequestSA,
     NLPResponsePRA,
+    Card,
+    Bubble,
 } from '@salutejs/types';
 
 export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
@@ -46,12 +48,30 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
     };
 
     return {
-        appendBubble: (bubble: string) => {
+        appendBubble: (
+            bubble: string,
+            options: { expand_policy?: Bubble['expand_policy']; markdown?: boolean } = {},
+        ) => {
             if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
                 throw new Error('Wrong message type');
             }
 
-            message.payload.items.push({ bubble: { text: bubble, expand_policy: 'auto_expand' } });
+            const { expand_policy, markdown } = options;
+
+            message.payload.items.push({
+                bubble: {
+                    text: bubble,
+                    expand_policy: expand_policy || 'auto_expand',
+                    markdown: typeof markdown === 'undefined' ? false : markdown,
+                },
+            });
+        },
+        appendCard: (card: Card) => {
+            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+                throw new Error('Wrong message type');
+            }
+
+            message.payload.items.push({ card });
         },
         appendCommand: <T extends SaluteCommand>(command: T) => {
             if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
@@ -98,11 +118,11 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.suggestions.buttons;
         },
-        askPayment: (invoiceId) => {
+        askPayment: (invoiceId: number) => {
             runApp(
                 { systemName: 'payment_app' },
                 {
-                    invoice_id: invoiceId,
+                    invoice_id: invoiceId.toString(),
                     app_info: {
                         projectId: (req as NLPRequestSA).payload.app_info.projectId,
                     },

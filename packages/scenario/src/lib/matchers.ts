@@ -52,6 +52,20 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest, I extend
     const selectItem = (expected: Partial<R['state']['item_selector']['items'][number]>) => (req: R) =>
         selectItems(expected)(req)[0];
 
+    const regexp = (re: RegExp) => (req: R) => {
+        const result = re.exec(req.message?.original_text);
+
+        if (result === null) {
+            return false;
+        }
+
+        if (result.groups) {
+            Object.assign(req.variables, result.groups);
+        }
+
+        return true;
+    };
+
     const match = (...matchers: Array<(req: R) => boolean>) => (req: R): boolean => {
         for (let i = 0; i < matchers.length; i++) {
             if (!matchers[i](req)) return false;
@@ -60,5 +74,5 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest, I extend
         return true;
     };
 
-    return { match, intent, text, state, selectItem, selectItems, action };
+    return { match, intent, text, state, selectItem, selectItems, action, regexp };
 }
