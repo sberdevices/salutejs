@@ -28,6 +28,7 @@
   },
   "scripts": {
     "build": "rm -rf dist && tsc",
+    "watch": "tsc -w",
     "lint": "eslint --ext .js,.ts ./src"
   },
   "devDependencies": {

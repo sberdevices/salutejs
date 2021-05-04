@@ -1,6 +1,6 @@
 interface Record {
     id: number;
-    type: string;
+    type: 'synonyms' | 'pattern';
     rule: string[];
     value: string;
 }
