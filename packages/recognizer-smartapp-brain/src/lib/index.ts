@@ -46,6 +46,18 @@ interface SmartAppBrainInferenceResponse extends Inference {
     phrase: Phrase;
 }
 
+class FetchError extends Error {
+    status: number;
+
+    data: any;
+
+    constructor(message: string, status: number, data: any) {
+        super(message);
+        this.status = status;
+        this.data = data;
+    }
+}
+
 export class SmartAppBrainRecognizer implements Recognizer {
     private static defaultInfereRequestOptions: SmartAppBrainInferenceRequest = {
         phrase: {
@@ -58,14 +70,23 @@ export class SmartAppBrainRecognizer implements Recognizer {
     private _options: Partial<SmartAppBrainInferenceRequest> = {};
 
     protected async ask<T>(url: RequestInfo, init: RequestInit = {}): Promise<T> {
-        return fetch(`${this.host}/cailapub/api/caila/p/${this.accessToken}${url}`, {
+        const response = await fetch(`${this.host}/cailapub/api/caila/p/${this.accessToken}${url}`, {
             headers: {
                 'Content-Type': 'application/json',
                 accept: 'application/json',
             },
             method: 'POST',
             ...init,
-        }).then((response) => response.json());
+        });
+
+        const data = await response.json();
+
+        if (response.status >= 400) {
+            const error = new FetchError(response.statusText, response.status, data);
+            throw error;
+        }
+
+        return data;
     }
 
     constructor(

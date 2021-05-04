@@ -11,7 +11,13 @@ import { IntentsDict } from '@salutejs/types';
 import { config as dotenv } from 'dotenv';
 
 import { permittedSystemEntites } from '../lib/permittedSystemEntities';
-import { convertIntentsForImport, getIntentsFromResponse } from '../lib/smartAppBrainSync';
+import {
+    convertIntentsForImport,
+    getEntitiesFromResponse,
+    getIntentsFromResponse,
+    EntitiesDict,
+    convertEntitiesForImport,
+} from '../lib/smartAppBrainSync';
 import { SmartAppBrainRecognizer } from '../lib';
 
 dotenv();
@@ -25,9 +31,16 @@ cli.command('pull')
         const brain = new SmartAppBrainRecognizer(token);
         const intentsDictPath = join(process.cwd(), path);
         const projectData = await brain.export();
-        const intentsFromResponse = getIntentsFromResponse(projectData);
 
-        await promises.writeFile(intentsDictPath, JSON.stringify(intentsFromResponse, null, 2));
+        const intentsFromResponse = getIntentsFromResponse(projectData);
+        const entitiesFromResponse = getEntitiesFromResponse(projectData);
+
+        const result = {
+            intents: intentsFromResponse,
+            entities: entitiesFromResponse,
+        };
+
+        await promises.writeFile(intentsDictPath, JSON.stringify(result, null, 2));
         console.log(logSymbols.success, 'Successfuly updated!');
     });
 
@@ -38,8 +51,15 @@ cli.command('push')
         const brain = new SmartAppBrainRecognizer(token);
         const intentsDictPath = join(process.cwd(), path);
         const projectData = await brain.export();
-        const intentsFromFS: IntentsDict = require(intentsDictPath);
+        const {
+            entities: entitiesFromFS,
+            intents: intentsFromFS,
+        }: {
+            intents: IntentsDict;
+            entities: EntitiesDict;
+        } = require(intentsDictPath);
         const intentsConvertedForImport = convertIntentsForImport(intentsFromFS);
+        const entitiesConvertedForImport = convertEntitiesForImport(entitiesFromFS);
 
         const usedEntities = new Set<string>();
         for (const intent of Object.values(intentsFromFS)) {
@@ -64,10 +84,18 @@ cli.command('push')
         }
 
         projectData.intents = intentsConvertedForImport;
+        projectData.entities = entitiesConvertedForImport;
         projectData.enabledSystemEntities = Array.from(usedEntities);
 
-        await brain.import(projectData);
-        console.log(logSymbols.success, 'Successfuly pushed!');
+        try {
+            await brain.import(projectData);
+            console.log(logSymbols.success, 'Successfuly pushed!');
+        } catch (error) {
+            console.log(logSymbols.error, error.message);
+            if (error.data) {
+                console.log(logSymbols.error, error.data);
+            }
+        }
     });
 
 cli.parseAsync(process.argv);
