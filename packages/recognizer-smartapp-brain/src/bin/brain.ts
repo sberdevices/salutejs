@@ -63,24 +63,27 @@ cli.command('push')
 
         const usedEntities = new Set<string>();
         for (const intent of Object.values(intentsFromFS)) {
-            const matchers = intent.matchers || [];
-            matchers.forEach((phrase) => {
-                const matched = phrase.match(/@[a-zA-Z0-9._-]+/gi);
-                if (matched) {
-                    matched.forEach((entitity) => {
-                        const normalized = entitity.replace('/^@/', '');
-                        if (!permittedSystemEntites.includes(normalized as any)) {
-                            throw new Error(
-                                `"${normalized}" is not a system entity. These are allowed: ${permittedSystemEntites.join(
-                                    ', ',
-                                )}`,
-                            );
-                        }
+            if (Array.isArray(intent.matchers)) {
+                intent.matchers
+                    .filter((matcher) => matcher.type === 'phrase')
+                    .forEach(({ rule }) => {
+                        const matched = rule.match(/@[a-zA-Z0-9._-]+/gi);
+                        if (matched) {
+                            matched.forEach((entitity) => {
+                                const normalized = entitity.replace('/^@/', '');
+                                if (!permittedSystemEntites.includes(normalized as any)) {
+                                    throw new Error(
+                                        `"${normalized}" is not a system entity. These are allowed: ${permittedSystemEntites.join(
+                                            ', ',
+                                        )}`,
+                                    );
+                                }
 
-                        usedEntities.add(normalized);
+                                usedEntities.add(normalized);
+                            });
+                        }
                     });
-                }
-            });
+            }
         }
 
         projectData.intents = intentsConvertedForImport;

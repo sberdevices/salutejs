@@ -17,8 +17,24 @@ export const getIntentsFromResponse = (resp: ProjectData) => {
             }
         }
 
+        const matchers = [];
+
+        for (const phrase of intent.phrases) {
+            matchers.push({
+                type: 'phrase',
+                rule: phrase.text,
+            });
+        }
+
+        for (const pattern of intent.patterns) {
+            matchers.push({
+                type: 'pattern',
+                rule: pattern,
+            });
+        }
+
         intents[intent.path] = {
-            matchers: intent.phrases.map((ph) => ph.text),
+            matchers,
             variables,
         };
     }
@@ -90,6 +106,27 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
             });
         }
 
+        const patterns = [];
+        const phrases = [];
+
+        const matchers = value.matchers ?? [];
+
+        for (const { type, rule } of matchers) {
+            switch (type) {
+                default:
+                case 'phrase':
+                    phrases.push({
+                        text: rule,
+                        entities: null,
+                        stagedPhraseIdx: null,
+                    });
+                    break;
+                case 'pattern':
+                    patterns.push(rule);
+                    break;
+            }
+        }
+
         projectIntents.push({
             path: key,
             enabled: true,
@@ -97,14 +134,8 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
             customData: null,
             description: null,
             id: Date.now(),
-            patterns: [],
-            phrases: (value.matchers ?? []).map((text) => {
-                return {
-                    text,
-                    entities: null,
-                    stagedPhraseIdx: null,
-                };
-            }),
+            patterns,
+            phrases,
             slots,
         });
     }

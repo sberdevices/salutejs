@@ -13,7 +13,7 @@ import { SaluteMemoryStorage } from '@salutejs/storage-adapter-memory';
 import { config as dotEnv } from 'dotenv';
 
 import { appendHandler, cartHandler, payDialogFinished, paymentHandler, removeHandler, runApp } from './handlers';
-import intents from './intents.json';
+import intents from './intents';
 
 dotEnv();
 

@@ -94,7 +94,10 @@ export interface SaluteIntentVariable {
 }
 
 export interface TextIntent {
-    matchers: string[];
+    matchers: Array<{
+        type: 'phrase' | 'pattern';
+        rule: string;
+    }>;
 }
 
 export interface ServerActionIntent {
