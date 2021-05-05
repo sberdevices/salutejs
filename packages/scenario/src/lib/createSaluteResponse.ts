@@ -2,11 +2,10 @@ import {
     NLPRequest,
     NLPResponse,
     NLPResponseATU,
-    NLPResponseType,
     ErrorCommand,
     SaluteCommand,
     SaluteResponse,
-    EmotionType,
+    EmotionId,
     Button,
     NLPRequestSA,
     NLPResponsePRA,
@@ -17,7 +16,7 @@ import {
 export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
     const { messageId, sessionId, uuid, payload } = req;
     let message: NLPResponseATU | NLPResponsePRA = {
-        messageName: NLPResponseType.ANSWER_TO_USER,
+        messageName: 'ANSWER_TO_USER',
         messageId,
         sessionId,
         uuid,
@@ -35,7 +34,7 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
             messageId,
             sessionId,
             uuid,
-            messageName: NLPResponseType.POLICY_RUN_APP,
+            messageName: 'POLICY_RUN_APP',
             payload: {
                 projectName: payload.projectName,
                 device: payload.device,
@@ -52,7 +51,7 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
             bubble: string,
             options: { expand_policy?: Bubble['expand_policy']; markdown?: boolean } = {},
         ) => {
-            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+            if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 
@@ -67,14 +66,14 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
             });
         },
         appendCard: (card: Card) => {
-            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+            if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 
             message.payload.items.push({ card });
         },
         appendCommand: <T extends SaluteCommand>(command: T) => {
-            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+            if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 
@@ -82,21 +81,21 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
         },
         // TODO: fix types
         appendItem: (item) => {
-            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+            if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 
             message.payload.items.push(item);
         },
         appendError: (error: ErrorCommand['smart_app_error']) => {
-            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+            if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 
             message.payload.items.push({ command: { type: 'smart_app_error', smart_app_error: error } });
         },
         appendSuggestions: (suggestions: Array<string | Button>) => {
-            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+            if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 
@@ -131,21 +130,21 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
         },
         runApp,
         setIntent: (intent: string) => {
-            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+            if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 
             message.payload.intent = intent;
         },
         setPronounceText: (text: string) => {
-            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+            if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 
             message.payload.pronounceText = text;
         },
-        setEmotion: (emotion: EmotionType) => {
-            if (message.messageName !== NLPResponseType.ANSWER_TO_USER) {
+        setEmotion: (emotion: EmotionId) => {
+            if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 

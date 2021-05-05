@@ -40,7 +40,7 @@ export const createGalleryCard = (products: Array<Product>): GalleryCard => {
                     max_lines: 2,
                 },
             }),
-        ),
+        ) as [GalleryItem, ...GalleryItem[]],
     };
 };
 

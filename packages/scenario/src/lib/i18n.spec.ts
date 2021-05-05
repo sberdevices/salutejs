@@ -1,5 +1,3 @@
-import { CharacterId } from '@salutejs/types';
-
 import { i18n } from './i18n';
 
 describe('i18n', () => {
@@ -63,17 +61,17 @@ describe('i18n', () => {
 
     describe('joy', () => {
         it('should get simple text', () => {
-            expect(i18n(CharacterId.joy)(keysetDict)('Пример')).toEqual('Example');
+            expect(i18n('joy')(keysetDict)('Пример')).toEqual('Example');
         });
 
         it('should substitute params', () => {
-            expect(i18n(CharacterId.joy)(keysetDict)('ул. {street} неподалеку', { street: 'Тверская' })).toEqual(
+            expect(i18n('joy')(keysetDict)('ул. {street} неподалеку', { street: 'Тверская' })).toEqual(
                 'Тверская st. nearby',
             );
         });
 
         it('should handle pluralization', () => {
-            const adapterI18n = i18n(CharacterId.joy)(keysetDict);
+            const adapterI18n = i18n('joy')(keysetDict);
 
             expect(adapterI18n('{count} яблок', { count: 0 })).toEqual('no apples');
             expect(adapterI18n('{count} яблок', { count: 1 })).toEqual('1 apple');
@@ -84,11 +82,11 @@ describe('i18n', () => {
 
     describe('missing translate', () => {
         it('missing in athena', () => {
-            expect(i18n(CharacterId.athena)(keysetDict)('Только СБЕР')).toEqual('Только СБЕР');
+            expect(i18n('athena')(keysetDict)('Только СБЕР')).toEqual('Только СБЕР');
         });
 
         it('missing in everywhere', () => {
-            expect(i18n(CharacterId.athena)(keysetDict)('Нигде нет перевода')).toEqual('Нигде нет перевода');
+            expect(i18n('athena')(keysetDict)('Нигде нет перевода')).toEqual('Нигде нет перевода');
         });
     });
 });
