@@ -91,7 +91,7 @@ function generateTextWithPlural(plural: IPluralForms, options: I18nPluralOptions
  * @param options динамические параметры ключа
  */
 function _i18n(character: Character, keyset: KeysetDictionary, key: string, options: I18nOptions = {}): I18nRaw {
-    const keysetKey = (keyset[character] && keyset[character][key]) || keyset[CharacterId.sber][key];
+    const keysetKey = (keyset[character] && keyset[character][key]) || keyset.sber[key];
 
     if (Array.isArray(keysetKey)) {
         return generateText(keysetKey[Math.floor(Math.random() * keysetKey.length)], options);
@@ -115,7 +115,7 @@ function _i18n(character: Character, keyset: KeysetDictionary, key: string, opti
  * @param key ключ для кейсета
  * @param options динамические параметры ключа
  */
-export const i18n = (character: Character = CharacterId.sber) => (keyset: KeysetDictionary) => (
+export const i18n = (character: Character = 'sber') => (keyset: KeysetDictionary) => (
     key: string,
     options: I18nOptions = {},
 ) => _i18n(character, keyset, key, options).join('');

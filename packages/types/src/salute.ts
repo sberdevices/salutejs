@@ -1,10 +1,18 @@
 /* eslint-disable no-use-before-define */
-import { AppInfo, CharacterId } from './global';
-import { AppState, Message, NLPRequest } from './request';
-import { NLPResponse, ErrorCommand, EmotionType, Button } from './response';
+import {
+    AppInfo,
+    CharacterId,
+    AppState,
+    Message,
+    ErrorCommand,
+    EmotionId,
+    Card,
+    Bubble,
+    Button,
+} from './systemMessage';
+import { NLPRequest } from './request';
+import { NLPResponse } from './response';
 import { KeysetDictionary, I18nOptions } from './i18n';
-import { Card } from './card';
-import { Bubble } from './bubble';
 
 interface IntentSlot {
     name: string; // имя сущности
@@ -77,7 +85,7 @@ export interface SaluteResponse {
     runApp: (appInfo: { systemName: string } | { projectId: string }, parameters: Record<string, unknown>) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;
-    setEmotion: (emotion: EmotionType) => void;
+    setEmotion: (emotion: EmotionId) => void;
     readonly message: NLPResponse;
 }
 
