@@ -48,7 +48,7 @@ export interface Inference {
 
 export interface SaluteCommand {
     type: string;
-    payload: { [key: string]: unknown };
+    payload?: { [key: string]: unknown };
 }
 
 export type SaluteRequestVariable = Record<string, unknown>;
