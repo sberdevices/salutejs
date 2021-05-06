@@ -86,7 +86,7 @@ export const createScenarioWalker = ({
             });
         }
 
-        if (req.voiceAction && typeof recognizer !== 'undefined') {
+        if (req.voiceAction && typeof recognizer !== 'undefined' && typeof intents !== 'undefined') {
             // INFERENCE LOGIC START
             await recognizer.inference({ req, res, session });
 
@@ -140,7 +140,7 @@ export const createScenarioWalker = ({
 
         const scenarioState = userScenario.resolve(session.path, req);
 
-        if (req.serverAction) {
+        if (req.serverAction && typeof intents !== 'undefined') {
             if (!scenarioState) {
                 res.appendError({
                     code: 404,
