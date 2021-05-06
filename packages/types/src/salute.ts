@@ -59,7 +59,8 @@ export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { pa
     readonly message: Message;
     readonly serverAction?: A;
     readonly voiceAction: boolean;
-    readonly intent: string;
+    readonly systemIntent: string;
+    readonly variant: Variant;
     readonly inference?: Inference;
     readonly request: NLPRequest;
     readonly state?: S;
@@ -71,6 +72,7 @@ export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { pa
         state: ScenarioSchema['string'];
     };
     i18n: (keyset: KeysetDictionary) => (key: string, options?: I18nOptions) => string;
+    setVariant: (intent: Variant) => void;
 }
 
 export interface SaluteResponse {
