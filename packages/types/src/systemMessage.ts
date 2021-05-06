@@ -103,6 +103,10 @@ export type ListCard = CardBase & {
     log_id?: string;
     [k: string]: unknown;
 };
+/**
+ * Возможные размеры отступов
+ */
+export type Dimension = '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
 export type CellView =
     | LeftRightCellView
     | TextCellView
@@ -491,6 +495,10 @@ export type LocalImageIdentificator1 =
     | 'whistle'
     | 'wrench'
     | 'yule';
+/**
+ * Возможные значения размеров изображения.
+ */
+export type IconSizeDimension = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
 /**
  * Цвет фона см https://www.figma.com/file/yaeE0lLDWMBKKLXuDHgq1p/SmartX-Styles?node-id=19%3A15
  */
@@ -1577,22 +1585,10 @@ export interface CardBase {
  * Объект для описания отступов ui компонента.
  */
 export interface Paddings {
-    /**
-     * Возможные размеры отступов
-     */
-    left?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    top?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    right?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    bottom?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
+    left?: Dimension;
+    top?: Dimension;
+    right?: Dimension;
+    bottom?: Dimension;
     [k: string]: unknown;
 }
 export interface LeftRightCellView {
@@ -1650,39 +1646,21 @@ export interface IconView {
     [k: string]: unknown;
 }
 /**
- * Размер изображения
+ * Размер изображения.
  */
 export interface IconSize {
-    /**
-     * Возможные значения размеров изображения.
-     */
-    width: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
-    /**
-     * Возможные значения размеров изображения.
-     */
-    height: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
+    width: IconSizeDimension;
+    height: IconSizeDimension;
     [k: string]: unknown;
 }
 /**
  * Объект для описания отступов ui компонента.
  */
 export interface Margins {
-    /**
-     * Возможные размеры отступов
-     */
-    left?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    top?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    right?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    bottom?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
+    left?: Dimension;
+    top?: Dimension;
+    right?: Dimension;
+    bottom?: Dimension;
     [k: string]: unknown;
 }
 /**
@@ -1981,22 +1959,10 @@ export interface MediaGalleryItem {
  * Объект для описания отступов ui компонента.
  */
 export interface Margins1 {
-    /**
-     * Возможные размеры отступов
-     */
-    left?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    top?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    right?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    bottom?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
+    left?: Dimension;
+    top?: Dimension;
+    right?: Dimension;
+    bottom?: Dimension;
     [k: string]: unknown;
 }
 /**
@@ -2024,22 +1990,10 @@ export interface GallerySearchContentItem {
  * Объект для описания отступов ui компонента.
  */
 export interface Paddings1 {
-    /**
-     * Возможные размеры отступов
-     */
-    left?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    top?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    right?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    bottom?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
+    left?: Dimension;
+    top?: Dimension;
+    right?: Dimension;
+    bottom?: Dimension;
     [k: string]: unknown;
 }
 /**
@@ -2141,22 +2095,10 @@ export interface GreetingGridItem {
  * Объект для описания отступов ui компонента.
  */
 export interface Paddings2 {
-    /**
-     * Возможные размеры отступов
-     */
-    left?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    top?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    right?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
-    /**
-     * Возможные размеры отступов
-     */
-    bottom?: '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
+    left?: Dimension;
+    top?: Dimension;
+    right?: Dimension;
+    bottom?: Dimension;
     [k: string]: unknown;
 }
 /**
