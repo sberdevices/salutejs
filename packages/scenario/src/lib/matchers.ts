@@ -26,10 +26,17 @@ export const compare = (expected, actual) => {
 };
 
 export function createMatchers<R extends SaluteRequest = SaluteRequest, I extends IntentsDict = IntentsDict>() {
-    const intent = (expected: keyof I) => (req: R) => {
+    const intent = (expected: keyof I, { confidence }: { confidence: number } = { confidence: 0.7 }) => (req: R) => {
         if (!req.inference?.variants.length) return false;
 
-        return req.inference?.variants[0].intent.path === expected;
+        const variant = req.inference?.variants.find((v) => v.intent.path === expected && v.confidence >= confidence);
+
+        if (variant) {
+            req.setVariant(variant);
+            return true;
+        }
+
+        return false;
     };
 
     const text = (expected: string | RegExp) => (req: R) => {

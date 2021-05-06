@@ -39,75 +39,20 @@ export const createScenarioWalker = ({
         const state = userScenario.getByPath(path);
 
         if (state) {
-            session.path = path;
-            req.currentState = {
-                path: session.path,
-                state,
-            };
-            await state.handle({ req, res, session: session.state, history: {} }, dispatch);
-        }
-    };
-
-    const saluteHandlerOpts = { req, res, session: session.state, history: {} };
-
-    if (req.intent === 'run_app') {
-        if (req.serverAction?.action_id === 'PAY_DIALOG_FINISHED') {
-            if (typeof systemScenario.PAY_DIALOG_FINISHED === 'undefined') {
-                res.appendError({
-                    code: 404,
-                    description: 'Missing handler for action: "PAY_DIALOG_FINISHED"',
-                });
-                return;
-            }
-
-            systemScenario.PAY_DIALOG_FINISHED(saluteHandlerOpts, dispatch);
-            return;
-        }
-
-        systemScenario.RUN_APP(saluteHandlerOpts, dispatch);
-        return;
-    }
-
-    if (req.intent === 'close_app') {
-        systemScenario.CLOSE_APP(saluteHandlerOpts, dispatch);
-        return;
-    }
-
-    // restore request from session
-    Object.keys(session.variables).forEach((name) => {
-        req.setVariable(name, session.variables[name]);
-    });
-
-    if (typeof intents !== undefined && typeof userScenario !== undefined) {
-        // restore request from server_action payload
-        if (req.serverAction) {
-            Object.keys(req.serverAction.payload || {}).forEach((key) => {
-                req.setVariable(key, req.serverAction.payload[key]);
-            });
-        }
-
-        if (req.voiceAction && typeof recognizer !== 'undefined' && typeof intents !== 'undefined') {
-            // INFERENCE LOGIC START
-            await recognizer.inference({ req, res, session });
-
-            // TODO: make this more clever (confidence)
-            // TODO2: make variant nullable FTW
-            const variant = req.inference?.variants.length > 0 ? req.inference.variants[0] : null;
-
-            if (variant) {
-                variant.slots.forEach((slot) => {
+            if (req.variant && intents) {
+                req.variant.slots.forEach((slot) => {
                     req.setVariable(slot.name, slot.value);
                 });
 
                 // SLOTFILING LOGIC START
-                let currentIntent = variant;
+                let currentIntent = req.variant;
 
                 if (session.path.length && session.slotFilling) {
                     // ищем связь с текущим интентом в сессии и результатах распознавания
                     const connected = (req.inference?.variants || []).find(
                         (v) => v.confidence >= slotFillingConfidence && v.intent.path === session.currentIntent,
                     );
-                    currentIntent = connected || variant;
+                    currentIntent = connected || req.variant;
                 }
 
                 // ищем незаполненные переменные, задаем вопрос пользователю
@@ -133,9 +78,58 @@ export const createScenarioWalker = ({
                 }
                 // SLOTFILING LOGIC END
 
+                session.path = path;
                 session.currentIntent = currentIntent.intent.path;
-                // INFERENCE LOGIC END
+                req.currentState = {
+                    path: session.path,
+                    state,
+                };
             }
+
+            await state.handle({ req, res, session: session.state, history: {} }, dispatch);
+        }
+    };
+
+    const saluteHandlerOpts = { req, res, session: session.state, history: {} };
+
+    if (req.systemIntent === 'run_app') {
+        if (req.serverAction?.action_id === 'PAY_DIALOG_FINISHED') {
+            if (typeof systemScenario.PAY_DIALOG_FINISHED === 'undefined') {
+                res.appendError({
+                    code: 404,
+                    description: 'Missing handler for action: "PAY_DIALOG_FINISHED"',
+                });
+                return;
+            }
+
+            systemScenario.PAY_DIALOG_FINISHED(saluteHandlerOpts, dispatch);
+            return;
+        }
+
+        systemScenario.RUN_APP(saluteHandlerOpts, dispatch);
+        return;
+    }
+
+    if (req.systemIntent === 'close_app') {
+        systemScenario.CLOSE_APP(saluteHandlerOpts, dispatch);
+        return;
+    }
+
+    // restore request from session
+    Object.keys(session.variables).forEach((name) => {
+        req.setVariable(name, session.variables[name]);
+    });
+
+    if (typeof intents !== undefined && typeof userScenario !== undefined) {
+        // restore request from server_action payload
+        if (req.serverAction) {
+            Object.keys(req.serverAction.payload || {}).forEach((key) => {
+                req.setVariable(key, req.serverAction.payload[key]);
+            });
+        }
+
+        if (req.voiceAction && typeof recognizer !== 'undefined') {
+            await recognizer.inference({ req, res, session });
         }
 
         const scenarioState = userScenario.resolve(session.path, req);

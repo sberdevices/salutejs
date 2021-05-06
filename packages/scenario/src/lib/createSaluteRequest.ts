@@ -1,9 +1,18 @@
-import { NLPRequest, NLPRequestMTS, NLPRequestSA, Inference, SaluteRequest, KeysetDictionary } from '@salutejs/types';
+import {
+    NLPRequest,
+    NLPRequestMTS,
+    NLPRequestSA,
+    Inference,
+    SaluteRequest,
+    KeysetDictionary,
+    Variant,
+} from '@salutejs/types';
 
 import { i18n } from './i18n';
 
 export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
     let inference: Inference;
+    let variant: Variant;
     const variables: { [key: string]: unknown } = {};
 
     return {
@@ -16,8 +25,11 @@ export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
         get message() {
             return (request as NLPRequestMTS).payload.message;
         },
-        get intent() {
+        get systemIntent() {
             return (request as NLPRequestMTS).payload.intent;
+        },
+        get variant() {
+            return variant;
         },
         get inference() {
             return inference;
@@ -49,6 +61,9 @@ export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
         },
         i18n: (keyset: KeysetDictionary) => {
             return i18n(request.payload.character.id)(keyset);
+        },
+        setVariant(v) {
+            variant = v;
         },
     };
 };
