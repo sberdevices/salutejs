@@ -32,26 +32,26 @@ interface PhraseEntity {
     entityId: number;
 }
 
-interface Phrase {
+export interface Phrase {
     text: string;
-    entities: PhraseEntity[];
-    stagedPhraseIdx: number;
+    entities: PhraseEntity[] | null;
+    stagedPhraseIdx: number | null;
 }
 
 interface Slot {
     name: string;
-    entity: string;
-    required: boolean;
-    prompts: string[];
-    array: boolean;
+    entity?: string;
+    required?: boolean;
+    prompts?: string[];
+    array?: boolean;
 }
 
 export interface Intent {
     id: number;
     path: string;
-    description: string;
-    answer: string;
-    customData: string;
+    description: string | null;
+    answer: string | null;
+    customData: string | null;
     enabled: boolean;
     phrases: Phrase[];
     patterns: string[];
