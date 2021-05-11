@@ -1,10 +1,10 @@
 import ss from 'string-similarity';
-import { Inference, IntentsDict, TextIntent, Recognizer } from '@salutejs/types';
+import { Inference, IntentsDict, TextIntent, Recognizer, Variant } from '@salutejs/types';
 
 function getRestOfMessageText(message) {
     const { original_text } = message;
 
-    const res = [];
+    const res: string[] = [];
     const words = original_text.split(' ');
 
     for (let i = 1; i < words.length; i++) {
@@ -38,7 +38,7 @@ export class StringSimilarityRecognizer implements Recognizer {
             }
 
             return arr;
-        }, []);
+        }, [] as Array<{ key: string; matchers: TextIntent['matchers']; rating: number }>);
 
         for (let i = 0; i < tokens.length; i++) {
             const token = tokens[i];
@@ -64,7 +64,7 @@ export class StringSimilarityRecognizer implements Recognizer {
                         return arr;
                     }
 
-                    const intent = {
+                    const intent: Variant = {
                         intent: {
                             id: 0,
                             path: match.key,
@@ -76,17 +76,19 @@ export class StringSimilarityRecognizer implements Recognizer {
 
                     arr.push(intent);
 
-                    if (this._intents[match.key].variables != null && getRestOfMessageText(req.message)) {
+                    const vars = this._intents[match.key].variables;
+                    if (vars != null && getRestOfMessageText(req.message)) {
                         intent.slots.push({
-                            name: `${this._intents[match.key].variables[0] || 'note'}`,
+                            name: `${vars[0] || 'note'}`,
                             value: getRestOfMessageText(req.message),
                             array: false,
                         });
                     }
 
                     return arr;
-                }, [])
-                .sort((a, b) => b - a),
+                }, [] as Variant[])
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .sort((a: any, b: any) => b - a),
         };
 
         // детект ответа на дозапрос note для done_note
