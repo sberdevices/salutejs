@@ -29,15 +29,18 @@ export function createUserScenario<R extends SaluteRequest = SaluteRequest>(scen
         let matchedState: {
             path: string[];
             state: ScenarioSchema['string'];
-        };
+        } | null = null;
 
         if (path.length > 0) {
-            const { children } = getByPath(path);
-            for (const el of Object.keys(children)) {
-                const nextState = children[el];
-                if (nextState.match(req)) {
-                    matchedState = { state: nextState, path: [...path, el] };
-                    break;
+            const state = getByPath(path);
+
+            if (state?.children) {
+                for (const el of Object.keys(state?.children)) {
+                    const nextState = state?.children[el];
+                    if (nextState.match(req)) {
+                        matchedState = { state: nextState, path: [...path, el] };
+                        break;
+                    }
                 }
             }
         }

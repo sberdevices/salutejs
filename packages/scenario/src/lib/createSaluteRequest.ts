@@ -38,7 +38,7 @@ export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
             return request;
         },
         get state() {
-            return (request as NLPRequestMTS).payload.meta.current_app.state;
+            return (request as NLPRequestMTS).payload.meta.current_app?.state;
         },
         get serverAction() {
             return (request as NLPRequestSA).payload.server_action;

@@ -42,7 +42,7 @@ export const findInvoiceById = (
     callApi(
         `${API_URL}/invoices/${encodeURIComponent(invoiceId)}${
             params && (params.invStatus || typeof params.wait !== 'undefined')
-                ? `?${params.invStatus ?? `inv_status=${encodeURIComponent(params.invStatus)}`}${
+                ? `?${params.invStatus ?? `inv_status=${encodeURIComponent(!params.invStatus)}`}${
                       params.wait ?? `${params.invStatus ?? '&'}wait=${encodeURIComponent(params.wait)}`
                   }`
                 : ''
@@ -64,8 +64,8 @@ export const findInvoiceByServiceIdOrderId = (
     callApi(
         `${API_URL}/invoices/0?service_id=${encodeURIComponent(serviceId)}&order_id=${encodeURIComponent(orderId)}${
             params.invStatus ??
-            `&inv_status=${encodeURIComponent(params.invStatus)}${
-                params.wait ?? `&wait=${encodeURIComponent(params.wait)}`
+            `&inv_status=${encodeURIComponent(!params.invStatus)}${
+                params.wait ?? `&wait=${encodeURIComponent(!params.wait)}`
             }`
         }`,
     );

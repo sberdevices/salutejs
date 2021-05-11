@@ -36,6 +36,8 @@ export const createScenarioWalker = ({
     session: SaluteSession;
 }) => {
     const dispatch = async (path: string[]) => {
+        if (!userScenario) return;
+
         const state = userScenario.getByPath(path);
 
         if (state) {
@@ -120,11 +122,11 @@ export const createScenarioWalker = ({
         req.setVariable(name, session.variables[name]);
     });
 
-    if (typeof intents !== undefined && typeof userScenario !== undefined) {
+    if (typeof intents !== undefined && userScenario) {
         // restore request from server_action payload
         if (req.serverAction) {
-            Object.keys(req.serverAction.payload || {}).forEach((key) => {
-                req.setVariable(key, req.serverAction.payload[key]);
+            Object.keys((req.serverAction.payload || {}) as Record<string, unknown>).forEach((key) => {
+                req.setVariable(key, (req.serverAction?.payload as Record<string, unknown>)[key]);
             });
         }
 

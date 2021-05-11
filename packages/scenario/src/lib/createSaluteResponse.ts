@@ -79,7 +79,6 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.items.push({ command: { type: 'smart_app_data', smart_app_data: { ...command } } });
         },
-        // TODO: fix types
         appendItem: (item) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
