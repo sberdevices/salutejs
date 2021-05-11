@@ -45,8 +45,8 @@ jobs:
           npm i
           npx lerna bootstrap
 
-      - name: Lint
-        run: npm run lint
+      # - name: Lint
+      #   run: npm run lint
 
       - name: Release Info
         run: npm whoami && npx auto info || echo 'auto info returned 1'
