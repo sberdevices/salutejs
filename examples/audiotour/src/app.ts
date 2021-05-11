@@ -26,15 +26,15 @@ const { match, intent, text, action, state, selectItem } = createMatchers<IziReq
 
 const userScenario = createUserScenario({
     ToMainPageFromMainPage: {
-        match: match(intent('Izi/ToMainPage'), state({ screen: 'Screen.MainPage' })),
+        match: match(intent('/Izi/ToMainPage'), state({ screen: 'Screen.MainPage' })),
         handle: ({ res }) => res.setPronounceText(config.message.TO_MAIN_PAGE.ON_MAIN_PAGE),
     },
     ToMainPageFromTourPage: {
-        match: match(intent('Izi/ToMainPage'), state({ screen: 'Screen.TourPage' })),
+        match: match(intent('/Izi/ToMainPage'), state({ screen: 'Screen.TourPage' })),
         handle: ({ res }) => res.appendItem(createLegacyGoToAction('Screen.MainPage')),
     },
     ToMainPage: {
-        match: intent('Izi/ToMainPage'),
+        match: intent('/Izi/ToMainPage'),
         handle: ({ res }) => res.setPronounceText(config.message.TO_MAIN_PAGE.CONFIRMATION),
         children: {
             ToMainPageYes: {
@@ -48,7 +48,7 @@ const userScenario = createUserScenario({
         },
     },
     OpenItemIndex: {
-        match: intent('Navigation/OpenItemIndex'),
+        match: intent('/Navigation/OpenItemIndex'),
         handle: ({ req, res }) => {
             const { screen } = req.state;
             const number = Number(req.variables.number);
@@ -61,7 +61,7 @@ const userScenario = createUserScenario({
         },
     },
     RunAudioTour: {
-        match: intent('Izi/RunAudiotour'),
+        match: intent('/Izi/RunAudiotour'),
         handle: ({ res }) =>
             res.appendItem(
                 createLegacyAction({
@@ -72,7 +72,7 @@ const userScenario = createUserScenario({
             ),
     },
     Push: {
-        match: intent('Navigation/Push'),
+        match: intent('/Navigation/Push'),
         handle: ({ req, res }) => {
             const { screen } = req.state;
             const { UIElement, element } = req.variables;
@@ -91,16 +91,24 @@ const userScenario = createUserScenario({
         },
     },
     ShowAllFromMainPage: {
-        match: match(intent('Izi/RunAudiotour'), state({ screen: 'Screen.MainPage' })),
+        match: match(intent('/Izi/RunAudiotour'), state({ screen: 'Screen.MainPage' })),
         handle: ({ res }) => res.setPronounceText(config.message.PAGE_LOADED.ALL_ON_MAIN_PAGE),
     },
     ShowAll: {
-        match: match(intent('Izi/ShowAll'), state({ screen: 'Screen.MainPage' })),
+        match: match(intent('/Izi/ShowAll'), state({ screen: 'Screen.MainPage' })),
         handle: (_, dispatch) => dispatch(['ToMainPage']),
     },
     SlotFillingIntent: {
-        match: intent('SlotFillingIntent'),
+        match: intent('/SlotFillingIntent'),
         handle: ({ res, req }) => res.setPronounceText(`Вы попросили ${req.variables.a} яблок`),
+        children: {
+            Hello: {
+                match: text('привет'),
+                handle: ({ res }) => {
+                    res.setPronounceText('привет и тебе');
+                },
+            },
+        },
     },
     EchoAction: {
         match: action('echo'),
@@ -145,6 +153,6 @@ app.post('/hook', async ({ body }, response) => {
     response.status(200).json(res.message);
 });
 
-app.listen(3000, () => {
-    console.log('Listening on 3000');
+app.listen(4000, () => {
+    console.log('Listening on 4000');
 });
