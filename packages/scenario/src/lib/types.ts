@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /** Тип оплаты счета */
 export enum PaymentTypes {
     /** одностадийная оплата */

@@ -40,7 +40,7 @@ const _defLang: Language = 'ru';
  * @param options параметры для подстановки в шаблон
  */
 function generateText(template: string, options: I18nBaseOptions): I18nRaw {
-    const res = [];
+    const res: Array<string | number | Record<string, unknown>> = [];
     const len = template.length;
     let pos = 0;
 
@@ -64,7 +64,11 @@ function generateText(template: string, options: I18nBaseOptions): I18nRaw {
             return res;
         }
 
-        res.push(template.substring(pos, p1), options[template.substring(p1 + 1, p2)]);
+        res.push(template.substring(pos, p1));
+
+        const opts = options[template.substring(p1 + 1, p2)];
+        if (opts) res.push(opts);
+
         pos = p2 + 1;
     }
 

@@ -5,13 +5,14 @@ export const lookupMissingVariables = (
     intents: IntentsDict,
     variables: Record<string, unknown>,
 ): { name: string; question: string }[] => {
-    const missing = [];
+    const missing: Array<{ name: string; question: string }> = [];
     const vars = intents[intent]?.variables || {};
 
     Object.keys(vars).forEach((v) => {
-        if (vars[v].required && variables[v] === undefined && vars[v].questions?.length) {
-            const questionNo = Math.floor(Math.random() * vars[v].questions.length);
-            missing.push({ name: v, question: vars[v].questions[questionNo] });
+        const { questions, required } = vars[v];
+        if (questions && questions?.length && required && variables[v] === undefined) {
+            const questionNo = Math.floor(Math.random() * questions.length);
+            missing.push({ name: v, question: questions[questionNo] });
         }
     });
 

@@ -1,4 +1,4 @@
-import { IntentsDict, SaluteRequest } from '@salutejs/types';
+import { AppState, IntentsDict, SaluteRequest } from '@salutejs/types';
 
 export const compare = (expected, actual) => {
     if (typeof expected !== typeof actual) return false;
@@ -51,13 +51,16 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest, I extend
 
     const state = (expected: Partial<R['state']>) => (req: R) => compare(expected, req.state);
 
-    const action = (expected: R['serverAction']['type']) => (req: R) => req.serverAction?.type === expected;
+    const action = (expected: string) => (req: R) => req.serverAction?.type === expected;
 
-    const selectItems = (expected: Partial<R['state']['item_selector']['items'][number]>) => (req: R) =>
-        req.state.item_selector?.items?.filter((i) => compare(expected, i));
+    const selectItems = (expected: AppState) => (req: R) =>
+        req.state?.item_selector?.items?.filter((i) => compare(expected, i));
 
-    const selectItem = (expected: Partial<R['state']['item_selector']['items'][number]>) => (req: R) =>
-        selectItems(expected)(req)[0];
+    const selectItem = (expected: AppState) => (req: R) => {
+        const items = selectItems(expected)(req);
+
+        if (items) return items[0];
+    };
 
     const regexp = (re: RegExp) => (req: R) => {
         const result = re.exec(req.message?.original_text);
