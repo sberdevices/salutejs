@@ -1,6 +1,6 @@
-import { IntentsDict, SaluteIntent } from '@salutejs/types';
+import { IntentsDict, SaluteIntent, TextIntent } from '@salutejs/types';
 
-import { ProjectData, Intent } from './projectData';
+import { ProjectData, Phrase, Intent } from './projectData';
 
 export const getIntentsFromResponse = (resp: ProjectData) => {
     const intents: IntentsDict = {};
@@ -17,7 +17,7 @@ export const getIntentsFromResponse = (resp: ProjectData) => {
             }
         }
 
-        const matchers = [];
+        const matchers: TextIntent['matchers'] = [];
 
         for (const phrase of intent.phrases) {
             matchers.push({
@@ -74,7 +74,8 @@ export const getEntitiesFromResponse = (resp: ProjectData): EntitiesDict => {
 };
 
 export const convertEntitiesForImport = (entities: EntitiesDict) => {
-    const projectEntities = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const projectEntities: any[] = [];
     for (const [key, value] of Object.entries(entities)) {
         const projectEntity = {
             entity: {
@@ -97,8 +98,9 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
 
     for (const [key, value] of Object.entries(intents)) {
         const variables = value.variables || {};
-        const slots = [];
+        const slots: Array<{ name: string; prompts?: string[] }> = [];
 
+        // eslint-disable-next-line no-shadow
         for (const [key, value] of Object.entries(variables)) {
             slots.push({
                 name: key,
@@ -106,8 +108,8 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
             });
         }
 
-        const patterns = [];
-        const phrases = [];
+        const patterns: string[] = [];
+        const phrases: Phrase[] = [];
 
         const matchers = value.matchers ?? [];
 
