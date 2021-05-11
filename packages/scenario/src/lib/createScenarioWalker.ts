@@ -39,6 +39,12 @@ export const createScenarioWalker = ({
         const state = userScenario.getByPath(path);
 
         if (state) {
+            session.path = path;
+            req.currentState = {
+                path: session.path,
+                state,
+            };
+
             if (req.variant && intents) {
                 req.variant.slots.forEach((slot) => {
                     req.setVariable(slot.name, slot.value);
@@ -55,8 +61,11 @@ export const createScenarioWalker = ({
                     currentIntent = connected || req.variant;
                 }
 
+                const currentIntentPath = currentIntent.intent.path;
+                session.currentIntent = currentIntentPath;
+
                 // ищем незаполненные переменные, задаем вопрос пользователю
-                const missingVars = lookupMissingVariables(currentIntent.intent.path, intents, req.variables);
+                const missingVars = lookupMissingVariables(currentIntentPath, intents, req.variables);
                 if (missingVars.length) {
                     // сохраняем состояние в сессии
                     Object.keys(req.variables).forEach((name) => {
@@ -72,18 +81,9 @@ export const createScenarioWalker = ({
                     // устанавливаем флаг слотфиллинга, на него будем смотреть при следующем запросе пользователя
                     session.slotFilling = true;
 
-                    session.currentIntent = currentIntent.intent.path;
-
                     return;
                 }
                 // SLOTFILING LOGIC END
-
-                session.path = path;
-                session.currentIntent = currentIntent.intent.path;
-                req.currentState = {
-                    path: session.path,
-                    state,
-                };
             }
 
             await state.handle({ req, res, session: session.state, history: {} }, dispatch);

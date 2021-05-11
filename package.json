@@ -7,7 +7,7 @@
   "main": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint --ext .js,.ts ./src",
-    "test": "jest",
+    "test": "lerna run test",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "ci:prepare": "npm ci && npm run bootstrap && npm run build"
