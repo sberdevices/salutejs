@@ -106,7 +106,7 @@ export interface SaluteIntentVariable {
 
 export interface TextIntent {
     matchers: Array<{
-        type: 'phrase' | 'pattern';
+        type: string;
         rule: string;
     }>;
 }
