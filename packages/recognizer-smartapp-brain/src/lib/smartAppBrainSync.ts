@@ -115,7 +115,6 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
 
         for (const { type, rule } of matchers) {
             switch (type) {
-                default:
                 case 'phrase':
                     phrases.push({
                         text: rule,
@@ -126,6 +125,8 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
                 case 'pattern':
                     patterns.push(rule);
                     break;
+                default:
+                    throw new Error(`Wrong matcher type: ${type}`);
             }
         }
 
