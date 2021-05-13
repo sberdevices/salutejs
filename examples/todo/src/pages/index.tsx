@@ -29,6 +29,7 @@ if (process.browser) {
     import('@sberdevices/spatial-navigation');
 }
 
+const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 const NEXT_PUBLIC_DEV_TOKEN = process.env.NEXT_PUBLIC_DEV_TOKEN;
 const NEXT_PUBLIC_DEV_PHRASE = process.env.NEXT_PUBLIC_DEV_PHRASE;
 
@@ -49,9 +50,12 @@ const IndexPage = () => {
 
     useEffect(() => {
         const initializeAssistant = () => {
-            // return createAssistant<TodoCommand>({
-            //     getState: () => assistantStateRef.current,
-            // });
+            if (!IS_DEVELOPMENT) {
+                return createAssistant<TodoCommand>({
+                    getState: () => assistantStateRef.current,
+                });
+            }
+
             if (!NEXT_PUBLIC_DEV_TOKEN || !NEXT_PUBLIC_DEV_PHRASE) {
                 throw new Error('');
             }
