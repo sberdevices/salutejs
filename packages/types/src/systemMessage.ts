@@ -998,7 +998,7 @@ export interface SystemMessagePayload {
      * Мета данные, полученные от сервиса распознавания интентов.
      */
     intent_meta: unknown;
-    meta: Meta;
+    meta?: Meta;
     selected_item: SelectedItem;
     /**
      * Указывает на характер запуска смартапа. Если поле содержит true,
