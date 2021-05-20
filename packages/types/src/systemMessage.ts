@@ -1369,9 +1369,24 @@ export interface Message {
     /**
      * Отображаемый на экране текст запроса/нормализованный на этапе ASR запрос.
      */
-    asr_normalized_message: string;
+    asr_normalized_message: string | null;
+    /**
+     * Извлечённая из tokenized_elements_list информация о значениях найденных в запросе типов сущностей
+     */
     entities: Entities;
+    /**
+     * Список словарей, в котором каждый словарь - это вся информация о слове:
+     * оригинальная и начальная формы слова, род, число, зависимые слова, тип связи между словами и прочее
+     */
     tokenized_elements_list: TokenizedElementsList[];
+    /**
+     * Числительные превращены в числа, номера телефонов - в их нормализованное представление, слова - в леммы
+     */
+    human_normalized_text: string;
+    /**
+     * Аналогично human_normalized_text с учётом замены анафоры
+     */
+    human_normalized_text_with_anaphora: string;
     [k: string]: unknown;
 }
 /**
