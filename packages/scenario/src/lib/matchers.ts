@@ -63,7 +63,7 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest, I extend
     };
 
     const regexp = (re: RegExp) => (req: R) => {
-        const result = re.exec(req.message?.original_text);
+        const result = re.exec(req.message?.human_normalized_text);
 
         if (result === null) {
             return false;
