@@ -25,11 +25,11 @@ const { action, regexp } = createMatchers<SaluteRequest>();
 
 const userScenario = createUserScenario({
     AddNote: {
-        match: regexp(/^(запиши|напомни|добавь запись) (?<note>.+)$/i),
+        match: regexp(/^(записать|напомнить|добавить запись) (?<note>.+)$/i),
         handle: addNote,
     },
     DoneNote: {
-        match: regexp(/^(выполнила?|сделала?) (?<note>.+)$/i),
+        match: regexp(/^(выполнить?|сделать?) (?<note>.+)$/i),
         handle: doneNote,
     },
     DoneNoteAction: {
@@ -37,7 +37,7 @@ const userScenario = createUserScenario({
         handle: doneNote,
     },
     DeleteNote: {
-        match: regexp(/^(удалить|удали) (?<note>.+)$/i),
+        match: regexp(/^(удалить) (?<note>.+)$/i),
         handle: deleteNote,
         children: {
             yes: {
