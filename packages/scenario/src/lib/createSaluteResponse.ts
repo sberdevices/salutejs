@@ -142,6 +142,18 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.pronounceText = text;
         },
+        setPronounceSsmlText: (ssml: string) => {
+            if (message.messageName !== 'ANSWER_TO_USER') {
+                throw new Error('Wrong message type');
+            }
+
+            if (!/^<speak>.*<\/speak>$/gi.test(ssml)) {
+                ssml = '<speak>' + ssml + '</speak>';
+            }
+
+            message.payload.pronounceTextType = 'application/ssml';
+            message.payload.pronounceText = ssml;
+        },
         setEmotion: (emotion: EmotionId) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
