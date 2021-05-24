@@ -88,6 +88,7 @@ export interface SaluteResponse {
     runApp: (appInfo: { systemName: string } | { projectId: string }, parameters: Record<string, unknown>) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string) => void;
+    setPronounceSsmlText: (ssml: string) => void;
     setEmotion: (emotion: EmotionId) => void;
     readonly message: NLPResponse;
 }
