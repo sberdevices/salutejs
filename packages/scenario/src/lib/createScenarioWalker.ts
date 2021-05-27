@@ -49,6 +49,15 @@ export const createScenarioWalker = ({
 
             if (req.variant && intents) {
                 req.variant.slots.forEach((slot) => {
+                    if (slot.array) {
+                        if (typeof req.variables[slot.name] === 'undefined') {
+                            req.setVariable(slot.name, []);
+                        }
+
+                        ((req.variables[slot.name] as unknown) as Array<string>).push(slot.value);
+                        return;
+                    }
+
                     req.setVariable(slot.name, slot.value);
                 });
 

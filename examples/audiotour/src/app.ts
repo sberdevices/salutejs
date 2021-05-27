@@ -8,11 +8,12 @@ import {
     createSaluteResponse,
     createScenarioWalker,
     createMatchers,
+    createIntents,
 } from '@salutejs/scenario';
 import { SaluteMemoryStorage } from '@salutejs/storage-adapter-memory';
 import { SmartAppBrainRecognizer } from '@salutejs/recognizer-smartapp-brain';
 
-import { intents } from './intents';
+import model from './intents.json';
 import config from './config';
 import { IziRequest } from './types';
 import { createLegacyAction, createLegacyGoToAction } from './legacyAction';
@@ -21,6 +22,8 @@ dotEnv();
 
 const app = express();
 app.use(express.json());
+
+const intents = createIntents(model);
 
 const { match, intent, text, action, state, selectItem } = createMatchers<IziRequest, typeof intents>();
 

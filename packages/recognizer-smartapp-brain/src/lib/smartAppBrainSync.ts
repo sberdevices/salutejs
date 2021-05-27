@@ -13,6 +13,7 @@ export const getIntentsFromResponse = (resp: ProjectData) => {
                 variables[slot.name] = {
                     required: true,
                     questions: slot.prompts,
+                    array: slot.array ? true : undefined,
                 };
             }
         }
@@ -98,13 +99,14 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
 
     for (const [key, value] of Object.entries(intents)) {
         const variables = value.variables || {};
-        const slots: Array<{ name: string; prompts?: string[] }> = [];
+        const slots: NonNullable<Intent['slots']> = [];
 
         // eslint-disable-next-line no-shadow
         for (const [key, value] of Object.entries(variables)) {
             slots.push({
                 name: key,
                 prompts: value.questions,
+                array: value.array,
             });
         }
 
