@@ -27,10 +27,16 @@ const cli = new Command();
 cli.command('pull')
     .option('-t, --token <token>', 'SmartApp Brain access token', process.env.SMARTAPP_BRAIN_TOKEN)
     .option('-p, --path <path>', 'Path to intents dictionary file', 'src/intents.json')
-    .action(async ({ token, path }) => {
+    .option('-d, --debug', 'Debug', false)
+    .action(async ({ token, path, debug }) => {
         const brain = new SmartAppBrainRecognizer(token);
         const intentsDictPath = join(process.cwd(), path);
         const projectData = await brain.export();
+
+        if (debug) {
+            console.log(logSymbols.info, 'Export project data');
+            console.log(JSON.stringify(projectData, null, 2));
+        }
 
         const intentsFromResponse = getIntentsFromResponse(projectData);
         const entitiesFromResponse = getEntitiesFromResponse(projectData);

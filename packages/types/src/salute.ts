@@ -52,7 +52,7 @@ export interface SaluteCommand {
     payload?: { [key: string]: unknown };
 }
 
-export type SaluteRequestVariable = Record<string, unknown>;
+export type SaluteRequestVariable = Record<string, string>;
 
 export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { payload: unknown; type: string }> {
     readonly character: CharacterId;
@@ -102,6 +102,7 @@ export type SaluteHandler<
 export interface SaluteIntentVariable {
     required?: boolean;
     questions?: string[];
+    array?: boolean;
 }
 
 export interface TextIntent {
