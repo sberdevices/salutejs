@@ -13,24 +13,29 @@ export const getIntentsFromResponse = (resp: ProjectData) => {
                 variables[slot.name] = {
                     required: true,
                     questions: slot.prompts,
+                    array: slot.array ? true : undefined,
                 };
             }
         }
 
         const matchers: TextIntent['matchers'] = [];
 
-        for (const phrase of intent.phrases) {
-            matchers.push({
-                type: 'phrase',
-                rule: phrase.text,
-            });
+        if (intent.phrases) {
+            for (const phrase of intent.phrases) {
+                matchers.push({
+                    type: 'phrase',
+                    rule: phrase.text,
+                });
+            }
         }
 
-        for (const pattern of intent.patterns) {
-            matchers.push({
-                type: 'pattern',
-                rule: pattern,
-            });
+        if (intent.patterns) {
+            for (const pattern of intent.patterns) {
+                matchers.push({
+                    type: 'pattern',
+                    rule: pattern,
+                });
+            }
         }
 
         intents[intent.path] = {
@@ -98,13 +103,14 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
 
     for (const [key, value] of Object.entries(intents)) {
         const variables = value.variables || {};
-        const slots: Array<{ name: string; prompts?: string[] }> = [];
+        const slots: NonNullable<Intent['slots']> = [];
 
         // eslint-disable-next-line no-shadow
         for (const [key, value] of Object.entries(variables)) {
             slots.push({
                 name: key,
                 prompts: value.questions,
+                array: value.array,
             });
         }
 

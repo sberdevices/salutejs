@@ -6,6 +6,7 @@ import {
     SaluteRequest,
     KeysetDictionary,
     Variant,
+    SaluteRequestVariable,
 } from '@salutejs/types';
 
 import { i18n } from './i18n';
@@ -13,7 +14,7 @@ import { i18n } from './i18n';
 export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
     let inference: Inference;
     let variant: Variant;
-    const variables: { [key: string]: unknown } = {};
+    const variables: SaluteRequestVariable = {};
 
     return {
         get character() {
@@ -56,7 +57,7 @@ export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
         setInference: (value: Inference) => {
             inference = value;
         },
-        setVariable: (name: string, value: unknown) => {
+        setVariable: (name: string, value: string) => {
             variables[name] = value;
         },
         i18n: (keyset: KeysetDictionary) => {
