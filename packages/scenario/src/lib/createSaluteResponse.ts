@@ -135,24 +135,26 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.intent = intent;
         },
-        setPronounceText: (text: string) => {
+        setPronounceText: (text: string, options: {ssml?: boolean}) => {
+            if (options === void 0) { 
+                options = {
+                    ssml:false
+                };
+            }
+            
             if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
+            }
+
+            if (options.ssml) {
+                if (!/^<speak>.*<\/speak>$/gi.test(text)) {
+                    text = '<speak>' + text + '</speak>';
+                }
+
+                message.payload.pronounceTextType = 'application/ssml';
             }
 
             message.payload.pronounceText = text;
-        },
-        setPronounceSsmlText: (ssml: string) => {
-            if (message.messageName !== 'ANSWER_TO_USER') {
-                throw new Error('Wrong message type');
-            }
-
-            if (!/^<speak>.*<\/speak>$/gi.test(ssml)) {
-                ssml = '<speak>' + ssml + '</speak>';
-            }
-
-            message.payload.pronounceTextType = 'application/ssml';
-            message.payload.pronounceText = ssml;
         },
         setEmotion: (emotion: EmotionId) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
