@@ -135,10 +135,10 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.intent = intent;
         },
-        setPronounceText: (text: string, options: {ssml?: boolean}) => {
+        setPronounceText: (text: string, options: {ssml?: boolean} = {}) => {
             if (options === void 0) { 
                 options = {
-                    ssml:false
+                    ssml: false
                 };
             }
             
