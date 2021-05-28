@@ -20,18 +20,22 @@ export const getIntentsFromResponse = (resp: ProjectData) => {
 
         const matchers: TextIntent['matchers'] = [];
 
-        for (const phrase of intent.phrases) {
-            matchers.push({
-                type: 'phrase',
-                rule: phrase.text,
-            });
+        if (intent.phrases) {
+            for (const phrase of intent.phrases) {
+                matchers.push({
+                    type: 'phrase',
+                    rule: phrase.text,
+                });
+            }
         }
 
-        for (const pattern of intent.patterns) {
-            matchers.push({
-                type: 'pattern',
-                rule: pattern,
-            });
+        if (intent.patterns) {
+            for (const pattern of intent.patterns) {
+                matchers.push({
+                    type: 'pattern',
+                    rule: pattern,
+                });
+            }
         }
 
         intents[intent.path] = {
