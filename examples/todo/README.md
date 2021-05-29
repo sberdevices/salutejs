@@ -1,3 +1,13 @@
+## CodeFest Workshop Шаги
+1. git clone git@github.com:sberdevices/salutejs.git -b codefest-workshop
+2. cd salutejs-workshop/examples/todo
+3. npm i
+4. .env => Получить токен в SmartMarket Studio и завести канвас апп
+
+5. npm run dev
+6. npm run publish
+
+
 Пример смартаппа на next.js
 
 ## Запуск локально
