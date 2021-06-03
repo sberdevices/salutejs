@@ -1,16 +1,16 @@
 {
   "name": "chatapp-brain",
   "private": "true",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "license": "Sber Public License at-nc-sa v.2",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "main": "index.js",
   "scripts": {},
   "description": "",
   "dependencies": {
-    "@salutejs/recognizer-smartapp-brain": "0.6.0",
-    "@salutejs/scenario": "0.6.0",
-    "@salutejs/storage-adapter-memory": "0.6.0",
+    "@salutejs/recognizer-smartapp-brain": "0.7.0",
+    "@salutejs/scenario": "0.7.0",
+    "@salutejs/storage-adapter-memory": "0.7.0",
     "dotenv": "8.2.0",
     "express": "4.17.1"
   }
