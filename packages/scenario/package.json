@@ -24,6 +24,7 @@
   },
   "scripts": {
     "build": "rm -rf dist && tsc",
+    "build:w": "rm -rf dist && tsc -w",
     "lint": "eslint --ext .js,.ts ./src",
     "test": "../../node_modules/.bin/jest --config ../../jest.config.ts"
   },
@@ -32,7 +33,6 @@
     "typescript": "4.1.3"
   },
   "dependencies": {
-    "@salutejs/types": "0.7.0",
     "node-fetch": "2.6.1"
   },
   "gitHead": "70298e562f327c87c550171469ad7a55e0d88cf6"

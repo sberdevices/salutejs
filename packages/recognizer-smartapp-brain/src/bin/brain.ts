@@ -7,7 +7,7 @@ import { join } from 'path';
 import { promises } from 'fs';
 import { Command } from 'commander';
 import logSymbols from 'log-symbols';
-import { IntentsDict } from '@salutejs/types';
+import { IntentsDict } from '@salutejs/scenario';
 import { config as dotenv } from 'dotenv';
 
 import { permittedSystemEntites } from '../lib/permittedSystemEntities';

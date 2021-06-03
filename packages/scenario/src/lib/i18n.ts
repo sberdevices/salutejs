@@ -1,13 +1,6 @@
-import {
-    CharacterId,
-    I18nBaseOptions,
-    I18nPluralOptions,
-    I18nOptions,
-    KeysetDictionary,
-    IPluralForms,
-} from '@salutejs/types';
-
 import ruPlural from './plural/ru';
+import { I18nBaseOptions, I18nOptions, I18nPluralOptions, IPluralForms, KeysetDictionary } from './types/i18n';
+import { CharacterId } from './types/systemMessage';
 
 export type PluralFunction = (count: number, params: IPluralForms) => string;
 
