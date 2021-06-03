@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@salutejs/scenario": "0.7.0",
-    "@salutejs/storage-adapter-memory": "0.3.0",
+    "@salutejs/storage-adapter-memory": "0.6.0",
     "@sberdevices/assistant-client": "2.14.0",
     "@sberdevices/plasma-icons": "1.4.0",
     "@sberdevices/plasma-tokens": "1.1.0",

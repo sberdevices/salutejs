@@ -111,8 +111,7 @@ const systemScenario = createSystemScenario({
 2. Отправить команду на открытие окна оплаты (вызвать хелпер `res.askPayment`).
 
 ```ts
-import { createInvoice } from '@salutejs/scenario';
-import { SaluteHandler } from '@salutejs/types';
+import { createInvoice, SaluteHandler } from '@salutejs/scenario';
 
 const handler: SaluteHandler = async ({ req, res }) => {
     const { delivery_info, order } = req.variables;

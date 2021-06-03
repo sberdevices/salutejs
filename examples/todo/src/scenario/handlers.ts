@@ -23,6 +23,7 @@ export const addNote: SaluteHandler<SaluteRequest<NoteVariable>> = ({ req, res }
     res.appendSuggestions(['Запиши купить молоко', 'Добавь запись помыть машину']);
     res.setPronounceText('Добавлено');
     res.appendBubble('Добавлено');
+    res.setAutoListening(true);
 };
 
 export const doneNote: SaluteHandler<SaluteRequest<NoteVariable>> = ({ req, res }) => {

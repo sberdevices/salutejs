@@ -1,5 +1,5 @@
 import ss from 'string-similarity';
-import { Inference, IntentsDict, TextIntent, Recognizer, Variant } from '@salutejs/types';
+import { Inference, IntentsDict, TextIntent, Recognizer, Variant } from '@salutejs/scenario';
 
 function getRestOfMessageText(message) {
     const { original_text } = message;

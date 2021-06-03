@@ -1,4 +1,4 @@
-import { IntentsDict } from '@salutejs/types';
+import { IntentsDict } from './types/salute';
 
 export const lookupMissingVariables = (
     intent: string,

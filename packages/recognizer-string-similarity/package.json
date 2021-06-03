@@ -31,7 +31,7 @@
     "typescript": "4.1.3"
   },
   "dependencies": {
-    "@salutejs/types": "0.7.0",
+    "@salutejs/scenario": "0.7.0",
     "string-similarity": "4.0.4"
   },
   "gitHead": "70298e562f327c87c550171469ad7a55e0d88cf6"

@@ -14,6 +14,12 @@ export {
     reverseInvoice,
     refundInvoice,
 } from './lib/smartpay';
-export * from './lib/types';
+export * from './lib/types/payment';
 
-export * from '@salutejs/types';
+export * from './lib/types/i18n';
+export * from './lib/types/payment';
+export * from './lib/types/request';
+export * from './lib/types/response';
+export * from './lib/types/salute';
+export * from './lib/types/storage';
+export * from './lib/types/systemMessage';

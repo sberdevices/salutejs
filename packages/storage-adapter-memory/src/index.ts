@@ -1,4 +1,4 @@
-import { SaluteSession, SaluteSessionStorage } from '@salutejs/types';
+import { SaluteSession, SaluteSessionStorage } from '@salutejs/scenario';
 
 export class SaluteMemoryStorage implements SaluteSessionStorage {
     private sessions: Record<string, SaluteSession> = {};

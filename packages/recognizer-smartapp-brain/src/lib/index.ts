@@ -1,4 +1,4 @@
-import { Inference, SaluteRequest, Recognizer } from '@salutejs/types';
+import { Inference, SaluteRequest, Recognizer } from '@salutejs/scenario';
 import fetch, { RequestInfo, RequestInit } from 'node-fetch';
 
 import { ProjectData } from './projectData';
