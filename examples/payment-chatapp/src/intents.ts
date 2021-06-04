@@ -9,7 +9,7 @@ const convertToNewFormatMatcher = (rule: string) => {
 
 const intents: IntentsDict = {
     append: {
-        matchers: ['добавь', 'хочу'].map(convertToNewFormatMatcher),
+        matchers: ['добавить', 'хотеть'].map(convertToNewFormatMatcher),
         variables: {
             product: {
                 required: true,
@@ -17,7 +17,7 @@ const intents: IntentsDict = {
         },
     },
     remove: {
-        matchers: ['удали', 'убери', 'не хочу'].map(convertToNewFormatMatcher),
+        matchers: ['удалить', 'убрать', 'не хотеть'].map(convertToNewFormatMatcher),
         variables: {
             product: {
                 required: true,
@@ -25,7 +25,7 @@ const intents: IntentsDict = {
         },
     },
     cart: {
-        matchers: ['в корзину', 'покажи корзину', 'перейди в корзину', 'готово'].map(convertToNewFormatMatcher),
+        matchers: ['в корзина', 'показать корзина', 'перейти в корзина', 'готово'].map(convertToNewFormatMatcher),
     },
     payment: {
         matchers: ['продолжить', 'оплатить'].map(convertToNewFormatMatcher),
