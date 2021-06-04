@@ -27,19 +27,23 @@ const scenarioWalker = createScenarioWalker({
     }),
     userScenario: createUserScenario({
         append: {
-            match: regexp(new RegExp(`^(${intents.append.matchers.join('|')}) (?<product>.+)$`, 'i')),
+            match: regexp(
+                new RegExp(`^(${intents.append.matchers.map((m) => m.rule).join('|')}) (?<product>.+)$`, 'i'),
+            ),
             handle: appendHandler,
         },
         remove: {
-            match: regexp(new RegExp(`^(${intents.remove.matchers.join('|')}) (?<product>.+)$`, 'i')),
+            match: regexp(
+                new RegExp(`^(${intents.remove.matchers.map((m) => m.rule).join('|')}) (?<product>.+)$`, 'i'),
+            ),
             handle: removeHandler,
         },
         cart: {
-            match: regexp(new RegExp(`^(${intents.cart.matchers.join('|')})$`, 'i')),
+            match: regexp(new RegExp(`^(${intents.cart.matchers.map((m) => m.rule).join('|')})$`, 'i')),
             handle: cartHandler,
             children: {
                 payment: {
-                    match: regexp(new RegExp(`^(${intents.payment.matchers.join('|')})$`, 'i')),
+                    match: regexp(new RegExp(`^(${intents.payment.matchers.map((m) => m.rule).join('|')})$`, 'i')),
                     handle: paymentHandler,
                 },
             },
