@@ -53,7 +53,7 @@ export interface SaluteCommand {
     payload?: { [key: string]: unknown };
 }
 
-export type SaluteRequestVariable = Record<string, string>;
+export type SaluteRequestVariable = Record<string, string | string[]>;
 
 export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { payload: unknown; type: string }> {
     readonly character: CharacterId;
@@ -142,12 +142,12 @@ export interface Recognizer {
     inference: (options: { req: SaluteRequest; res: SaluteResponse; session: SaluteSession }) => void;
 }
 
-export type ScenarioSchema = Record<
+export type ScenarioSchema<Rq extends SaluteRequest = SaluteRequest, Sh extends SaluteHandler = SaluteHandler> = Record<
     string,
     {
-        match: (req: SaluteRequest) => boolean;
+        match: (req: Rq) => boolean;
         schema?: string;
-        handle: SaluteHandler;
-        children?: ScenarioSchema;
+        handle: Sh;
+        children?: ScenarioSchema<Rq>;
     }
 >;

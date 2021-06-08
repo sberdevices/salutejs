@@ -171,7 +171,7 @@ export interface PaymentInvoice {
             /** Значение ставки НДС */
             tax_type: NdsTypes;
             /** Сумма налога, посчитанная продавцом (без разделителя, в копейках) */
-            tax_sum: number;
+            tax_sum?: number;
         }>;
     };
 }
