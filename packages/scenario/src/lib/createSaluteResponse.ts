@@ -117,6 +117,13 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
                 },
             );
         },
+        finish: () => {
+            if (message.messageName !== 'ANSWER_TO_USER') {
+                throw new Error('Wrong message type');
+            }
+
+            message.payload.finished = true;
+        },
         runApp,
         setIntent: (intent: string) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
