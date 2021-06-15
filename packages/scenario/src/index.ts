@@ -14,10 +14,12 @@ export {
     reverseInvoice,
     refundInvoice,
 } from './lib/smartpay';
+export { createSmartPushSender, SendPushConfiguration } from './lib/smartpush';
 export * from './lib/types/payment';
 
 export * from './lib/types/i18n';
 export * from './lib/types/payment';
+export * from './lib/types/push';
 export * from './lib/types/request';
 export * from './lib/types/response';
 export * from './lib/types/salute';

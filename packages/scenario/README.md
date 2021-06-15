@@ -143,6 +143,41 @@ createSystemScenario({
 });
 ```
 
+## SmartPush
+
+Пуши требуют наличия переменных окружения - `SMARTPUSH_CLIENTID` и `SMARTPUSH_SECRET`, не забудьте добавить их в environment.
+Ниже пример подготовки и отправки пуша:
+
+```ts
+import { createSmartPushSender, SendPushConfiguration, SmartPushResponse } from 'salutejs/scenario';
+
+const pushes: SendPushConfiguration[] = [{
+        projectId: '', // id аппа из кабинета разработчика https://developers.sber.ru/
+        clientIdSub: '', // sub из запросов клиента
+        deliveryConfig: {
+            deliveryMode: 'BROADCAST', // тип доставки
+            destinations: [
+                {
+                    surface: 'COMPANION', // поверхность (Сбер салют)
+                    templateContent: {
+                        id: '', // id шаблона уведомления из студии
+                        headerValues: { }, // переменные для заголовка уведомления
+                        bodyValues: { }, // переменные для тела уведомления
+                    },
+                },
+            ],
+        },
+    }];
+const sendPush = await createSmartPushSender();
+pushes.forEach((push) =>
+    sendPush(push).then(({ payload }: SmartPushResponse) => {
+        if (payload.validation.results.some(({ status }) => status.code !== 0)) {
+            throw new Error('Уведомление не отправлено');
+        }
+    }),
+);
+```
+
 ## i18n
 
 Интерфейс для адаптации текста с динамическими параметрами и плюрализацией в рамках персонажей семейства виртуальных ассистентов Салют.
