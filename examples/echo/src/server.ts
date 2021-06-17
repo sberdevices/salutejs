@@ -24,8 +24,10 @@ io.on('connection', (ioSocket) => {
     socket = ioSocket;
 
     ioSocket.on('outcoming', (data: NLPResponse) => {
-        requestMap[data.messageId](data);
-        delete requestMap[data.messageId];
+        if (requestMap[data.messageId]) {
+            requestMap[data.messageId](data);
+            delete requestMap[data.messageId];
+        }
     });
 });
 
