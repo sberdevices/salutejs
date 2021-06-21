@@ -3,7 +3,7 @@ import { Server } from 'http';
 import { Server as SocketServer } from 'socket.io';
 import type { Socket } from 'socket.io';
 import next from 'next';
-import { NLPRequest, NLPResponse } from '@salutejs/types';
+import { NLPRequest, NLPResponse } from '@salutejs/scenario';
 
 const app = express();
 const server = new Server(app);

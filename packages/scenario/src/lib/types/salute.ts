@@ -10,6 +10,7 @@ import {
     Card,
     Bubble,
     Button,
+    ASRHints,
 } from './systemMessage';
 import { NLPRequest } from './request';
 import { NLPResponse } from './response';
@@ -52,7 +53,7 @@ export interface SaluteCommand {
     payload?: { [key: string]: unknown };
 }
 
-export type SaluteRequestVariable = Record<string, string>;
+export type SaluteRequestVariable = Record<string, string | string[]>;
 
 export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { payload: unknown; type: string }> {
     readonly character: CharacterId;
@@ -85,9 +86,12 @@ export interface SaluteResponse {
     appendError: (error: ErrorCommand['smart_app_error']) => void;
     appendSuggestions: (suggestions: Array<string | Button>) => void;
     askPayment: (invoiceId: number) => void;
+    finish: () => void;
     runApp: (appInfo: { systemName: string } | { projectId: string }, parameters: Record<string, unknown>) => void;
     setIntent: (text: string) => void;
-    setPronounceText: (text: string, options?: {ssml?: boolean}) => void;
+    setPronounceText: (text: string, options?: { ssml?: boolean }) => void;
+    setAutoListening: (value: boolean) => void;
+    setASRHints: (hints: ASRHints) => void;
     setEmotion: (emotion: EmotionId) => void;
     readonly message: NLPResponse;
 }
@@ -139,12 +143,12 @@ export interface Recognizer {
     inference: (options: { req: SaluteRequest; res: SaluteResponse; session: SaluteSession }) => void;
 }
 
-export type ScenarioSchema = Record<
+export type ScenarioSchema<Rq extends SaluteRequest = SaluteRequest, Sh extends SaluteHandler = SaluteHandler> = Record<
     string,
     {
-        match: (req: SaluteRequest) => boolean;
+        match: (req: Rq) => boolean;
         schema?: string;
-        handle: SaluteHandler;
-        children?: ScenarioSchema;
+        handle: Sh;
+        children?: ScenarioSchema<Rq>;
     }
 >;

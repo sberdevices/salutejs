@@ -10,6 +10,7 @@
     "test": "lerna run test",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "build:w": "lerna run build:w",
     "ci:prepare": "npm ci && npm run bootstrap && npm run build"
   },
   "repository": {

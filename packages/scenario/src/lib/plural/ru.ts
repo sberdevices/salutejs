@@ -1,4 +1,4 @@
-import { IPluralForms } from '@salutejs/types';
+import { IPluralForms } from '../types/i18n';
 
 export default (count: number, params: IPluralForms): string => {
     const lastNumber = count % 10;

@@ -1,4 +1,5 @@
-import { AppState, IntentsDict, SaluteRequest } from '@salutejs/types';
+import { IntentsDict, SaluteRequest } from './types/salute';
+import { AppState } from './types/systemMessage';
 
 export const compare = (expected, actual) => {
     if (typeof expected !== typeof actual) return false;

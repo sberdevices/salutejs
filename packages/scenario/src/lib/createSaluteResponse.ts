@@ -1,17 +1,7 @@
-import {
-    NLPRequest,
-    NLPResponse,
-    NLPResponseATU,
-    ErrorCommand,
-    SaluteCommand,
-    SaluteResponse,
-    EmotionId,
-    Button,
-    NLPRequestSA,
-    NLPResponsePRA,
-    Card,
-    Bubble,
-} from '@salutejs/types';
+import { NLPRequest, NLPRequestSA } from './types/request';
+import { NLPResponse, NLPResponseATU, NLPResponsePRA } from './types/response';
+import { SaluteCommand, SaluteResponse } from './types/salute';
+import { Bubble, Button, Card, EmotionId, ErrorCommand } from './types/systemMessage';
 
 export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
     const { messageId, sessionId, uuid, payload } = req;
@@ -127,6 +117,13 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
                 },
             );
         },
+        finish: () => {
+            if (message.messageName !== 'ANSWER_TO_USER') {
+                throw new Error('Wrong message type');
+            }
+
+            message.payload.finished = true;
+        },
         runApp,
         setIntent: (intent: string) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
@@ -135,14 +132,14 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.intent = intent;
         },
-        setPronounceText: (text: string, options: {ssml?: boolean} = {ssml: false}) => {
+        setPronounceText: (text: string, options: { ssml?: boolean } = { ssml: false }) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }
 
             if (options.ssml) {
                 if (!/^<speak>.*<\/speak>$/gi.test(text)) {
-                    text = '<speak>' + text + '</speak>';
+                    text = `<speak>${text}</speak>`;
                 }
 
                 message.payload.pronounceTextType = 'application/ssml';
@@ -158,6 +155,20 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
             message.payload.emotion = {
                 emotionId: emotion,
             };
+        },
+        setAutoListening: (value) => {
+            if (message.messageName !== 'ANSWER_TO_USER') {
+                throw new Error('Wrong message type');
+            }
+
+            message.payload.auto_listening = value;
+        },
+        setASRHints: (hints) => {
+            if (message.messageName !== 'ANSWER_TO_USER') {
+                throw new Error('Wrong message type');
+            }
+
+            message.payload.asr_hints = hints;
         },
         get message(): NLPResponse {
             return message;

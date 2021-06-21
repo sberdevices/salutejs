@@ -1,15 +1,7 @@
-import {
-    NLPRequest,
-    NLPRequestMTS,
-    NLPRequestSA,
-    Inference,
-    SaluteRequest,
-    KeysetDictionary,
-    Variant,
-    SaluteRequestVariable,
-} from '@salutejs/types';
-
 import { i18n } from './i18n';
+import { KeysetDictionary } from './types/i18n';
+import { NLPRequest, NLPRequestMTS, NLPRequestSA } from './types/request';
+import { Inference, SaluteRequest, SaluteRequestVariable, Variant } from './types/salute';
 
 export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
     let inference: Inference;

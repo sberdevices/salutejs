@@ -1,4 +1,4 @@
-import { IntentsDict, SaluteIntent, TextIntent } from '@salutejs/types';
+import { IntentsDict, SaluteIntent, TextIntent } from '@salutejs/scenario';
 
 import { ProjectData, Phrase, Intent } from './projectData';
 

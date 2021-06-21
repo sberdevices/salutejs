@@ -1,4 +1,4 @@
-import { SaluteSession, SaluteSessionStorage } from '@salutejs/types';
+import { SaluteSession, SaluteSessionStorage } from '@salutejs/scenario';
 import * as admin from 'firebase-admin';
 
 /**
@@ -7,6 +7,7 @@ import * as admin from 'firebase-admin';
 export class SaluteFirebaseSessionStorage implements SaluteSessionStorage {
     /** Database in your Firebase. */
     private db: admin.database.Database;
+
     /** Specific location in your Firebase Database for session data. */
     private path: string;
 
@@ -52,7 +53,7 @@ export class SaluteFirebaseSessionStorage implements SaluteSessionStorage {
             variables: {},
             slotFilling: false,
             state: {},
-            ...(data || {})
+            ...(data || {}),
         };
     }
 
@@ -74,7 +75,7 @@ export class SaluteFirebaseSessionStorage implements SaluteSessionStorage {
     save({ id, session }: { id: string; session: SaluteSession }): Promise<void> {
         const value = { ...session };
         // remove undefined fields, because firebase crashes with undefined-values
-        Object.keys(value).forEach(key => typeof value[key] === 'undefined' && delete value[key]);
+        Object.keys(value).forEach((key) => typeof value[key] === 'undefined' && delete value[key]);
 
         return this.getRef(id).set(value);
     }

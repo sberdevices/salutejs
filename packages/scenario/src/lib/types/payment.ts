@@ -56,22 +56,21 @@ export enum PaymentReponseStatuses {
     serviceError = 403,
 }
 
-export enum PaymentInvoiceStatuses {
+export type PaymentInvoiceStatuses =
     /** заказ оплачен */
-    confirmed = 0,
+    | 'confirmed'
     /** заказ создан и ожидает выбора платежного инструмента */
-    created = 1,
+    | 'created'
     /** заказ находится в процессе оплаты */
-    executed = 2,
+    | 'executed'
     /** деньги временно заблокированы (только для двухстадийного платежа */
-    paid = 3,
+    | 'paid'
     /** заказ отменен пользователем */
-    cancelled = 4,
+    | 'cancelled'
     /** заказ отменен продавцом */
-    reversed = 6,
-    /** осуществлен полный возвра */
-    refunded = 7,
-}
+    | 'reversed'
+    /** осуществлен полный возврат */
+    | 'refunded';
 
 export interface PaymentInvoice {
     /** Блок информации о покупателе */
@@ -171,7 +170,7 @@ export interface PaymentInvoice {
             /** Значение ставки НДС */
             tax_type: NdsTypes;
             /** Сумма налога, посчитанная продавцом (без разделителя, в копейках) */
-            tax_sum: number;
+            tax_sum?: number;
         }>;
     };
 }

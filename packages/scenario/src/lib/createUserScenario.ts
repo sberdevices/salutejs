@@ -1,4 +1,4 @@
-import { SaluteRequest, ScenarioSchema } from '@salutejs/types';
+import { SaluteRequest, ScenarioSchema } from './types/salute';
 
 export function createUserScenario<R extends SaluteRequest = SaluteRequest>(scenarioSchema: ScenarioSchema) {
     /**
