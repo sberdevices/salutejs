@@ -22,12 +22,10 @@
     },
     "publish": {
       "verifyAccess": false,
-      "allowBranch": "master",
       "ignoreChanges": [
         "*.md",
         "**/test/**"
-      ],
-      "message": "chore(release): publish"
+      ]
     }
   }
 }
