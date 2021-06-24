@@ -48,6 +48,9 @@ jobs:
       # - name: Lint
       #   run: npm run lint
 
+      - name: ByPass npm auth
+        run: cp .fake-npmrc .npmrc
+
       - name: Release Info
         run: npm whoami && npx auto info || echo 'auto info returned 1'
 
