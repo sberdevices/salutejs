@@ -102,7 +102,7 @@ const systemScenario = createSystemScenario({
 
 ## SmartPay
 
-Чтобы оплата работала, необходимо добавить переменную `SMARTPAEY_TOKEN` в environment.
+Чтобы оплата работала, необходимо добавить переменную `SMARTPAY_TOKEN` в environment.
 
 ### Инициация диалога оплаты
 
