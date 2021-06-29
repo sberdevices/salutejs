@@ -44,6 +44,7 @@ jobs:
         run: |
           npm i
           npx lerna bootstrap
+          npm lerna run build
 
       # - name: Lint
       #   run: npm run lint
