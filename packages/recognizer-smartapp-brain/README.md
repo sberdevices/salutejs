@@ -11,6 +11,12 @@ SmartApp Brain — технология определения смысла фр
 1. Создать проект в https://smartapp-code.sberdevices.ru
 2. Перейти в проект
 3. Настройки проекта -> Классификатор -> __API-ключ Brain__
+4. Добавить токен в `.env` в корне проекта
+
+__.env__
+``` bash
+SMARTAPP_BRAIN_TOKEN=<access_token>
+```
 
 ### Получение интентов
 
