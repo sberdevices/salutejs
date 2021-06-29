@@ -8,7 +8,8 @@
     "declarationMap": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "downlevelIteration": true
   },
   "include": ["./src"]
 }

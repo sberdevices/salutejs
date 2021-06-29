@@ -67,23 +67,34 @@ cli.command('push')
         const intentsConvertedForImport = convertIntentsForImport(intentsFromFS);
         const entitiesConvertedForImport = convertEntitiesForImport(entitiesFromFS);
 
-        const usedEntities = new Set<string>();
+        const customEntities = Object.keys(entitiesFromFS);
+        const customEntitiesSet = new Set(customEntities);
+        const permittedSystemEntitesSet = new Set<string>(permittedSystemEntites);
+
+        const usedSystemEntitiesSet = new Set<string>();
+
         for (const intent of Object.values(intentsFromFS)) {
             if (Array.isArray(intent.matchers)) {
                 intent.matchers.forEach(({ rule }) => {
                     const matched = rule.match(/@[a-zA-Z0-9._-]+/gi);
                     if (matched) {
                         matched.forEach((entitity) => {
-                            const normalized = entitity.replace('/^@/', '');
-                            if (!permittedSystemEntites.includes(normalized as any)) {
-                                throw new Error(
-                                    `"${normalized}" is not a system entity. These are allowed: ${permittedSystemEntites.join(
-                                        ', ',
-                                    )}`,
-                                );
-                            }
+                            const normalized = entitity.replace(/^@/, '');
 
-                            usedEntities.add(normalized);
+                            const isCustomEntity = customEntitiesSet.has(normalized);
+                            const isSystemEntity = permittedSystemEntitesSet.has(normalized);
+
+                            if (isSystemEntity) {
+                                usedSystemEntitiesSet.add(normalized);
+                            } else if (!isCustomEntity) {
+                                const allEntities = [...permittedSystemEntites, ...customEntities];
+                                const errorMessage = [
+                                    `"${normalized}" entity not found.`,
+                                    `These are allowed: ${allEntities.join(', ')}`,
+                                ];
+
+                                throw new Error(errorMessage.join('\n'));
+                            }
                         });
                     }
                 });
@@ -92,7 +103,7 @@ cli.command('push')
 
         projectData.intents = intentsConvertedForImport;
         projectData.entities = entitiesConvertedForImport;
-        projectData.enabledSystemEntities = Array.from(usedEntities);
+        projectData.enabledSystemEntities = [...usedSystemEntitiesSet];
 
         try {
             await brain.import(projectData);
