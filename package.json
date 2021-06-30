@@ -12,7 +12,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "build:w": "lerna run build:w",
-    "ci:prepare": "npm ci && npm run bootstrap && npm run build"
+    "ci:prepare": "npm ci && npm run bootstrap"
   },
   "repository": {
     "type": "git",
