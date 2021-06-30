@@ -27,6 +27,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "rm -rf dist && tsc",
     "build:w": "rm -rf dist && tsc -w",
     "watch": "tsc -w",

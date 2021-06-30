@@ -46,10 +46,21 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
+    - name: Cache node_modules
+      uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: npm-deps-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          npm-deps-${{ hashFiles('package-lock.json') }}
+
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Prepare
-      run: npm run ci:prepare
+      run: |
+        npm i
+        npm run bootstrap
+        npm run build
       
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1

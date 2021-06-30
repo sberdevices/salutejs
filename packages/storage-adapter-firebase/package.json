@@ -23,6 +23,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "rm -rf dist && tsc",
     "lint": "eslint --ext .js,.ts ./src"
   },
