@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["es2017"],
+    "rootDir": "src",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "typeRoots": [ "./src/types", "./node_modules/@types" ]
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

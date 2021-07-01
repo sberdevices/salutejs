@@ -19,7 +19,7 @@ const { intent } = createMatchers();
 app.post(
     '/app-connector',
     saluteExpressMiddleware({
-        intents: createIntents(model),
+        intents: createIntents(model.intents),
         recognizer: new SmartAppBrainRecognizer(),
         systemScenario: createSystemScenario({
             RUN_APP: ({ req, res }) => {
