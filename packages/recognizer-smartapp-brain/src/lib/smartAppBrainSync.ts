@@ -111,6 +111,7 @@ export const convertIntentsForImport = (intents: IntentsDict) => {
                 name: key,
                 prompts: value.questions,
                 array: value.array,
+                entity: value.entity,
             });
         }
 

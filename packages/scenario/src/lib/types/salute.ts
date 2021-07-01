@@ -107,6 +107,7 @@ export interface SaluteIntentVariable {
     required?: boolean;
     questions?: string[];
     array?: boolean;
+    entity?: string;
 }
 
 export interface TextIntent {
