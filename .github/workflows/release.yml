@@ -45,8 +45,8 @@ jobs:
           npm i
           npm run bootstrap
 
-      # - name: Lint
-      #   run: npm run lint
+      - name: Lint
+        run: npm run lint
 
       - name: ByPass npm auth
         run: cp .fake-npmrc .npmrc
