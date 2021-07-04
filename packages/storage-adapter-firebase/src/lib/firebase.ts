@@ -28,7 +28,7 @@ export class SaluteFirebaseSessionStorage implements SaluteSessionStorage {
      * const storage =
      *   new SaluteFirebaseSessionStorage(admin.database(), 'sber/sessions');
      */
-    constructor(db: admin.database.Database, path: string = 'sessions') {
+    constructor(db: admin.database.Database, path = 'sessions') {
         this.db = db;
         this.path = path.replace(/\/$/, '');
     }
