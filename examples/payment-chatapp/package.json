@@ -1,7 +1,7 @@
 {
   "name": "payment-chatapp",
   "private": "true",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "license": "Sber Public License at-nc-sa v.2",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "main": "src/index.js",
@@ -9,8 +9,8 @@
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' ./src/index.ts"
   },
   "dependencies": {
-    "@salutejs/scenario": "0.9.0",
-    "@salutejs/storage-adapter-memory": "0.9.0",
+    "@salutejs/scenario": "0.10.0",
+    "@salutejs/storage-adapter-memory": "0.10.0",
     "dotenv": "8.2.0",
     "express": "4.17.1"
   },
