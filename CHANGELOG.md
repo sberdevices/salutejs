@@ -1,5 +1,18 @@
 # (Tue Jul 06 2021)
 
+#### 🐛 Bug Fix
+
+- `@salutejs/storage-adapter-firebase@0.10.1`
+  - fix: eslint errors [#196](https://github.com/sberdevices/salutejs/pull/196) ([@Yeti-or](https://github.com/Yeti-or))
+
+#### Authors: 1
+
+- Vasiliy ([@Yeti-or](https://github.com/Yeti-or))
+
+---
+
+# (Tue Jul 06 2021)
+
 #### 🚀 Enhancement
 
 - fix: todo tests [#154](https://github.com/sberdevices/salutejs/pull/154) ([@sasha-tlt](https://github.com/sasha-tlt))
