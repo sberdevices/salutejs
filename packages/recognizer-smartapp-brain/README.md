@@ -8,7 +8,7 @@ SmartApp Brain — технология определения смысла фр
 
 ### Access token
 
-1. Создать проект в https://smartapp-code.sberdevices.ru
+1. Создать новый смартапп типа SmartApp Code в https://developers.sber.ru/studio/workspaces/smartapps/create-app
 2. Перейти в проект
 3. Настройки проекта -> Классификатор -> __API-ключ Brain__
 4. Добавить токен в `.env` в корне проекта
