@@ -36,12 +36,12 @@ export type Surface = 'SBERBOX' | 'COMPANION' | 'STARGATE';
 /**
  * Идентификатор персонажа, которого выбрал пользователь.
  */
-export type CharacterId = 'sber' | 'athena' | 'joy';
+export type CharacterId = 'sber' | 'eva' | 'joy';
 /**
  * Имя персонажа.
  */
 export type CharacterName = 'Сбер' | 'Афина' | 'Джой';
-export type PermissionType = 'record_audio' | 'geo' | 'read_contacts' | 'push';
+export type PermissionType = 'geo' | 'read_contacts' | 'record_audio' | 'push';
 export type PermissionStatus = 'granted' | 'denied_once' | 'denied_permanently';
 /**
  * Список подцензурных категорий, обнаруженных в тексте или реплике пользователя.
@@ -83,12 +83,12 @@ export type EmotionId =
     | 'strakh'
     | 'zainteresovannost';
 export type Action = TextAction | DeepLinkAction | SendContactPhone | ServerAction;
-export type UserPermisson = 'geo' | 'read_contacts' | 'record_audio' | 'push';
 export type Card =
     | ListCard
     | GalleryCard
     | GridCard
     | DiscoveryCard
+    | QRCodeCard
     | WidgetTitleCard
     | WidgetGallery
     | WidgetGalleryWithCategories
@@ -105,6 +105,7 @@ export type ListCard = CardBase & {
      * Id для отправки в метрику
      */
     log_id?: string;
+    background_image?: FlexibleImageView;
     [k: string]: unknown;
 };
 /**
@@ -117,8 +118,10 @@ export type CellView =
     | ButtonCellView
     | ImageCellView
     | DetailsCellView
-    | WeatherCellView;
-export type LeftView = SimpleLeftView | FastAnswerLeftView;
+    | WeatherCellView
+    | RightSideCellView
+    | FlexibleImageCellView;
+export type LeftView = SimpleLeftView | FastAnswerLeftView | FlexibleImageLeftRightCellView;
 /**
  * Адрес графического ресурса, может быть задан в пространстве интернет
  * или в локальном пространстве клиента, url имеет больший приоритет чем local
@@ -145,189 +148,13 @@ export type ImageAddress =
            * Тип ресурса.
            */
           type: 'local';
-          identificator: LocalImageIdentificator1;
+          identificator: LocalImageIdentificator;
           [k: string]: unknown;
       };
 /**
  * Заглушка, которую показываем, когда нет изображения или оно невалидно(опционален)
  */
 export type LocalImageIdentificator =
-    | 'add_contactless_payment'
-    | 'apple_wallet'
-    | 'arrow_right_chevron_rectangle'
-    | 'arrow_right_trace_line'
-    | 'arrows_forward_back'
-    | 'atm_banknote'
-    | 'bag'
-    | 'ballot_paper'
-    | 'bar_graph'
-    | 'basket'
-    | 'beach_umbrella'
-    | 'bell'
-    | 'bell_crossed'
-    | 'between_accounts'
-    | 'boarding_pass'
-    | 'bolt'
-    | 'box'
-    | 'building'
-    | 'calculator'
-    | 'camera'
-    | 'candy'
-    | 'capsule'
-    | 'car'
-    | 'card'
-    | 'card_amex'
-    | 'card_amex_black'
-    | 'card_amex_gold'
-    | 'card_blocked'
-    | 'card_chevron_left'
-    | 'card_ghost'
-    | 'card_maestro_null'
-    | 'card_mc'
-    | 'card_mc_black'
-    | 'card_mc_gold'
-    | 'card_mc_null'
-    | 'card_mir'
-    | 'card_mir_black'
-    | 'card_mir_gold'
-    | 'card_mir_null'
-    | 'card_momentum'
-    | 'card_on_card'
-    | 'card_plus'
-    | 'card_pro100_null'
-    | 'card_uek'
-    | 'card_viewfinder'
-    | 'card_visa_gold'
-    | 'card_visa_black'
-    | 'card_visa'
-    | 'card_visa_infinite_sber'
-    | 'card_visa_infinite'
-    | 'card_visa_digital'
-    | 'card_visa_null'
-    | 'cards_carousel'
-    | 'case'
-    | 'case_diagram'
-    | 'chess_piece'
-    | 'circle_cross'
-    | 'circle_plus'
-    | 'clock'
-    | 'coat_of_arms'
-    | 'coin'
-    | 'coin_heart'
-    | 'color_spasibo'
-    | 'color_total'
-    | 'counterclock_wise'
-    | 'crown'
-    | 'digital_banknotes'
-    | 'document'
-    | 'document_checkmark'
-    | 'document_magnifying_glass'
-    | 'document_on_document'
-    | 'drop'
-    | 'ellipsis'
-    | 'eye'
-    | 'eye_crossed'
-    | 'face'
-    | 'face_id'
-    | 'falling_coin'
-    | 'file_pdf'
-    | 'fingerprint'
-    | 'flag'
-    | 'flame'
-    | 'flasher'
-    | 'funnel'
-    | 'gamepad'
-    | 'gear'
-    | 'gift'
-    | 'globe'
-    | 'hammer'
-    | 'handset'
-    | 'heart'
-    | 'heart_hand'
-    | 'house'
-    | 'house_handset'
-    | 'house_percent'
-    | 'info'
-    | 'key'
-    | 'list'
-    | 'lock_closed'
-    | 'lock_opened'
-    | 'magnit'
-    | 'mail'
-    | 'mail_eye'
-    | 'mail_waves'
-    | 'man_badge'
-    | 'man_wheelchair'
-    | 'map'
-    | 'mask'
-    | 'mindmap'
-    | 'mobile'
-    | 'mobile_plus'
-    | 'mobile_plus_alt'
-    | 'mobile_waves'
-    | 'necklace'
-    | 'note'
-    | 'notebook_waves'
-    | 'open_book'
-    | 'other'
-    | 'paper_tray'
-    | 'parking'
-    | 'passport'
-    | 'paw'
-    | 'pencil_line'
-    | 'percent'
-    | 'pfm'
-    | 'photo'
-    | 'pie_chart'
-    | 'placeholder'
-    | 'plane'
-    | 'play'
-    | 'postcard_heart'
-    | 'pram'
-    | 'qr_code'
-    | 'receipt'
-    | 'rectangle_on_dashed_rectangle'
-    | 'rectangle_speech_bubble'
-    | 'rectangle_speech_bubble_on_speech_bubble'
-    | 'rectangle_watches'
-    | 'round_speech_bubble_question'
-    | 'round_watches'
-    | 'ruble_dollar'
-    | 'ruble_plus'
-    | 'safe'
-    | 'safe_diagram'
-    | 'sber'
-    | 'security_camera'
-    | 'shield'
-    | 'shield_check'
-    | 'shield_crossed'
-    | 'shield_lines'
-    | 'shield_lines_circles'
-    | 'spasibo'
-    | 'speaker_waves'
-    | 'square_on_square'
-    | 'star_light'
-    | 'student_hat'
-    | 'telephone'
-    | 'thermometer'
-    | 'trash'
-    | 'tv_set'
-    | 'umbrella'
-    | 'user'
-    | 'user_cross'
-    | 'user_on_user'
-    | 'vibration'
-    | 'wallet'
-    | 'watering_can'
-    | 'waves'
-    | 'waves_cross'
-    | 'whistle'
-    | 'wrench'
-    | 'yule';
-/**
- * Адрес картинки в локальном пространстве клиента https://www.figma.com/file/MQHBgPkW4dqXmI2549WioI/Dev?node-id=19%3A9
- */
-export type LocalImageIdentificator1 =
     | 'add_contactless_payment'
     | 'apple_wallet'
     | 'arrow_right_chevron_rectangle'
@@ -516,6 +343,7 @@ export type Color =
     | 'solid_warning'
     | 'solid_critical'
     | 'solid_action'
+    | 'secondary'
     | 'liquid_60'
     | 'liquid_50'
     | 'liquid_40'
@@ -535,6 +363,7 @@ export type Typeface =
     | 'body1'
     | 'body2'
     | 'body3'
+    | 'body_ai'
     | 'text1'
     | 'paragraphText1'
     | 'paragraphText2'
@@ -548,264 +377,11 @@ export type Typeface =
  */
 export type TypeColor = 'default' | 'secondary' | 'tertiary' | 'inverse' | 'brand' | 'warning' | 'critical' | 'link';
 /**
- * Гравити ui элемента по вертикали.
+ * Выравнивание элемента по вертикали.
  */
 export type VerticalGravity = 'top' | 'center' | 'bottom';
-export type RightView = DisclosureRightView | DetailRightView | RoundButtonCellView | TagCellView;
 /**
- * Цвет фона см https://www.figma.com/file/yaeE0lLDWMBKKLXuDHgq1p/SmartX-Styles?node-id=19%3A15
- */
-export type Color1 =
-    | 'solid_black'
-    | 'solid_white'
-    | 'solid_transparent'
-    | 'solid_disabled'
-    | 'solid_brand'
-    | 'solid_warning'
-    | 'solid_critical'
-    | 'solid_action'
-    | 'liquid_60'
-    | 'liquid_50'
-    | 'liquid_40'
-    | 'liquid_30'
-    | 'liquid_20'
-    | 'liquid_10';
-/**
- * Цвет фона см https://www.figma.com/file/yaeE0lLDWMBKKLXuDHgq1p/SmartX-Styles?node-id=19%3A15
- */
-export type Color2 =
-    | 'solid_black'
-    | 'solid_white'
-    | 'solid_transparent'
-    | 'solid_disabled'
-    | 'solid_brand'
-    | 'solid_warning'
-    | 'solid_critical'
-    | 'solid_action'
-    | 'liquid_60'
-    | 'liquid_50'
-    | 'liquid_40'
-    | 'liquid_30'
-    | 'liquid_20'
-    | 'liquid_10';
-export type Actions1 = [Action, ...Action[]];
-/**
- * Цвет фона см https://www.figma.com/file/yaeE0lLDWMBKKLXuDHgq1p/SmartX-Styles?node-id=19%3A15
- */
-export type Color3 =
-    | 'solid_black'
-    | 'solid_white'
-    | 'solid_transparent'
-    | 'solid_disabled'
-    | 'solid_brand'
-    | 'solid_warning'
-    | 'solid_critical'
-    | 'solid_action'
-    | 'liquid_60'
-    | 'liquid_50'
-    | 'liquid_40'
-    | 'liquid_30'
-    | 'liquid_20'
-    | 'liquid_10';
-/**
- * Стиль текста, см https://www.figma.com/file/D0AfmXWT5KBPiWFNg2IZoF/SmartX-Typeface?node-id=0%3A1
- */
-export type Typeface1 =
-    | 'headline1'
-    | 'headline2'
-    | 'headline3'
-    | 'title1'
-    | 'title2'
-    | 'body1'
-    | 'body2'
-    | 'body3'
-    | 'text1'
-    | 'paragraphText1'
-    | 'paragraphText2'
-    | 'footnote1'
-    | 'footnote2'
-    | 'button1'
-    | 'button2'
-    | 'caption';
-export type Actions2 = [Action, ...Action[]];
-/**
- * Адрес картинки в локальном пространстве клиента https://www.figma.com/file/MQHBgPkW4dqXmI2549WioI/Dev?node-id=19%3A9
- */
-export type LocalImageIdentificator2 =
-    | 'add_contactless_payment'
-    | 'apple_wallet'
-    | 'arrow_right_chevron_rectangle'
-    | 'arrow_right_trace_line'
-    | 'arrows_forward_back'
-    | 'atm_banknote'
-    | 'bag'
-    | 'ballot_paper'
-    | 'bar_graph'
-    | 'basket'
-    | 'beach_umbrella'
-    | 'bell'
-    | 'bell_crossed'
-    | 'between_accounts'
-    | 'boarding_pass'
-    | 'bolt'
-    | 'box'
-    | 'building'
-    | 'calculator'
-    | 'camera'
-    | 'candy'
-    | 'capsule'
-    | 'car'
-    | 'card'
-    | 'card_amex'
-    | 'card_amex_black'
-    | 'card_amex_gold'
-    | 'card_blocked'
-    | 'card_chevron_left'
-    | 'card_ghost'
-    | 'card_maestro_null'
-    | 'card_mc'
-    | 'card_mc_black'
-    | 'card_mc_gold'
-    | 'card_mc_null'
-    | 'card_mir'
-    | 'card_mir_black'
-    | 'card_mir_gold'
-    | 'card_mir_null'
-    | 'card_momentum'
-    | 'card_on_card'
-    | 'card_plus'
-    | 'card_pro100_null'
-    | 'card_uek'
-    | 'card_viewfinder'
-    | 'card_visa_gold'
-    | 'card_visa_black'
-    | 'card_visa'
-    | 'card_visa_infinite_sber'
-    | 'card_visa_infinite'
-    | 'card_visa_digital'
-    | 'card_visa_null'
-    | 'cards_carousel'
-    | 'case'
-    | 'case_diagram'
-    | 'chess_piece'
-    | 'circle_cross'
-    | 'circle_plus'
-    | 'clock'
-    | 'coat_of_arms'
-    | 'coin'
-    | 'coin_heart'
-    | 'color_spasibo'
-    | 'color_total'
-    | 'counterclock_wise'
-    | 'crown'
-    | 'digital_banknotes'
-    | 'document'
-    | 'document_checkmark'
-    | 'document_magnifying_glass'
-    | 'document_on_document'
-    | 'drop'
-    | 'ellipsis'
-    | 'eye'
-    | 'eye_crossed'
-    | 'face'
-    | 'face_id'
-    | 'falling_coin'
-    | 'file_pdf'
-    | 'fingerprint'
-    | 'flag'
-    | 'flame'
-    | 'flasher'
-    | 'funnel'
-    | 'gamepad'
-    | 'gear'
-    | 'gift'
-    | 'globe'
-    | 'hammer'
-    | 'handset'
-    | 'heart'
-    | 'heart_hand'
-    | 'house'
-    | 'house_handset'
-    | 'house_percent'
-    | 'info'
-    | 'key'
-    | 'list'
-    | 'lock_closed'
-    | 'lock_opened'
-    | 'magnit'
-    | 'mail'
-    | 'mail_eye'
-    | 'mail_waves'
-    | 'man_badge'
-    | 'man_wheelchair'
-    | 'map'
-    | 'mask'
-    | 'mindmap'
-    | 'mobile'
-    | 'mobile_plus'
-    | 'mobile_plus_alt'
-    | 'mobile_waves'
-    | 'necklace'
-    | 'note'
-    | 'notebook_waves'
-    | 'open_book'
-    | 'other'
-    | 'paper_tray'
-    | 'parking'
-    | 'passport'
-    | 'paw'
-    | 'pencil_line'
-    | 'percent'
-    | 'pfm'
-    | 'photo'
-    | 'pie_chart'
-    | 'placeholder'
-    | 'plane'
-    | 'play'
-    | 'postcard_heart'
-    | 'pram'
-    | 'qr_code'
-    | 'receipt'
-    | 'rectangle_on_dashed_rectangle'
-    | 'rectangle_speech_bubble'
-    | 'rectangle_speech_bubble_on_speech_bubble'
-    | 'rectangle_watches'
-    | 'round_speech_bubble_question'
-    | 'round_watches'
-    | 'ruble_dollar'
-    | 'ruble_plus'
-    | 'safe'
-    | 'safe_diagram'
-    | 'sber'
-    | 'security_camera'
-    | 'shield'
-    | 'shield_check'
-    | 'shield_crossed'
-    | 'shield_lines'
-    | 'shield_lines_circles'
-    | 'spasibo'
-    | 'speaker_waves'
-    | 'square_on_square'
-    | 'star_light'
-    | 'student_hat'
-    | 'telephone'
-    | 'thermometer'
-    | 'trash'
-    | 'tv_set'
-    | 'umbrella'
-    | 'user'
-    | 'user_cross'
-    | 'user_on_user'
-    | 'vibration'
-    | 'wallet'
-    | 'watering_can'
-    | 'waves'
-    | 'waves_cross'
-    | 'whistle'
-    | 'wrench'
-    | 'yule';
-/**
- * Режим растягивания изображения
+ * Режим растягивания и расположения изображения внутри контейнера
  */
 export type ScaleMode =
     | 'scale_aspect_fill'
@@ -820,41 +396,33 @@ export type ScaleMode =
     | 'bottom_left'
     | 'bottom_right';
 /**
- * Цвет фона см https://www.figma.com/file/yaeE0lLDWMBKKLXuDHgq1p/SmartX-Styles?node-id=19%3A15
+ * Позиционирование по горизонтали
  */
-export type Color4 =
-    | 'solid_black'
-    | 'solid_white'
-    | 'solid_transparent'
-    | 'solid_disabled'
-    | 'solid_brand'
-    | 'solid_warning'
-    | 'solid_critical'
-    | 'solid_action'
-    | 'liquid_60'
-    | 'liquid_50'
-    | 'liquid_40'
-    | 'liquid_30'
-    | 'liquid_20'
-    | 'liquid_10';
+export type HorizontalGravity = 'left' | 'center' | 'right';
+/**
+ * Размер изображения относительно карточки
+ */
+export type ContentSize = MatchParentContentSize | FixedContentSize;
+export type RightView =
+    | DisclosureRightView
+    | DetailRightView
+    | RoundButtonCellView
+    | TagCellView
+    | FlexibleImageLeftRightCellView;
 /**
  * Ширина контента в терминах сеток. https://www.figma.com/file/L6AlpyUxFuumKEEbh4ADIh/🤖SD-Styles?node-id=26%3A17 https://www.figma.com/file/c6KZ9jIXTB5zEmyTfA2Akv/Message-Based?node-id=1446%3A0
  */
-export type ContentWidth = 'xsmall' | 'small' | 'medium' | 'large' | 'resizable';
+export type GridContentWidth = 'xsmall' | 'small' | 'medium' | 'large' | 'resizable';
 /**
  * Горизонтальная галерея
  */
 export type GalleryCard = CardBase & {
     items: [GalleryItem, ...GalleryItem[]];
-    bottom_text?: TextView3;
+    bottom_text?: TextView;
     type: 'gallery_card';
     [k: string]: unknown;
 };
 export type GalleryItem = MediaGalleryItem | GallerySearchContentItem | GalleryMoreButtonItem;
-/**
- * Ширина контента в терминах сеток. https://www.figma.com/file/L6AlpyUxFuumKEEbh4ADIh/🤖SD-Styles?node-id=26%3A17 https://www.figma.com/file/c6KZ9jIXTB5zEmyTfA2Akv/Message-Based?node-id=1446%3A0
- */
-export type ContentWidth1 = 'xsmall' | 'small' | 'medium' | 'large' | 'resizable';
 /**
  * Двумерная карточка (сетка)
  */
@@ -868,7 +436,7 @@ export type GridCard = CardBase & {
      * Количество столбцов
      */
     columns?: number;
-    item_width?: ContentWidth2;
+    item_width?: GridContentWidth;
     /**
      * Высота карточки
      */
@@ -877,49 +445,9 @@ export type GridCard = CardBase & {
 };
 export type GridItem = GreetingGridItem;
 /**
- * Ширина контента в терминах сеток. https://www.figma.com/file/L6AlpyUxFuumKEEbh4ADIh/🤖SD-Styles?node-id=26%3A17 https://www.figma.com/file/c6KZ9jIXTB5zEmyTfA2Akv/Message-Based?node-id=1446%3A0
- */
-export type ContentWidth2 = 'xsmall' | 'small' | 'medium' | 'large' | 'resizable';
-/**
- * Карточка с вертикальным списком ячеек для отображения в ленте.
- */
-export type DiscoveryCard = CardBase & {
-    /**
-     * Ячейки с контентом карточки
-     */
-    cells: {
-        [k: string]: unknown;
-    };
-    background_image?: ImageView;
-    /**
-     * Цвет, которым заливается фон карточки. Задаётся как HEX c компонентом alpha в виде #AARRGGBB или #RRGGBB
-     */
-    background_color?: string;
-    /**
-     * Имеет ли карточка затемнение в нижней части
-     */
-    has_fade?: boolean;
-    /**
-     * Количество колонок, которое занимает карточка по ширине
-     */
-    width_columns?: 2 | 3 | 4;
-    /**
-     * Соотношение сторон карточки - W:H
-     */
-    aspect_ratio?: '1:1' | '2:3' | '3:2' | '3:4' | '16:9';
-    actions?: Actions;
-    type: 'discovery_card';
-    /**
-     * Id для отправки в метрику
-     */
-    log_id?: string;
-    [k: string]: unknown;
-};
-/**
  * Упорядоченный список категорий с подмассивами из карточек
  */
 export type ObjectObject = [[unknown, ...unknown[]], ...[unknown, ...unknown[]][]];
-export type Actions3 = [Action, ...Action[]];
 /**
  * Доступные id контекстов для поиска. Например, если задать для какого-то контекста
  * префиксы ('позвони', 'набери'), то ASR будет искать в этом контексте только,
@@ -979,12 +507,12 @@ export interface SystemMessagePayload {
      * Флаг, говорящий о том, нужно ли активировать апп, указанный в app_info, в случае если он сейчас не активен.
      */
     activate_app_info?: boolean & string;
-    device: Device;
+    device?: Device;
     character: Character;
     /**
      * Имя смартапа, которое задается при создании проекта и отображается в каталоге приложений.
      */
-    projectName: string;
+    projectName?: string;
     strategies?: Strategies;
     /**
      * Интент, который смартап получит в следующем ответе ассистента.
@@ -993,13 +521,13 @@ export interface SystemMessagePayload {
     /**
      * Исходный интент. Значение поля отличается от значения intent только при монопольном захвате контекста.
      */
-    original_intent: string;
+    original_intent?: string;
     /**
      * Мета данные, полученные от сервиса распознавания интентов.
      */
-    intent_meta: unknown;
-    meta?: Meta;
-    selected_item: SelectedItem;
+    intent_meta?: unknown;
+    meta: Meta;
+    selected_item?: SelectedItem;
     /**
      * Указывает на характер запуска смартапа. Если поле содержит true,
      * сессии присваивается новый идентификатор (поле sessionId).
@@ -1007,8 +535,8 @@ export interface SystemMessagePayload {
      * а так же при запуске приложения по истечению тайм-аута (10 минут)
      * или после прерывания работы приложения, например, по запросу 'текущее время'.
      */
-    new_session: boolean;
-    annotations: Annotations;
+    new_session?: boolean;
+    annotations?: Annotations;
     message: Message;
     server_action?: {
         type?: string;
@@ -1095,7 +623,7 @@ export interface AppInfo {
     /**
      * Ссылка на веб-приложение. Поле актуально для Canvas Apps.
      */
-    frontendEndpoint: string;
+    frontendEndpoint?: string;
     frontendType: AppType;
     /**
      * Более читаемый аналог поля projectId. Не актуален для внешних приложений.
@@ -1234,8 +762,8 @@ export interface Meta {
 }
 export interface Location {
     accuracy?: number;
-    lat: string;
-    lon: string;
+    lat: number;
+    lon: number;
     timestamp?: number;
     [k: string]: unknown;
 }
@@ -1458,13 +986,19 @@ export interface Emotion {
     [k: string]: unknown;
 }
 export interface AssistantCommand {
-    command: DataCommand | ActionCommand | CloseAppCommand | PermissionCommand | InvoiceCommand | ErrorCommand;
+    command:
+        | SmartAppDataCommand
+        | ActionCommand
+        | CloseAppCommand
+        | PermissionCommand
+        | InvoiceCommand
+        | SmartAppErrorCommand;
     [k: string]: unknown;
 }
 /**
  * Команда для передачи данных в Canvas App.
  */
-export interface DataCommand {
+export interface SmartAppDataCommand {
     type: 'smart_app_data';
     /**
      * Валидный JSON-объект с произвольными данными для смартапа.
@@ -1568,7 +1102,7 @@ export interface CloseAppCommand {
  */
 export interface PermissionCommand {
     type: 'request_permissions';
-    permissions: UserPermisson[];
+    permissions: PermissionType[];
     [k: string]: unknown;
 }
 /**
@@ -1588,7 +1122,7 @@ export interface InvoiceCommand {
 /**
  * Команда для прокидывания ошибки в Canvas App.
  */
-export interface ErrorCommand {
+export interface SmartAppErrorCommand {
     type: 'smart_app_error';
     smart_app_error: {
         code: number;
@@ -1680,7 +1214,7 @@ export interface SimpleLeftView {
         [k: string]: unknown;
     };
     icon_vertical_gravity?: VerticalGravity;
-    title?: TextView1;
+    title?: TextView;
     [k: string]: unknown;
 }
 /**
@@ -1691,6 +1225,7 @@ export interface IconView {
     size: IconSize;
     margins?: Margins;
     tint_color?: Color;
+    rounded_corners?: 'none' | 'rounded' | 'circle';
     actions?: Actions;
     /**
      * Id для отправки в метрику
@@ -1739,28 +1274,6 @@ export interface TextView {
     [k: string]: unknown;
 }
 /**
- * Текстовый элемент
- */
-export interface TextView1 {
-    /**
-     * Текст, который нужно отобразить
-     */
-    text: string;
-    typeface: Typeface;
-    text_color: TypeColor;
-    margins?: Margins;
-    /**
-     * Максимальное количество строк. 0 - не ограничено.
-     */
-    max_lines?: number;
-    actions?: Actions;
-    /**
-     * Id для отправки в метрику
-     */
-    log_id?: string;
-    [k: string]: unknown;
-}
-/**
  * Вертикальный упорядоченный список, состоит из label, icon_and_value https://www.figma.com/file/MQHBgPkW4dqXmI2549WioI/Dev?node-id=227%3A3670
  */
 export interface FastAnswerLeftView {
@@ -1782,6 +1295,73 @@ export interface FastAnswerLeftView {
     margins?: Margins;
     [k: string]: unknown;
 }
+export interface FlexibleImageLeftRightCellView {
+    /**
+     * Тип ячейки
+     */
+    type: 'flexible_image_left_right_cell_view';
+    content: FlexibleImageView;
+    margins?: Margins;
+    [k: string]: unknown;
+}
+/**
+ * Изображение из интернета с гибкими настройками размера и расположения внутри карточки
+ */
+export interface FlexibleImageView {
+    /**
+     * Ссылка на изображение
+     */
+    url: string;
+    /**
+     * Hash картинки в интернете (опционален)
+     */
+    hash?: string;
+    placeholder?: LocalImageIdentificator;
+    placeholder_color?: Color;
+    scale_mode?: ScaleMode;
+    gravity?: Gravity;
+    size?: ContentSize;
+    /**
+     * Градиентная альфа-маска для изображения. Значение определяет направление градиента
+     */
+    mask?: 'none' | 'bottom';
+    actions?: Action;
+    /**
+     * Id для отправки в метрику
+     */
+    log_id?: string;
+    [k: string]: unknown;
+}
+/**
+ * Позиционирование контейнера с изображением внутри карточки (игнорируется, если size - match_parent)
+ */
+export interface Gravity {
+    vertical_gravity?: VerticalGravity;
+    horizontal_gravity?: HorizontalGravity;
+    [k: string]: unknown;
+}
+/**
+ * Размер контента совпадает с размером контейнера
+ */
+export interface MatchParentContentSize {
+    type: 'match_parent';
+    [k: string]: unknown;
+}
+/**
+ * Контент имеет фиксированную высоту и ширину
+ */
+export interface FixedContentSize {
+    type: 'fixed';
+    /**
+     * Ширина контента
+     */
+    width: number;
+    /**
+     * Высота контента
+     */
+    height: number;
+    [k: string]: unknown;
+}
 /**
  * Угловая скобка. Соответствует UITableViewCell.AccessoryType.disclosureIndicator
  */
@@ -1791,6 +1371,7 @@ export interface DisclosureRightView {
      */
     type: 'disclosure_right_view';
     margins?: Margins;
+    actions?: Actions;
     [k: string]: unknown;
 }
 /**
@@ -1833,9 +1414,9 @@ export interface RoundButtonCellView {
  */
 export interface RoundButtonView {
     icon_address: ImageAddress;
-    icon_tint?: Color1;
-    background_color?: Color2;
-    actions: Actions1;
+    icon_tint?: Color;
+    background_color?: Color;
+    actions: Actions;
     [k: string]: unknown;
 }
 export interface TagCellView {
@@ -1852,7 +1433,7 @@ export interface TagCellView {
  */
 export interface TagView {
     text_view: TextView;
-    background_color?: Color3;
+    background_color?: Color;
     [k: string]: unknown;
 }
 /**
@@ -1896,7 +1477,7 @@ export interface ButtonView {
      * Текст кнопки.
      */
     text: string;
-    typeface?: Typeface1;
+    typeface?: Typeface;
     /**
      * Стиль кнопки.
      */
@@ -1905,7 +1486,7 @@ export interface ButtonView {
      * Тип кнопки.
      */
     type?: 'accept' | 'disabled' | 'negative';
-    actions: Actions2;
+    actions: Actions;
     /**
      * Id для отправки в метрику
      */
@@ -1934,26 +1515,26 @@ export interface ImageView {
      * Hash катинки в интернете(опционален)
      */
     hash?: string;
-    placeholder?: LocalImageIdentificator2;
+    placeholder?: LocalImageIdentificator;
     scale_mode?: ScaleMode;
     /**
      * Высота контейнера под картинку, указывается в платформонезависимых поинтах
      */
     height?: number;
-    placeholder_color?: Color4;
+    placeholder_color?: Color;
     actions?: Actions;
     /**
      * Id для отправки в метрику
      */
     log_id?: string;
-    size?: ContentSize;
+    size?: GridContentSize;
     [k: string]: unknown;
 }
 /**
  * Размера изображения. Если есть size, то height игнорируется
  */
-export interface ContentSize {
-    width: ContentWidth;
+export interface GridContentSize {
+    width: GridContentWidth;
     /**
      * Отношение высоты контента к ширине
      */
@@ -1990,6 +1571,27 @@ export interface WeatherView {
     [k: string]: unknown;
 }
 /**
+ * Ячейка, отображающая контент по правому краю
+ */
+export interface RightSideCellView {
+    /**
+     * Тип ячейки
+     */
+    type: 'right_side_cell_view';
+    content: RightView;
+    paddings?: Paddings;
+    [k: string]: unknown;
+}
+export interface FlexibleImageCellView {
+    /**
+     * Тип ячейки
+     */
+    type: 'flexible_image_cell_view';
+    content: FlexibleImageView;
+    paddings?: Paddings;
+    [k: string]: unknown;
+}
+/**
  * Элемент галереи состоящий из изображения и двух текстовых полей
  */
 export interface MediaGalleryItem {
@@ -2000,22 +1602,12 @@ export interface MediaGalleryItem {
     image: ImageView;
     top_text?: TextView;
     bottom_text?: TextView;
-    margins?: Margins1;
+    margins?: Margins;
     actions?: Actions;
     /**
      * Id для отправки в метрику
      */
     log_id?: string;
-    [k: string]: unknown;
-}
-/**
- * Объект для описания отступов ui компонента.
- */
-export interface Margins1 {
-    left?: Dimension;
-    top?: Dimension;
-    right?: Dimension;
-    bottom?: Dimension;
     [k: string]: unknown;
 }
 /**
@@ -2030,23 +1622,13 @@ export interface GallerySearchContentItem {
     image?: ImageAddress;
     link_text: TextView;
     description_text?: TextView;
-    paddings?: Paddings1;
+    paddings?: Paddings;
     actions: Actions;
     /**
      * Id для отправки в метрику
      */
     log_id?: string;
-    width?: ContentWidth1;
-    [k: string]: unknown;
-}
-/**
- * Объект для описания отступов ui компонента.
- */
-export interface Paddings1 {
-    left?: Dimension;
-    top?: Dimension;
-    right?: Dimension;
-    bottom?: Dimension;
+    width?: GridContentWidth;
     [k: string]: unknown;
 }
 /**
@@ -2057,68 +1639,9 @@ export interface GalleryMoreButtonItem {
      * Тип элемента кнопки всех результатов
      */
     type: 'gallery_more_button_item';
-    bottom_text: TextView2;
-    icon: IconView1;
+    bottom_text: TextView;
+    icon: IconView;
     actions: Actions;
-    /**
-     * Id для отправки в метрику
-     */
-    log_id?: string;
-    [k: string]: unknown;
-}
-/**
- * Текстовый элемент
- */
-export interface TextView2 {
-    /**
-     * Текст, который нужно отобразить
-     */
-    text: string;
-    typeface: Typeface;
-    text_color: TypeColor;
-    margins?: Margins;
-    /**
-     * Максимальное количество строк. 0 - не ограничено.
-     */
-    max_lines?: number;
-    actions?: Actions;
-    /**
-     * Id для отправки в метрику
-     */
-    log_id?: string;
-    [k: string]: unknown;
-}
-/**
- * Иконка
- */
-export interface IconView1 {
-    address: ImageAddress;
-    size: IconSize;
-    margins?: Margins;
-    tint_color?: Color;
-    actions?: Actions;
-    /**
-     * Id для отправки в метрику
-     */
-    log_id?: string;
-    [k: string]: unknown;
-}
-/**
- * Текстовый элемент
- */
-export interface TextView3 {
-    /**
-     * Текст, который нужно отобразить
-     */
-    text: string;
-    typeface: Typeface;
-    text_color: TypeColor;
-    margins?: Margins;
-    /**
-     * Максимальное количество строк. 0 - не ограничено.
-     */
-    max_lines?: number;
-    actions?: Actions;
     /**
      * Id для отправки в метрику
      */
@@ -2136,7 +1659,7 @@ export interface GreetingGridItem {
     background_image?: ImageView;
     top_text: TextView;
     bottom_text: TextView;
-    paddings?: Paddings2;
+    paddings?: Paddings;
     actions?: Actions;
     /**
      * Id для отправки в метрику
@@ -2145,13 +1668,58 @@ export interface GreetingGridItem {
     [k: string]: unknown;
 }
 /**
- * Объект для описания отступов ui компонента.
+ * Карточка с вертикальным списком ячеек для отображения в ленте.
  */
-export interface Paddings2 {
-    left?: Dimension;
-    top?: Dimension;
-    right?: Dimension;
-    bottom?: Dimension;
+export interface DiscoveryCard {
+    /**
+     * Ячейки с контентом карточки
+     */
+    cells: {
+        [k: string]: unknown;
+    };
+    background_image?: FlexibleImageView;
+    /**
+     * Цвет, которым заливается фон карточки. Задаётся как HEX c компонентом alpha в виде #AARRGGBB или #RRGGBB
+     */
+    background_color?: string;
+    /**
+     * Имеет ли карточка затемнение в нижней части
+     */
+    has_fade?: boolean;
+    /**
+     * Количество колонок, которое занимает карточка по ширине
+     */
+    width_columns?: 2 | 3 | 4;
+    /**
+     * Соотношение сторон карточки - W:H
+     */
+    aspect_ratio?: '1:1' | '2:3' | '3:2' | '3:4' | '16:9';
+    actions?: Actions;
+    type: 'discovery_card';
+    paddings?: Paddings;
+    /**
+     * Id для отправки в метрику
+     */
+    log_id?: string;
+    [k: string]: unknown;
+}
+/**
+ * Содержимое QR-code. Ширина сгенерированного изображения будет соответствовать всей ширине карточке
+ */
+export interface QRCodeCard {
+    /**
+     * Тип ячейки
+     */
+    type: 'qr_code_card';
+    /**
+     * Содержимое QR-кода
+     */
+    data: string;
+    size?: GridContentSize;
+    /**
+     * Id для отправки в метрику
+     */
+    log_id?: string;
     [k: string]: unknown;
 }
 /**
@@ -2181,6 +1749,7 @@ export interface WidgetGalleryWithCategories {
         [k: string]: unknown;
     };
     categories: ObjectObject;
+    categories_paddings?: Paddings;
     type: 'widget_gallery_with_categories';
     [k: string]: unknown;
 }
@@ -2206,9 +1775,7 @@ export interface WidgetTwoColumns {
  * Вертикальный список карточек в одной колонке
  */
 export interface ColumnView {
-    card_1?: DiscoveryCard;
-    card_2?: DiscoveryCard;
-    card_3?: DiscoveryCard;
+    cards?: [DiscoveryCard] | [DiscoveryCard, DiscoveryCard] | [DiscoveryCard, DiscoveryCard, DiscoveryCard];
     [k: string]: unknown;
 }
 export interface PolicyRunAppComand {
@@ -2249,7 +1816,7 @@ export interface Button {
      */
     title: string;
     action?: Action;
-    actions?: Actions3;
+    actions?: Actions;
     /**
      * Id для отправки в метрику.
      */

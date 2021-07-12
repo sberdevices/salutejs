@@ -1,7 +1,7 @@
 import { NLPRequest, NLPRequestSA } from './types/request';
 import { NLPResponse, NLPResponseATU, NLPResponsePRA } from './types/response';
 import { SaluteCommand, SaluteResponse } from './types/salute';
-import { Bubble, Button, Card, EmotionId, ErrorCommand } from './types/systemMessage';
+import { Bubble, Button, Card, EmotionId, SmartAppErrorCommand } from './types/systemMessage';
 
 export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
     const { messageId, sessionId, uuid, payload } = req;
@@ -76,7 +76,7 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.items.push(item);
         },
-        appendError: (error: ErrorCommand['smart_app_error']) => {
+        appendError: (error: SmartAppErrorCommand['smart_app_error']) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
             }

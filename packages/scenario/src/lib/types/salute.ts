@@ -5,7 +5,7 @@ import {
     CharacterId,
     AppState,
     Message,
-    ErrorCommand,
+    SmartAppErrorCommand,
     EmotionId,
     Card,
     Bubble,
@@ -83,7 +83,7 @@ export interface SaluteResponse {
     appendCommand: <T extends SaluteCommand>(command: T) => void;
     /** @deprecated */
     appendItem: (command: any) => void;
-    appendError: (error: ErrorCommand['smart_app_error']) => void;
+    appendError: (error: SmartAppErrorCommand['smart_app_error']) => void;
     appendSuggestions: (suggestions: Array<string | Button>) => void;
     askPayment: (invoiceId: number) => void;
     finish: () => void;
