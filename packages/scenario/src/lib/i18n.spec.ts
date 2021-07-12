@@ -81,12 +81,12 @@ describe('i18n', () => {
     });
 
     describe('missing translate', () => {
-        it('missing in athena', () => {
-            expect(i18n('athena')(keysetDict)('Только СБЕР')).toEqual('Только СБЕР');
+        it('missing in eva', () => {
+            expect(i18n('eva')(keysetDict)('Только СБЕР')).toEqual('Только СБЕР');
         });
 
         it('missing in everywhere', () => {
-            expect(i18n('athena')(keysetDict)('Нигде нет перевода')).toEqual('Нигде нет перевода');
+            expect(i18n('eva')(keysetDict)('Нигде нет перевода')).toEqual('Нигде нет перевода');
         });
     });
 });
