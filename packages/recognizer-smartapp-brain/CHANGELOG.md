@@ -1,3 +1,15 @@
+# v0.11.0 (Tue Jul 13 2021)
+
+#### 🐛 Bug Fix
+
+- docs: update recognizer-smartapp-brain readme.md [#197](https://github.com/sberdevices/salutejs/pull/197) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### Authors: 1
+
+- Alexander Salmin ([@sasha-tlt](https://github.com/sasha-tlt))
+
+---
+
 # v0.10.0 (Tue Jul 06 2021)
 
 #### 🚀 Enhancement

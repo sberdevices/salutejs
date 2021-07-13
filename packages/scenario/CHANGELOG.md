@@ -1,3 +1,15 @@
+# v0.11.0 (Tue Jul 13 2021)
+
+#### 🚀 Enhancement
+
+- feat: added rounded corners icons and updated system message types [#199](https://github.com/sberdevices/salutejs/pull/199) ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+
+#### Authors: 1
+
+- Ivan Ushatsky ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+
+---
+
 # v0.10.0 (Tue Jul 06 2021)
 
 #### 🚀 Enhancement

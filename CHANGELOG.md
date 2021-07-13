@@ -1,3 +1,22 @@
+# (Tue Jul 13 2021)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.11.0`
+  - feat: added rounded corners icons and updated system message types [#199](https://github.com/sberdevices/salutejs/pull/199) ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+
+#### 🐛 Bug Fix
+
+- `@salutejs/recognizer-smartapp-brain@0.11.0`
+  - docs: update recognizer-smartapp-brain readme.md [#197](https://github.com/sberdevices/salutejs/pull/197) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### Authors: 2
+
+- Alexander Salmin ([@sasha-tlt](https://github.com/sasha-tlt))
+- Ivan Ushatsky ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+
+---
+
 # (Tue Jul 06 2021)
 
 #### 🐛 Bug Fix
