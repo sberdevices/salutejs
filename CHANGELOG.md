@@ -1,3 +1,16 @@
+# (Thu Jul 15 2021)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.12.0`
+  - feat: SmartPush support [#200](https://github.com/sberdevices/salutejs/pull/200) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### Authors: 1
+
+- Alexander Salmin ([@sasha-tlt](https://github.com/sasha-tlt))
+
+---
+
 # (Tue Jul 13 2021)
 
 #### 🚀 Enhancement

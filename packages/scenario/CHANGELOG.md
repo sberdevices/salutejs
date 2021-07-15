@@ -1,3 +1,15 @@
+# v0.12.0 (Thu Jul 15 2021)
+
+#### 🚀 Enhancement
+
+- feat: SmartPush support [#200](https://github.com/sberdevices/salutejs/pull/200) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### Authors: 1
+
+- Alexander Salmin ([@sasha-tlt](https://github.com/sasha-tlt))
+
+---
+
 # v0.11.0 (Tue Jul 13 2021)
 
 #### 🚀 Enhancement
