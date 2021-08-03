@@ -61,7 +61,31 @@ import { createMatchers, createUserScenario, SaluteRequest } from '@salutejs/sce
 import { intents } from './intents';
 
 // NB: Указание типа запроса и словаря интентов добавляет интерактивный автокомплишен
-const { match, intent, text, action, state, selectItem } = createMatchers<SaluteRequest, typeof intents>();
+const {
+    // Аналог функции pipe, позволяет последовательно применить несколько matcher'ов
+    match,
+    // Матчит на intent. Вторым аргументом принимает параметры.
+    // Пример: intent('Название интента', { confidence: 0.7 });
+    // Параметр confidence – пороговое значение вероятности, ниже которой интент не будет сматчен
+    intent,
+    // Матчит на распознанный текст. Вторым аргументом принимает параметры.
+    // Пример: text('Название интента', { normalized: true });
+    // Параметр normalized – указывает на то, с каким текстом нужно сравнивать, если параметр выставлен true,
+    // сравнение будет происходить с human_normalized_text. Defaults to false.
+    text,
+    // Матчит на название сервер экшена. 
+    action,
+    // Производит глубое частичное сравнение на переданный state .
+    // Пример state({ screen: 'Screen1' }) сматчится со state'ом { screen: 'Screen1', otherParams: 123 }
+    state,
+    // Матчит на распознанный текст c помощью RegExp. Вторым аргументом принимает параметры.
+    // Пример: regexp(/^(записать|напомнить|добавить запись) (?<note>.+)$/i, { normalized: false });
+    // Параметр normalized – указывает на то, с каким текстом нужно сравнивать, если параметр выставлен true,
+    // сравнение будет происходить с human_normalized_text. Defaults to true;
+    // Если в регулярном выражении есть Named Capture Groups, значения этих групп подставится в req.variables.
+    // В примере выше если регулярное выражение сматчилось, то в req.variables.note попадет значение.
+    regexp
+} = createMatchers<SaluteRequest, typeof intents>();
 // Матчеры собираются в композицию функцией match
 
 const userScenario = createUserScenario({
