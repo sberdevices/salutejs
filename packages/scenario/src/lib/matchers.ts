@@ -40,14 +40,12 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest, I extend
         return false;
     };
 
-    const text = (expected: string | RegExp) => (req: R) => {
-        const actual = req.message.original_text;
+    const text = (expected: string, { normalized = false }: { normalized: boolean } = { normalized: false }) => (
+        req: R,
+    ) => {
+        const testText = normalized ? req.message?.human_normalized_text : req.message?.original_text;
 
-        if (expected instanceof RegExp) {
-            if (typeof actual === 'string') return expected.test(actual);
-        }
-
-        return expected === actual;
+        return expected === testText;
     };
 
     const state = (expected: Partial<R['state']>) => (req: R) => compare(expected, req.state);
@@ -63,8 +61,10 @@ export function createMatchers<R extends SaluteRequest = SaluteRequest, I extend
         if (items) return items[0];
     };
 
-    const regexp = (re: RegExp) => (req: R) => {
-        const result = re.exec(req.message?.human_normalized_text);
+    const regexp = (re: RegExp, { normalized = true }: { normalized: boolean } = { normalized: true }) => (req: R) => {
+        const testText = normalized ? req.message?.human_normalized_text : req.message?.original_text;
+
+        const result = re.exec(testText);
 
         if (result === null) {
             return false;
