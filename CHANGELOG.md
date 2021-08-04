@@ -1,3 +1,16 @@
+# (Wed Aug 04 2021)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.13.0`
+  - feat: add normalized param to text/regexp matchers [#204](https://github.com/sberdevices/salutejs/pull/204) ([@Turanchoks](https://github.com/Turanchoks))
+
+#### Authors: 1
+
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
 # (Thu Jul 15 2021)
 
 #### 🚀 Enhancement
