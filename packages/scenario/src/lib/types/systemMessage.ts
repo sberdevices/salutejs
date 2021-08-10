@@ -111,7 +111,7 @@ export type ListCard = CardBase & {
 /**
  * Возможные размеры отступов
  */
-export type Dimension = '0x' | '1x' | '2x' | '4x' | '5x' | '6x' | '8x' | '9x' | '10x' | '12x' | '16x';
+export type Dimension = '0x' | '1x' | '2x' | '3x' | '4x' | '5x' | '6x' | '7x' | '8x' | '9x' | '10x' | '12x' | '16x';
 export type CellView =
     | LeftRightCellView
     | TextCellView
