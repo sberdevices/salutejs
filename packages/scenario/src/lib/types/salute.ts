@@ -11,6 +11,7 @@ import {
     Bubble,
     Button,
     ASRHints,
+    PolicyRunAppComand,
 } from './systemMessage';
 import { NLPRequest } from './request';
 import { NLPResponse } from './response';
@@ -88,6 +89,7 @@ export interface SaluteResponse {
     askPayment: (invoiceId: number) => void;
     finish: () => void;
     runApp: (appInfo: { systemName: string } | { projectId: string }, parameters: Record<string, unknown>) => void;
+    policyRunApp: (server_action: PolicyRunAppComand['nodes']['server_action']) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string, options?: { ssml?: boolean }) => void;
     setAutoListening: (value: boolean) => void;
