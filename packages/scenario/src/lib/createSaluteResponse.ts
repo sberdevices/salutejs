@@ -1,7 +1,7 @@
 import { NLPRequest, NLPRequestSA } from './types/request';
 import { NLPResponse, NLPResponseATU, NLPResponsePRA } from './types/response';
 import { SaluteCommand, SaluteResponse } from './types/salute';
-import { Bubble, Button, Card, EmotionId, SmartAppErrorCommand } from './types/systemMessage';
+import { Bubble, Button, Card, EmotionId, PolicyRunAppComand, SmartAppErrorCommand } from './types/systemMessage';
 
 export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
     const { messageId, sessionId, uuid, payload } = req;
@@ -17,6 +17,20 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
             finished: false,
             intent: 'scenario',
         },
+    };
+
+    const policyRunApp = (server_action: PolicyRunAppComand['nodes']['server_action']) => {
+        message = {
+            messageId,
+            sessionId,
+            uuid,
+            messageName: 'POLICY_RUN_APP',
+            payload: {
+                projectName: payload.projectName,
+                device: payload.device,
+                server_action,
+            },
+        };
     };
 
     const runApp = (appInfo: { systemName: string } | { projectId: string }, parameters: Record<string, unknown>) => {
@@ -125,6 +139,7 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
             message.payload.finished = true;
         },
         runApp,
+        policyRunApp,
         setIntent: (intent: string) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
