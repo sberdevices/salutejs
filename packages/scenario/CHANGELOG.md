@@ -1,3 +1,22 @@
+# v0.14.0 (Thu Aug 12 2021)
+
+#### 🚀 Enhancement
+
+- feat: dump policyRunApp in favor of runApp [#208](https://github.com/sberdevices/salutejs/pull/208) ([@Turanchoks](https://github.com/Turanchoks))
+- feat: policyRunApp [#208](https://github.com/sberdevices/salutejs/pull/208) (ASSabotovich@sberbank.ru)
+
+#### 🐛 Bug Fix
+
+- chore: added dimensions in system message [#207](https://github.com/sberdevices/salutejs/pull/207) ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+
+#### Authors: 3
+
+- Anton Sabotovich (ASSabotovich@sberbank.ru)
+- Ivan Ushatsky ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
 # v0.13.0 (Wed Aug 04 2021)
 
 #### 🚀 Enhancement
