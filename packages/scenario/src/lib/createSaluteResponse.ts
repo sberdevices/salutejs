@@ -19,7 +19,7 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
         },
     };
 
-    const policyRunApp = (server_action: PolicyRunAppComand['nodes']['server_action']) => {
+    const runApp = (server_action: PolicyRunAppComand['nodes']['server_action']) => {
         message = {
             messageId,
             sessionId,
@@ -29,23 +29,6 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
                 projectName: payload.projectName,
                 device: payload.device,
                 server_action,
-            },
-        };
-    };
-
-    const runApp = (appInfo: { systemName: string } | { projectId: string }, parameters: Record<string, unknown>) => {
-        message = {
-            messageId,
-            sessionId,
-            uuid,
-            messageName: 'POLICY_RUN_APP',
-            payload: {
-                projectName: payload.projectName,
-                device: payload.device,
-                server_action: {
-                    app_info: appInfo,
-                    parameters,
-                },
             },
         };
     };
@@ -121,15 +104,15 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
             message.payload.suggestions.buttons;
         },
         askPayment: (invoiceId: number) => {
-            runApp(
-                { systemName: 'payment_app' },
-                {
+            runApp({
+                app_info: { systemName: 'payment_app' },
+                parameters: {
                     invoice_id: invoiceId.toString(),
                     app_info: {
                         projectId: (req as NLPRequestSA).payload.app_info.projectId,
                     },
                 },
-            );
+            });
         },
         finish: () => {
             if (message.messageName !== 'ANSWER_TO_USER') {
@@ -139,7 +122,6 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
             message.payload.finished = true;
         },
         runApp,
-        policyRunApp,
         setIntent: (intent: string) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
