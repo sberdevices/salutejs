@@ -88,8 +88,7 @@ export interface SaluteResponse {
     appendSuggestions: (suggestions: Array<string | Button>) => void;
     askPayment: (invoiceId: number) => void;
     finish: () => void;
-    runApp: (appInfo: { systemName: string } | { projectId: string }, parameters: Record<string, unknown>) => void;
-    policyRunApp: (server_action: PolicyRunAppComand['nodes']['server_action']) => void;
+    runApp: (server_action: PolicyRunAppComand['nodes']['server_action']) => void;
     setIntent: (text: string) => void;
     setPronounceText: (text: string, options?: { ssml?: boolean }) => void;
     setAutoListening: (value: boolean) => void;
