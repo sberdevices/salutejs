@@ -1,6 +1,8 @@
 import { SystemMessage, SystemMessageName, SystemMessagePayload } from './systemMessage';
 
-export type NLPRequestType = Extract<SystemMessageName, 'MESSAGE_TO_SKILL' | 'SERVER_ACTION' | 'RUN_APP' | 'CLOSE_APP'>;
+export type NLPRequestType =
+    | Extract<SystemMessageName, 'MESSAGE_TO_SKILL' | 'SERVER_ACTION' | 'RUN_APP' | 'CLOSE_APP'>
+    | 'TAKE_PROFILE_DATA';
 
 export interface NLPRequestBody<T, P> extends Pick<SystemMessage, 'sessionId' | 'messageId' | 'uuid'> {
     /** Тип запроса */
@@ -67,4 +69,75 @@ export type NLPRequestRA = NLPRequestBody<Extract<NLPRequestType, 'RUN_APP'>, RA
  */
 export type NLPRequestСA = NLPRequestBody<Extract<NLPRequestType, 'CLOSE_APP'>, MTSPayload>;
 
-export type NLPRequest = NLPRequestRA | NLPRequestСA | NLPRequestMTS | NLPRequestSA;
+type TakeProfileDataStatuses =
+    // SUCCESS
+    // Данные существуют и получено клиентское согласие
+    | {
+          code: 1;
+          description: string;
+      }
+    // EMPTY DATA
+    // Данные отсутствуют в профиле
+    | {
+          code: 100;
+          description: string;
+      }
+    // CLIENT DENIED
+    // Клиент отклонил автозаполнение
+    | {
+          code: 101;
+          description: string;
+      }
+    // FORBIDDEN
+    // Запрещенный вызов от смартапа для GET_PROFILE_DATA
+    | {
+          code: 102;
+          description: string;
+      }
+    // FORBIDDEN REQUEST
+    // Запрещенный вызов от смартапа для CHOOSE_PROFILE_DATA и DETAILED_PROFILE_DATA
+    // в случае отсутствия клиентского согласия
+    | {
+          code: 103;
+          description: string;
+      }
+    // Access Denied
+    // Запрещенный вызов от смартапа для CHOOSE_PROFILE_DATA и DETAILED_PROFILE_DATA
+    // в случае отсутствия прав на изменение или уточнение данных
+    | {
+          code: 104;
+          description: string;
+      };
+
+export type NLPRequestTPD = NLPRequestBody<
+    Extract<NLPRequestType, 'TAKE_PROFILE_DATA'>,
+    SharedRequestPayload & {
+        profile_data: {
+            customer_name?: string;
+            address?: {
+                address_string: string;
+                address_type: string;
+                alias: string;
+                comment: string;
+                confirmed: boolean;
+                country: string;
+                district: string;
+                location: {
+                    latitude: number;
+                    longitude: number;
+                };
+                last_used: boolean;
+                apartment: string;
+                entrance: string;
+                floor: string;
+                region: string;
+                street: string;
+                house: string;
+            };
+            phone_number?: string;
+        };
+        status_code: TakeProfileDataStatuses;
+    }
+>;
+
+export type NLPRequest = NLPRequestRA | NLPRequestСA | NLPRequestMTS | NLPRequestSA | NLPRequestTPD;

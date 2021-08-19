@@ -24,6 +24,13 @@ export const createSaluteRequest = (request: NLPRequest): SaluteRequest => {
         get variant() {
             return variant;
         },
+        get profile() {
+            if (request.messageName === 'TAKE_PROFILE_DATA') {
+                return request.payload.profile_data;
+            }
+
+            return undefined;
+        },
         get inference() {
             return inference;
         },

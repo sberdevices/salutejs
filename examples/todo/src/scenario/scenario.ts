@@ -21,9 +21,36 @@ import {
     runAppHandler,
 } from './handlers';
 
-const { action, regexp } = createMatchers<SaluteRequest>();
+const { action, regexp, text } = createMatchers<SaluteRequest>();
 
 const userScenario = createUserScenario({
+    Profile: {
+        match: text('профиль'),
+        handle: ({ res }) => {
+            res.getProfileData();
+        },
+        children: {
+            ProfileReceived: {
+                match: (req) => req.request.messageName === 'TAKE_PROFILE_DATA',
+                handle: ({ res, req }) => {
+                    const name = req.profile?.customer_name;
+                    if (name) {
+                        res.setPronounceText(`Привет, ${name}`);
+                        return;
+                    }
+
+                    if (req.request.messageName === 'TAKE_PROFILE_DATA') {
+                        res.setPronounceText(
+                            `Почему-то не получили ваше имя, статус ошибки ${req.request.payload.status_code.code}`,
+                        );
+                        return;
+                    }
+
+                    res.setPronounceText('До свидания');
+                },
+            },
+        },
+    },
     AddNote: {
         match: regexp(/^(записать|напомнить|добавить запись) (?<note>.+)$/i),
         handle: addNote,

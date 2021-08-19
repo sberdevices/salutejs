@@ -202,6 +202,43 @@ pushes.forEach((push) =>
 );
 ```
 
+## SmartProfile
+
+Для получения данных о пользователе из сервиса SmartProfile, необходимо:
+1. Отправить запрос на получение данных (`SaluteResponse.getProfileData()`).
+2. Обработать входящее сообщение `messageName='TAKE_PROFILE_DATA'`.
+
+Пример:
+
+```ts
+import { createSystemScenario, createUserScenario, NLPRequestTPD } from '@salutejs/scenario';
+
+const systemScenario = createSystemScenario({
+    RUN_APP: ({ res }) => {
+        // отправляем запрос на получение данных пользователя
+        res.getProfileData();
+    },
+});
+
+const userScenario = createUserScenario({
+    Profile: {
+        match: (req) => req.request.messageName === 'TAKE_PROFILE_DATA',
+        handle: ({ res, req }) => {
+            // обрабатываем полученный ответ, заполняем pronounceText
+            const name = req.profile?.customer_name;
+            if (name) {
+                res.setPronounceText(`Привет, ${name}`);
+                return;
+            }
+
+            const statusCode = (req.request.payload as NLPRequestTPD['payload']).status_code;
+
+            res.setPronounceText(`Почему-то не получили ваше имя, статус ошибки ${statusCode.code}`);
+        },
+    },
+});
+```
+
 ## i18n
 
 Интерфейс для адаптации текста с динамическими параметрами и плюрализацией в рамках персонажей семейства виртуальных ассистентов Салют.
