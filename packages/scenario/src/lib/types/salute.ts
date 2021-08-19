@@ -13,7 +13,7 @@ import {
     ASRHints,
     PolicyRunAppComand,
 } from './systemMessage';
-import { NLPRequest } from './request';
+import { NLPRequest, NLPRequestTPD } from './request';
 import { NLPResponse } from './response';
 import { KeysetDictionary, I18nOptions } from './i18n';
 
@@ -68,6 +68,7 @@ export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { pa
     readonly request: NLPRequest;
     readonly state?: S;
     readonly variables: V;
+    readonly profile?: NLPRequestTPD['payload']['profile_data'];
     setInference: (value: Inference) => void;
     setVariable: (name: string, value: unknown) => void;
     currentState?: {
@@ -94,6 +95,7 @@ export interface SaluteResponse {
     setAutoListening: (value: boolean) => void;
     setASRHints: (hints: ASRHints) => void;
     setEmotion: (emotion: EmotionId) => void;
+    getProfileData: () => void;
     readonly message: NLPResponse;
 }
 

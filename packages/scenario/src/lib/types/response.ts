@@ -8,10 +8,11 @@ import {
     PolicyRunAppComand,
 } from './systemMessage';
 
-export type NLPResponseType = Extract<
-    SystemMessageName,
-    'ANSWER_TO_USER' | 'POLICY_RUN_APP' | 'NOTHING_FOUND' | 'ERROR'
->;
+export type NLPResponseType =
+    | Extract<SystemMessageName, 'ANSWER_TO_USER' | 'POLICY_RUN_APP' | 'NOTHING_FOUND' | 'ERROR'>
+    | 'GET_PROFILE_DATA'
+    | 'CHOOSE_PROFILE_DATA'
+    | 'DETAILED_PROFILE_DATA';
 
 export interface NLPResponseBody<T, P> extends Pick<SystemMessage, 'sessionId' | 'messageId' | 'uuid'> {
     /** Тип ответа. Определяет логику обработки. */
@@ -85,4 +86,6 @@ export interface EPayload extends SharedResponsePayload, Pick<SystemMessagePaylo
 /** ERROR Response */
 export type NLPResponseE = NLPResponseBody<Extract<NLPResponseType, 'ERROR'>, EPayload>;
 
-export type NLPResponse = NLPResponseATU | NLPResponseE | NLPResponseNF | NLPResponsePRA;
+export type NLPResponseGPD = NLPResponseBody<Extract<NLPResponseType, 'GET_PROFILE_DATA'>, SharedResponsePayload>;
+
+export type NLPResponse = NLPResponseATU | NLPResponseE | NLPResponseNF | NLPResponsePRA | NLPResponseGPD;
