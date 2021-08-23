@@ -1,3 +1,25 @@
+# (Mon Aug 23 2021)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.15.0`
+  - feat: add getProfileData [#213](https://github.com/sberdevices/salutejs/pull/213) ([@Turanchoks](https://github.com/Turanchoks))
+
+#### 🔩 Dependency Updates
+
+- chore(deps): bump path-parse from 1.0.6 to 1.0.7 [#210](https://github.com/sberdevices/salutejs/pull/210) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- chore(deps): bump tar from 4.4.13 to 4.4.17 [#209](https://github.com/sberdevices/salutejs/pull/209) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- chore(deps): bump @npmcli/git from 2.0.6 to 2.1.0 [#206](https://github.com/sberdevices/salutejs/pull/206) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- chore(deps): bump next from 10.1.3 to 11.1.0 in /examples/todo [#211](https://github.com/sberdevices/salutejs/pull/211) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- chore(deps): bump next from 10.2.2 to 11.1.0 in /examples/echo [#212](https://github.com/sberdevices/salutejs/pull/212) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
 # (Thu Aug 12 2021)
 
 #### 🚀 Enhancement

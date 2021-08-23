@@ -1,3 +1,15 @@
+# v0.15.0 (Mon Aug 23 2021)
+
+#### 🚀 Enhancement
+
+- feat: add getProfileData [#213](https://github.com/sberdevices/salutejs/pull/213) ([@Turanchoks](https://github.com/Turanchoks))
+
+#### Authors: 1
+
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
 # v0.14.0 (Thu Aug 12 2021)
 
 #### 🚀 Enhancement
