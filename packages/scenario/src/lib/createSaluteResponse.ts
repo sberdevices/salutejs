@@ -79,6 +79,15 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.items.push({ command: { type: 'smart_app_data', smart_app_data: { ...command } } });
         },
+        openDeepLink: (deepLink: string) => {
+            if (message.messageName !== 'ANSWER_TO_USER') {
+                throw new Error('Wrong message type');
+            }
+
+            message.payload.items.push({
+                command: { type: 'action', action: { type: 'deep_link', deep_link: deepLink } },
+            });
+        },
         appendItem: (item) => {
             if (message.messageName !== 'ANSWER_TO_USER') {
                 throw new Error('Wrong message type');
