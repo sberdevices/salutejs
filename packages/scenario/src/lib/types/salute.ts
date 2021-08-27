@@ -96,6 +96,7 @@ export interface SaluteResponse {
     setASRHints: (hints: ASRHints) => void;
     setEmotion: (emotion: EmotionId) => void;
     getProfileData: () => void;
+    openDeepLink: (deepLink: string) => void;
     readonly message: NLPResponse;
 }
 
