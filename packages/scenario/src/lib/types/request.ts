@@ -121,6 +121,7 @@ export type NLPRequestTPD = NLPRequestBody<
                 comment: string;
                 confirmed: boolean;
                 country: string;
+                city: string;
                 district: string;
                 location: {
                     latitude: number;
