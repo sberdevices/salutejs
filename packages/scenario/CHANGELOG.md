@@ -1,3 +1,15 @@
+# v0.16.1 (Tue Aug 31 2021)
+
+#### 🐛 Bug Fix
+
+- Add city field to profile_data [#217](https://github.com/sberdevices/salutejs/pull/217) ([@awinogradov](https://github.com/awinogradov))
+
+#### Authors: 1
+
+- Tony Vi ([@awinogradov](https://github.com/awinogradov))
+
+---
+
 # v0.16.0 (Tue Aug 31 2021)
 
 #### 🚀 Enhancement
