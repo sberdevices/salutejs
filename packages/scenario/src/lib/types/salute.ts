@@ -14,7 +14,7 @@ import {
     PolicyRunAppComand,
 } from './systemMessage';
 import { NLPRequest, NLPRequestTPD } from './request';
-import { NLPResponse } from './response';
+import { NLPResponse, NLPResponseCPD } from './response';
 import { KeysetDictionary, I18nOptions } from './i18n';
 
 interface IntentSlot {
@@ -96,6 +96,8 @@ export interface SaluteResponse {
     setASRHints: (hints: ASRHints) => void;
     setEmotion: (emotion: EmotionId) => void;
     getProfileData: () => void;
+    chooseProfileData: (fields: NLPResponseCPD['payload']['fields']) => void;
+    getDetailedProfileData: () => void;
     openDeepLink: (deepLink: string) => void;
     readonly message: NLPResponse;
 }
