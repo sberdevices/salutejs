@@ -1,3 +1,15 @@
+# v0.17.0 (Tue Aug 31 2021)
+
+#### 🚀 Enhancement
+
+- feat: add chooseProfileData and getDetailedProfileData on res [#218](https://github.com/sberdevices/salutejs/pull/218) ([@Turanchoks](https://github.com/Turanchoks))
+
+#### Authors: 1
+
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
 # v0.16.1 (Tue Aug 31 2021)
 
 #### 🐛 Bug Fix

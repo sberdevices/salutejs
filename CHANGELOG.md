@@ -1,5 +1,18 @@
 # (Tue Aug 31 2021)
 
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.17.0`
+  - feat: add chooseProfileData and getDetailedProfileData on res [#218](https://github.com/sberdevices/salutejs/pull/218) ([@Turanchoks](https://github.com/Turanchoks))
+
+#### Authors: 1
+
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
+# (Tue Aug 31 2021)
+
 #### 🐛 Bug Fix
 
 - `@salutejs/scenario@0.16.1`
