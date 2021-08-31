@@ -1,3 +1,16 @@
+# (Tue Aug 31 2021)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.16.0`
+  - feat(salutejs): Add openDeepLink helper [#216](https://github.com/sberdevices/salutejs/pull/216) ([@kvpolyanskiy](https://github.com/kvpolyanskiy))
+
+#### Authors: 1
+
+- [@kvpolyanskiy](https://github.com/kvpolyanskiy)
+
+---
+
 # (Mon Aug 23 2021)
 
 #### 🚀 Enhancement

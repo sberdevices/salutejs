@@ -1,3 +1,15 @@
+# v0.16.0 (Tue Aug 31 2021)
+
+#### 🚀 Enhancement
+
+- feat(salutejs): Add openDeepLink helper [#216](https://github.com/sberdevices/salutejs/pull/216) ([@kvpolyanskiy](https://github.com/kvpolyanskiy))
+
+#### Authors: 1
+
+- [@kvpolyanskiy](https://github.com/kvpolyanskiy)
+
+---
+
 # v0.15.0 (Mon Aug 23 2021)
 
 #### 🚀 Enhancement
