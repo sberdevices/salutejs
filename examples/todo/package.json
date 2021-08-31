@@ -1,7 +1,7 @@
 {
   "name": "todo-app",
   "private": "true",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "main": "index.js",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "license": "Sber Public License at-nc-sa v.2",
@@ -12,7 +12,7 @@
     "publish": "vercel --prod"
   },
   "dependencies": {
-    "@salutejs/scenario": "0.16.1",
+    "@salutejs/scenario": "0.17.0",
     "@salutejs/storage-adapter-memory": "0.6.0",
     "@sberdevices/assistant-client": "2.14.0",
     "@sberdevices/plasma-icons": "1.4.0",
