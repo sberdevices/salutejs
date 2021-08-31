@@ -86,6 +86,26 @@ export interface EPayload extends SharedResponsePayload, Pick<SystemMessagePaylo
 /** ERROR Response */
 export type NLPResponseE = NLPResponseBody<Extract<NLPResponseType, 'ERROR'>, EPayload>;
 
-export type NLPResponseGPD = NLPResponseBody<Extract<NLPResponseType, 'GET_PROFILE_DATA'>, SharedResponsePayload>;
+type ProfileDataFieldsType = 'address' | 'phone';
+type ProfileDataPayloadFieldsType = {
+    fields: Array<ProfileDataFieldsType>;
+};
 
-export type NLPResponse = NLPResponseATU | NLPResponseE | NLPResponseNF | NLPResponsePRA | NLPResponseGPD;
+export type NLPResponseGPD = NLPResponseBody<Extract<NLPResponseType, 'GET_PROFILE_DATA'>, SharedResponsePayload>;
+export type NLPResponseCPD = NLPResponseBody<
+    Extract<NLPResponseType, 'CHOOSE_PROFILE_DATA'>,
+    SharedResponsePayload & ProfileDataPayloadFieldsType
+>;
+export type NLPResponseGDPD = NLPResponseBody<
+    Extract<NLPResponseType, 'DETAILED_PROFILE_DATA'>,
+    SharedResponsePayload & ProfileDataPayloadFieldsType
+>;
+
+export type NLPResponse =
+    | NLPResponseATU
+    | NLPResponseE
+    | NLPResponseNF
+    | NLPResponsePRA
+    | NLPResponseGPD
+    | NLPResponseCPD
+    | NLPResponseGDPD;
