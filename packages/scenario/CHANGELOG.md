@@ -1,3 +1,15 @@
+# v0.17.1 (Tue Aug 31 2021)
+
+#### 🐛 Bug Fix
+
+- fix(salutejs): fix ProfileDataFieldsType [#219](https://github.com/sberdevices/salutejs/pull/219) ([@kvpolyanskiy](https://github.com/kvpolyanskiy))
+
+#### Authors: 1
+
+- [@kvpolyanskiy](https://github.com/kvpolyanskiy)
+
+---
+
 # v0.17.0 (Tue Aug 31 2021)
 
 #### 🚀 Enhancement
