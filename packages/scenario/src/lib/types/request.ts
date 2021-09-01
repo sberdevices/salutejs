@@ -114,6 +114,8 @@ export type NLPRequestTPD = NLPRequestBody<
     SharedRequestPayload & {
         profile_data: {
             customer_name?: string;
+            surname?: string;
+            patronymic?: string;
             address?: {
                 address_string: string;
                 address_type: string;
