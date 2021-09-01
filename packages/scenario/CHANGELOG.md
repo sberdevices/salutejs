@@ -1,3 +1,15 @@
+# v0.17.2 (Wed Sep 01 2021)
+
+#### 🐛 Bug Fix
+
+- fix(scenario): fix profile type [#220](https://github.com/sberdevices/salutejs/pull/220) ([@kvpolyanskiy](https://github.com/kvpolyanskiy))
+
+#### Authors: 1
+
+- [@kvpolyanskiy](https://github.com/kvpolyanskiy)
+
+---
+
 # v0.17.1 (Tue Aug 31 2021)
 
 #### 🐛 Bug Fix
