@@ -1,6 +1,6 @@
 {
   "name": "@salutejs/storage-adapter-memory",
-  "version": "0.17.1",
+  "version": "0.17.2",
   "description": "In memory storage adapter for SaluteJS",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "license": "Sber Public License at-nc-sa v.2",
@@ -31,7 +31,7 @@
     "typescript": "4.1.3"
   },
   "dependencies": {
-    "@salutejs/scenario": "0.17.1"
+    "@salutejs/scenario": "0.17.2"
   },
   "gitHead": "70298e562f327c87c550171469ad7a55e0d88cf6"
 }
