@@ -1,3 +1,23 @@
+# (Thu Sep 02 2021)
+
+#### 🐛 Bug Fix
+
+- `@salutejs/scenario@0.17.3`
+  - fix: Не должна очищаться сессия при слотфиллинге [#224](https://github.com/sberdevices/salutejs/pull/224) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### 🔩 Dependency Updates
+
+- chore(deps): bump next from 11.1.0 to 11.1.1 in /examples/echo [#223](https://github.com/sberdevices/salutejs/pull/223) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- chore(deps): bump next from 11.1.0 to 11.1.1 in /examples/todo [#222](https://github.com/sberdevices/salutejs/pull/222) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- chore(deps): bump tar from 4.4.17 to 4.4.19 [#221](https://github.com/sberdevices/salutejs/pull/221) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Alexander Salmin ([@sasha-tlt](https://github.com/sasha-tlt))
+
+---
+
 # (Wed Sep 01 2021)
 
 #### 🐛 Bug Fix

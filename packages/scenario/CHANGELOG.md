@@ -1,3 +1,15 @@
+# v0.17.3 (Thu Sep 02 2021)
+
+#### 🐛 Bug Fix
+
+- fix: Не должна очищаться сессия при слотфиллинге [#224](https://github.com/sberdevices/salutejs/pull/224) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### Authors: 1
+
+- Alexander Salmin ([@sasha-tlt](https://github.com/sasha-tlt))
+
+---
+
 # v0.17.2 (Wed Sep 01 2021)
 
 #### 🐛 Bug Fix
