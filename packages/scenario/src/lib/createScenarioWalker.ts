@@ -169,7 +169,7 @@ export const createScenarioWalker = ({
             req.currentState = scenarioState;
             await dispatch(scenarioState.path);
 
-            if (!req.currentState.state.children) {
+            if (!req.currentState.state.children && !session.slotFilling) {
                 session.path = [];
                 session.variables = {};
                 session.currentIntent = undefined;
