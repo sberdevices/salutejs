@@ -1047,7 +1047,7 @@ export interface DeepLinkAction {
 /**
  * Действие, которое обозначает копирование текста из карточки в буфер обмена.
  */
- export interface CopyTextAction {
+export interface CopyTextAction {
     /**
      * Тип действия.
      */
