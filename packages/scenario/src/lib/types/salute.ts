@@ -54,7 +54,7 @@ export interface SaluteCommand {
     payload?: { [key: string]: unknown };
 }
 
-export type SaluteRequestVariable = Record<string, string | string[]>;
+export type SaluteRequestVariable = Record<string, string | string[] | undefined>;
 
 export interface SaluteRequest<V = SaluteRequestVariable, S = AppState, A = { payload: unknown; type: string }> {
     readonly character: CharacterId;
