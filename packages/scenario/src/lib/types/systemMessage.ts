@@ -82,7 +82,7 @@ export type EmotionId =
     | 'sochuvstvie'
     | 'strakh'
     | 'zainteresovannost';
-export type Action = TextAction | DeepLinkAction | SendContactPhone | ServerAction;
+export type Action = TextAction | DeepLinkAction | SendContactPhone | ServerAction | CopyTextAction;
 export type Card =
     | ListCard
     | GalleryCard
@@ -1042,6 +1042,20 @@ export interface DeepLinkAction {
      * Диплинк, который нужно открыть.
      */
     deep_link: string;
+    [k: string]: unknown;
+}
+/**
+ * Действие, которое обозначает копирование текста из карточки в буфер обмена.
+ */
+ export interface CopyTextAction {
+    /**
+     * Тип действия.
+     */
+    type: 'copy_text_to_buffer';
+    /**
+     * Текст, который будет скопирован в буфер обмена.
+     */
+    text: string;
     [k: string]: unknown;
 }
 /**
