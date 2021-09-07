@@ -1,3 +1,15 @@
+# v0.17.4 (Tue Sep 07 2021)
+
+#### 🐛 Bug Fix
+
+- fix: Optional variables in SaluteRequest [#225](https://github.com/sberdevices/salutejs/pull/225) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### Authors: 1
+
+- Alexander Salmin ([@sasha-tlt](https://github.com/sasha-tlt))
+
+---
+
 # v0.17.3 (Thu Sep 02 2021)
 
 #### 🐛 Bug Fix

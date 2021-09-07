@@ -1,3 +1,16 @@
+# (Tue Sep 07 2021)
+
+#### 🐛 Bug Fix
+
+- `@salutejs/scenario@0.17.4`
+  - fix: Optional variables in SaluteRequest [#225](https://github.com/sberdevices/salutejs/pull/225) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### Authors: 1
+
+- Alexander Salmin ([@sasha-tlt](https://github.com/sasha-tlt))
+
+---
+
 # (Thu Sep 02 2021)
 
 #### 🐛 Bug Fix
