@@ -1,7 +1,7 @@
 {
   "name": "echo",
   "private": "true",
-  "version": "0.14.3",
+  "version": "0.14.4",
   "main": "index.js",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "license": "Sber Public License at-nc-sa v.2",
@@ -9,8 +9,8 @@
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' ./src/server.ts"
   },
   "dependencies": {
-    "@salutejs/scenario": "0.17.3",
-    "@salutejs/storage-adapter-memory": "0.17.3",
+    "@salutejs/scenario": "0.17.4",
+    "@salutejs/storage-adapter-memory": "0.17.4",
     "@sberdevices/assistant-client": "2.15.1",
     "@sberdevices/plasma-icons": "1.12.0",
     "@sberdevices/plasma-tokens": "1.3.0",
