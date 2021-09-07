@@ -1,3 +1,16 @@
+# v0.17.5 (Tue Sep 07 2021)
+
+#### 🐛 Bug Fix
+
+- fix: lint error in system message types [#227](https://github.com/sberdevices/salutejs/pull/227) ([@soulko](https://github.com/soulko))
+- fix: add CopyTextAction in system message [#226](https://github.com/sberdevices/salutejs/pull/226) ([@soulko](https://github.com/soulko))
+
+#### Authors: 1
+
+- Anton Kostenko ([@soulko](https://github.com/soulko))
+
+---
+
 # v0.17.4 (Tue Sep 07 2021)
 
 #### 🐛 Bug Fix
