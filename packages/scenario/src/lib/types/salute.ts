@@ -144,6 +144,7 @@ export interface SaluteSession {
     };
     currentIntent?: string;
     state: Record<string, unknown>;
+    missingVariableName?: string;
 }
 
 export interface Recognizer {
