@@ -47,23 +47,10 @@ export const createScenarioWalker = ({
             };
 
             if (req.variant && intents) {
-                req.variant.slots.forEach((slot) => {
-                    if (slot.array) {
-                        if (typeof req.variables[slot.name] === 'undefined') {
-                            req.setVariable(slot.name, []);
-                        }
-
-                        ((req.variables[slot.name] as unknown) as Array<string>).push(slot.value);
-                        return;
-                    }
-
-                    req.setVariable(slot.name, slot.value);
-                });
-
                 // SLOTFILING LOGIC START
                 let currentIntent = req.variant;
 
-                if (session.path.length && session.slotFilling) {
+                if (session.path.length > 0 && session.slotFilling) {
                     // ищем связь с текущим интентом в сессии и результатах распознавания
                     const connected = (req.inference?.variants || []).find(
                         (v) => v.confidence >= slotFillingConfidence && v.intent.path === session.currentIntent,
@@ -74,16 +61,47 @@ export const createScenarioWalker = ({
                 const currentIntentPath = currentIntent.intent.path;
                 session.currentIntent = currentIntentPath;
 
+                // Here we substitue some variables even if their name is different
+                // it is important for slot filling since smart app brain can't tell
+                // a variable name if there are multiple slots with the same entity type
+                // in a single intent.
+                currentIntent.slots.forEach((slot) => {
+                    if (slot.array) {
+                        if (typeof req.variables[slot.name] === 'undefined') {
+                            req.setVariable(slot.name, []);
+                        }
+
+                        ((req.variables[slot.name] as unknown) as Array<string>).push(slot.value);
+                        return;
+                    }
+
+                    if (slot.name in req.variables && session.missingVariableName) {
+                        const variableName = slot.name;
+                        const areSlotTypesEqual =
+                            intents[currentIntentPath]?.variables?.[session.missingVariableName].entity ===
+                            intents[currentIntentPath]?.variables?.[variableName].entity;
+
+                        if (areSlotTypesEqual) {
+                            req.setVariable(session.missingVariableName, slot.value);
+                            delete session.missingVariableName;
+                        }
+                    } else {
+                        req.setVariable(slot.name, slot.value);
+                    }
+                });
+
                 // ищем незаполненные переменные, задаем вопрос пользователю
                 const missingVars = lookupMissingVariables(currentIntentPath, intents, req.variables);
-                if (missingVars.length) {
+                if (missingVars.length > 0) {
                     // сохраняем состояние в сессии
                     Object.keys(req.variables).forEach((name) => {
                         session.variables[name] = req.variables[name];
                     });
 
                     // задаем вопрос
-                    const { question } = missingVars[0];
+                    const { question, name } = missingVars[0];
+
+                    session.missingVariableName = name;
 
                     res.appendBubble(question);
                     res.setPronounceText(question);
