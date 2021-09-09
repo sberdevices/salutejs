@@ -1,3 +1,15 @@
+# v0.17.6 (Thu Sep 09 2021)
+
+#### 🐛 Bug Fix
+
+- fix: slot filling fixes [#229](https://github.com/sberdevices/salutejs/pull/229) ([@Turanchoks](https://github.com/Turanchoks))
+
+#### Authors: 1
+
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
 # v0.17.5 (Tue Sep 07 2021)
 
 #### 🐛 Bug Fix

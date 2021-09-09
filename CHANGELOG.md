@@ -1,3 +1,16 @@
+# (Thu Sep 09 2021)
+
+#### 🐛 Bug Fix
+
+- `@salutejs/scenario@0.17.6`
+  - fix: slot filling fixes [#229](https://github.com/sberdevices/salutejs/pull/229) ([@Turanchoks](https://github.com/Turanchoks))
+
+#### Authors: 1
+
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
 # (Tue Sep 07 2021)
 
 #### 🐛 Bug Fix
