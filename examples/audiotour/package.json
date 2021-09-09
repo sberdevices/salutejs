@@ -1,16 +1,16 @@
 {
   "name": "audiotour",
   "private": "true",
-  "version": "1.16.5",
+  "version": "1.16.6",
   "license": "Sber Public License at-nc-sa v.2",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "main": "index.js",
   "scripts": {},
   "description": "",
   "dependencies": {
-    "@salutejs/recognizer-smartapp-brain": "0.17.5",
-    "@salutejs/scenario": "0.17.5",
-    "@salutejs/storage-adapter-memory": "0.17.5",
+    "@salutejs/recognizer-smartapp-brain": "0.17.6",
+    "@salutejs/scenario": "0.17.6",
+    "@salutejs/storage-adapter-memory": "0.17.6",
     "dotenv": "8.2.0",
     "express": "4.17.1"
   }
