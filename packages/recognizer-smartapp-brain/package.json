@@ -1,6 +1,6 @@
 {
   "name": "@salutejs/recognizer-smartapp-brain",
-  "version": "0.17.6",
+  "version": "0.17.7",
   "description": "SmartApp Brain recognizer for SaluteJS",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "license": "Sber Public License at-nc-sa v.2",
