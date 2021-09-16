@@ -63,7 +63,7 @@ export class SmartAppBrainRecognizer implements Recognizer {
         phrase: {
             text: '',
         },
-        nBest: 1,
+        nBest: 10,
         showDebugInfo: false,
     };
 
