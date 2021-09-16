@@ -1,3 +1,15 @@
+# v0.17.7 (Thu Sep 16 2021)
+
+#### 🐛 Bug Fix
+
+- fix: smartapp brain take 10 best intents [#230](https://github.com/sberdevices/salutejs/pull/230) ([@Turanchoks](https://github.com/Turanchoks))
+
+#### Authors: 1
+
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
 # v0.11.0 (Tue Jul 13 2021)
 
 #### 🐛 Bug Fix

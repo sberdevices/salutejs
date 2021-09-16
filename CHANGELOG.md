@@ -1,3 +1,16 @@
+# (Thu Sep 16 2021)
+
+#### 🐛 Bug Fix
+
+- `@salutejs/recognizer-smartapp-brain@0.17.7`
+  - fix: smartapp brain take 10 best intents [#230](https://github.com/sberdevices/salutejs/pull/230) ([@Turanchoks](https://github.com/Turanchoks))
+
+#### Authors: 1
+
+- Pavel Remizov ([@Turanchoks](https://github.com/Turanchoks))
+
+---
+
 # (Thu Sep 09 2021)
 
 #### 🐛 Bug Fix
