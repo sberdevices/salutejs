@@ -574,6 +574,7 @@ export interface SystemMessagePayload {
     items?: (AssistantCommand | BubbleCommand | CardCommand | PolicyRunAppComand)[];
     suggestions?: Suggestions;
     asr_hints?: ASRHints;
+    hints?: Hints;
     /**
      * Сообщает ассистенту о завершении работы смартапа.
      * В приложениях типа Canvas App необходимо самостоятельно закрывать окно приложения
@@ -1860,5 +1861,36 @@ export interface ASRHints {
      */
     model?: 'media' | 'general';
     contexts?: ASRContextsId;
+    [k: string]: unknown;
+}
+export interface Hints {
+    /**
+     * Если параметр true, то показываем хинты случайным образом.
+     */
+    random?: boolean;
+    /**
+     * Параметр для бездействия. Через сколько начинаем показывать хинты.
+     */
+    start_time?: number;
+    items: Hint[];
+    [k: string]: unknown;
+}
+export interface Hint {
+    /**
+     * Первые слова, которые отображаются полупрозрачным текстом.
+     */
+    prefix?: string;
+    /**
+     * Основной текст.
+     */
+    text: string;
+    /**
+     * Время показа хинта в миллисекундах.
+     */
+    alive_time: number;
+    /**
+     * Время после показа хинта до показа следующего в массиве.
+     */
+    next_time: number;
     [k: string]: unknown;
 }
