@@ -1,3 +1,15 @@
+# v0.18.0 (Fri Sep 24 2021)
+
+#### 🚀 Enhancement
+
+- feat: added hints in system message [#234](https://github.com/sberdevices/salutejs/pull/234) ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+
+#### Authors: 1
+
+- Ivan Ushatsky ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+
+---
+
 # v0.17.6 (Thu Sep 09 2021)
 
 #### 🐛 Bug Fix

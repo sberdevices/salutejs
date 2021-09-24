@@ -1,3 +1,16 @@
+# (Fri Sep 24 2021)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.18.0`
+  - feat: added hints in system message [#234](https://github.com/sberdevices/salutejs/pull/234) ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+
+#### Authors: 1
+
+- Ivan Ushatsky ([@ivan-ushatsky](https://github.com/ivan-ushatsky))
+
+---
+
 # (Thu Sep 16 2021)
 
 #### 🐛 Bug Fix
