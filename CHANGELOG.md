@@ -1,3 +1,22 @@
+# (Fri Oct 08 2021)
+
+#### 🐛 Bug Fix
+
+- `@salutejs/scenario@0.18.1`
+  - fix(scenario): types for `loyalty_info` block [#239](https://github.com/sberdevices/salutejs/pull/239) ([@LamaEats](https://github.com/LamaEats))
+
+#### 🔩 Dependency Updates
+
+- chore(deps): bump semver-regex from 3.1.2 to 3.1.3 [#231](https://github.com/sberdevices/salutejs/pull/231) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- chore(deps): bump tmpl from 1.0.4 to 1.0.5 in /examples/todo [#233](https://github.com/sberdevices/salutejs/pull/233) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Sviridov Maksim ([@LamaEats](https://github.com/LamaEats))
+
+---
+
 # (Fri Sep 24 2021)
 
 #### 🚀 Enhancement

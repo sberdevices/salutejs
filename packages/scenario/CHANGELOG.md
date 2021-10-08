@@ -1,3 +1,15 @@
+# v0.18.1 (Fri Oct 08 2021)
+
+#### 🐛 Bug Fix
+
+- fix(scenario): types for `loyalty_info` block [#239](https://github.com/sberdevices/salutejs/pull/239) ([@LamaEats](https://github.com/LamaEats))
+
+#### Authors: 1
+
+- Sviridov Maksim ([@LamaEats](https://github.com/LamaEats))
+
+---
+
 # v0.18.0 (Fri Sep 24 2021)
 
 #### 🚀 Enhancement
