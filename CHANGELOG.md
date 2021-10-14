@@ -1,3 +1,16 @@
+# (Thu Oct 14 2021)
+
+#### 🐛 Bug Fix
+
+- `@salutejs/scenario@0.18.2`
+  - fix(scenario): loyalty_info is optional [#240](https://github.com/sberdevices/salutejs/pull/240) ([@kvpolyanskiy](https://github.com/kvpolyanskiy))
+
+#### Authors: 1
+
+- [@kvpolyanskiy](https://github.com/kvpolyanskiy)
+
+---
+
 # (Fri Oct 08 2021)
 
 #### 🐛 Bug Fix
