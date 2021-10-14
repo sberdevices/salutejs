@@ -1,6 +1,6 @@
 {
   "name": "@salutejs/scenario",
-  "version": "0.18.1",
+  "version": "0.18.2",
   "description": "Tiny helpers to make scenario for Salute family",
   "author": "SberDevices Frontend Team <sberdevices.frontend@gmail.com>",
   "license": "Sber Public License at-nc-sa v.2",
