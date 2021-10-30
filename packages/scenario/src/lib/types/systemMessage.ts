@@ -902,7 +902,7 @@ export interface Message {
     /**
      * Извлечённая из tokenized_elements_list информация о значениях найденных в запросе типов сущностей
      */
-    entities: Entities;
+    entities: Partial<Entities>;
     /**
      * Список словарей, в котором каждый словарь - это вся информация о слове:
      * оригинальная и начальная формы слова, род, число, зависимые слова, тип связи между словами и прочее
@@ -916,15 +916,6 @@ export interface Message {
      * Аналогично human_normalized_text с учётом замены анафоры
      */
     human_normalized_text_with_anaphora: string;
-    [k: string]: unknown;
-}
-/**
- * Извлеченные из запроса сущности.
- */
-export interface Entities {
-    CCY_TOKEN: CcyToken[];
-    MONEY_TOKEN: MoneyToken[];
-    NUM_TOKEN: NumToken[];
     [k: string]: unknown;
 }
 export interface CcyToken {
@@ -941,6 +932,61 @@ export interface NumToken {
     value: number;
     [k: string]: unknown;
 }
+export interface TimeTimeToken {
+    hour: number;
+    minutes: number;
+    seconds: number;
+}
+export interface TimeDateToken {
+    day?: number;
+    month?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+    year?: number;
+}
+export interface TimeMonthToken {
+    value: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+}
+export interface TimeTemporalToken {
+    // TODO: Подумать надо ли самые частые случаи указать в тайпингах или оставить как jsdoc?
+    value: 'утро' | 'день' | 'вечер' | 'ночь' | 'вчера' | 'сегодня' | 'завтра' | 'послезавтра' | string;
+}
+export interface TimeDayToken {
+    value: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+}
+
+
+/*
+ * 30 минут, 10 секунд, 15 дней, 3 часа
+ * Количество часов
+ * Для значений в секундах, будет дробное число
+ */
+export type PeriodToken = number;
+/*
+ * Количество часов. Для значений в секундах, будет дробное число
+ * через + PERIOD_TOKEN
+ */
+export type RelativeTimeToken = number;
+/**
+ * Извлеченные из запроса сущности.
+ */
+export interface Entities {
+    CCY_TOKEN: CcyToken[];
+    MONEY_TOKEN: MoneyToken[];
+    NUM_TOKEN: NumToken[];
+    TIME_TEMPORAL_TOKEN: TimeTemporalToken[];
+    TIME_MONTH_TOKEN: TimeMonthToken[];
+    TIME_DAY_TOKEN: TimeDayToken[];
+    TIME_TIME_TOKEN: TimeTimeToken[];
+    TIME_DATE_TOKEN: TimeDateToken[];
+    PERIOD_TOKEN: PeriodToken[];
+    RELATIVE_TIME_TOKEN: RelativeTimeToken[];
+    [k: string]: unknown;
+}
+
+type CompositionTokenName = 'MONEY_TOKEN' | 'TIME_TIME_TOKEN' | 'TIME_DATE_TOKEN' | 'PERIOD_TOKEN' | 'RELATIVE_TIME_TOKEN';
+type CompositionTokenValue = MoneyToken | TimeTimeToken | TimeDateToken | PeriodToken | RelativeTimeToken;
+
+type BaseTokenName = keyof Omit<Entities, CompositionTokenName> | string;
+
 export interface TokenizedElementsList {
     dependency_type?: string;
     grammem_info?: GrammemInfo;
@@ -949,11 +995,11 @@ export interface TokenizedElementsList {
     list_of_dependents?: number[];
     text: string;
     composite_token_length?: number;
-    composite_token_type?: string;
-    composite_token_value?: MoneyToken;
+    composite_token_type?: CompositionTokenName;
+    composite_token_value?: CompositionTokenValue;
     is_beginning_of_composite?: boolean;
     list_of_token_types_data?: ListOfTokenTypesData;
-    token_type?: string;
+    token_type?: BaseTokenName;
     token_value?: TokenValue;
     [k: string]: unknown;
 }
