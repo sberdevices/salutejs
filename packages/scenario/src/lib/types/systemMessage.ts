@@ -24,7 +24,7 @@ export type SystemMessageName =
  * В этом случае команды обрабатываются на уровне фронтенда приложения.
  * В остальных случаях, команды передаются в бекэнд активного приложения.
  */
-export type AppType = 'DIALOG' | 'WEB_APP' | 'APK' | 'CHAT_APP';
+export type AppType = 'DIALOG' | 'WEB_APP' | 'APK' | 'CHAT_APP' | 'EMBEDDED_APP';
 /**
  * Операционная система устройства.
  */
