@@ -136,6 +136,7 @@ export type NLPRequestTPD = NLPRequestBody<
                 region: string;
                 street: string;
                 house: string;
+                settlement?: string;
             };
             phone_number?: string;
         };
