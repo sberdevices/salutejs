@@ -1,3 +1,16 @@
+# (Tue Nov 23 2021)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.19.0`
+  - feat(salutejs): Add settlement field to profile data [#248](https://github.com/sberdevices/salutejs/pull/248) ([@kvpolyanskiy](https://github.com/kvpolyanskiy))
+
+#### Authors: 1
+
+- [@kvpolyanskiy](https://github.com/kvpolyanskiy)
+
+---
+
 # (Thu Oct 14 2021)
 
 #### 🐛 Bug Fix

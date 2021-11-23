@@ -1,3 +1,15 @@
+# v0.19.0 (Tue Nov 23 2021)
+
+#### 🚀 Enhancement
+
+- feat(salutejs): Add settlement field to profile data [#248](https://github.com/sberdevices/salutejs/pull/248) ([@kvpolyanskiy](https://github.com/kvpolyanskiy))
+
+#### Authors: 1
+
+- [@kvpolyanskiy](https://github.com/kvpolyanskiy)
+
+---
+
 # v0.18.2 (Thu Oct 14 2021)
 
 #### 🐛 Bug Fix
