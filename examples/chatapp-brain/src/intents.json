@@ -3,7 +3,8 @@
     "/sum": {
       "matchers": [
         { "type": "phrase", "rule": "Сложи @duckling.number и @duckling.number" },
-        { "type": "phrase", "rule": "Сколько будет @duckling.number и @duckling.number" }
+        { "type": "phrase", "rule": "Сколько будет @duckling.number и @duckling.number" },
+        { "type": "phrase", "rule": "@duckling.number" }
       ],
       "variables": {
         "num1": {
