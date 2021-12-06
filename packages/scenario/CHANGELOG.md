@@ -1,3 +1,15 @@
+# v0.20.0 (Mon Dec 06 2021)
+
+#### 🚀 Enhancement
+
+- feat: Добавлен EMBEDDED_APP в AppType. [#247](https://github.com/sberdevices/salutejs/pull/247) ([@evgeniysemin](https://github.com/evgeniysemin))
+
+#### Authors: 1
+
+- [@evgeniysemin](https://github.com/evgeniysemin)
+
+---
+
 # v0.19.0 (Tue Nov 23 2021)
 
 #### 🚀 Enhancement

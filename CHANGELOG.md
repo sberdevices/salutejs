@@ -1,3 +1,16 @@
+# (Mon Dec 06 2021)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.20.0`
+  - feat: Добавлен EMBEDDED_APP в AppType. [#247](https://github.com/sberdevices/salutejs/pull/247) ([@evgeniysemin](https://github.com/evgeniysemin))
+
+#### Authors: 1
+
+- [@evgeniysemin](https://github.com/evgeniysemin)
+
+---
+
 # (Tue Nov 23 2021)
 
 #### 🚀 Enhancement
