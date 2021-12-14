@@ -82,7 +82,13 @@ export type EmotionId =
     | 'sochuvstvie'
     | 'strakh'
     | 'zainteresovannost';
-export type Action = TextAction | DeepLinkAction | SendContactPhone | ServerAction | CopyTextAction;
+export type Action =
+    | TextAction
+    | DeepLinkAction
+    | SendContactPhone
+    | ServerAction
+    | StartSmartSearchAction
+    | CopyTextAction;
 export type Card =
     | ListCard
     | GalleryCard
@@ -1102,6 +1108,29 @@ export interface ServerAction {
      */
     server_action: {
         [k: string]: unknown;
+    };
+    [k: string]: unknown;
+}
+/**
+ * Запрос поиска от сценария.
+ */
+export interface StartSmartSearchAction {
+    /**
+     * Тип действия.
+     */
+    type: 'start_smart_search';
+    /**
+     * Данные запроса.
+     */
+    start_smart_search: {
+        /**
+         * Текст запроса, который прислал сценарий.
+         */
+        query: string;
+        /**
+         * Время за которое поиск должен ответить.
+         */
+        timeoutMS?: string;
     };
     [k: string]: unknown;
 }
