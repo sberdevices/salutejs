@@ -216,6 +216,16 @@ export const createSaluteResponse = (req: NLPRequest): SaluteResponse => {
 
             message.payload.asr_hints = hints;
         },
+        overrideFrontendEndpoint: (frontendEndpoint: string) => {
+            if (message.messageName !== 'ANSWER_TO_USER') {
+                throw new Error('Wrong message type');
+            }
+
+            message.payload.app_info = {
+                ...payload.app_info,
+                frontendEndpoint,
+            };
+        },
         get message(): NLPResponse {
             return message;
         },
