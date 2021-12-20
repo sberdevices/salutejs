@@ -1,3 +1,15 @@
+# v0.21.0 (Mon Dec 20 2021)
+
+#### 🚀 Enhancement
+
+- feat: Добавлен экшн StartSmartSearchAction [#257](https://github.com/sberdevices/salutejs/pull/257) ([@evgeniysemin](https://github.com/evgeniysemin))
+
+#### Authors: 1
+
+- [@evgeniysemin](https://github.com/evgeniysemin)
+
+---
+
 # v0.20.0 (Mon Dec 06 2021)
 
 #### 🚀 Enhancement
