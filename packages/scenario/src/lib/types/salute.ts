@@ -99,6 +99,7 @@ export interface SaluteResponse {
     chooseProfileData: (fields: NLPResponseCPD['payload']['fields']) => void;
     getDetailedProfileData: () => void;
     openDeepLink: (deepLink: string) => void;
+    overrideFrontendEndpoint: (frontendEndpoint: string) => void;
     readonly message: NLPResponse;
 }
 

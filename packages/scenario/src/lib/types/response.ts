@@ -6,6 +6,7 @@ import {
     BubbleCommand,
     CardCommand,
     PolicyRunAppComand,
+    AppInfo,
 } from './systemMessage';
 
 export type NLPResponseType =
@@ -47,6 +48,7 @@ export interface ATUPayload
      * если вы не используете Assistant Client.
      */
     finished: boolean;
+    app_info?: AppInfo;
 }
 
 /** ANSWER_TO_USER Response */
