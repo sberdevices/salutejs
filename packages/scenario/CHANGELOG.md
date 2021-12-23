@@ -1,3 +1,15 @@
+# v0.22.0 (Thu Dec 23 2021)
+
+#### 🚀 Enhancement
+
+- feat: override frontend endpoint [#258](https://github.com/sberdevices/salutejs/pull/258) ([@KateKate](https://github.com/KateKate))
+
+#### Authors: 1
+
+- Ekaterina Anishkina ([@KateKate](https://github.com/KateKate))
+
+---
+
 # v0.21.0 (Mon Dec 20 2021)
 
 #### 🚀 Enhancement
