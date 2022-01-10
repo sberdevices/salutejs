@@ -95,6 +95,7 @@ export type Card =
     | GridCard
     | DiscoveryCard
     | QRCodeCard
+    | SimpleList
     | WidgetTitleCard
     | WidgetGallery
     | WidgetGalleryWithCategories
@@ -450,6 +451,18 @@ export type GridCard = CardBase & {
     [k: string]: unknown;
 };
 export type GridItem = GreetingGridItem;
+/**
+ * Карточка с вертикальным списком ячеек
+ */
+export type SimpleList = CardBase & {
+    header: string;
+    footer?: string;
+    items?: SimpleItem[];
+};
+export type SimpleItem = {
+    title: string;
+    body: string;
+};
 /**
  * Упорядоченный список категорий с подмассивами из карточек
  */
