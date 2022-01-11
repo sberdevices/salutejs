@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 
 import { DeliveryConfig, Destination, SmartPushRequest, SmartPushResponse } from './types/push';
+import { DefaultChannels } from './types/systemMessage';
 
 const URL = 'https://salute.online.sberbank.ru:9443/api/v2/smartpush/apprequest';
 const TOKEN_URL = 'https://salute.online.sberbank.ru:9443/api/v2/oauth';
@@ -70,7 +71,7 @@ const sendPush = async (
                 destinations: destinations.map(({ surface, ...destination }) => ({
                     ...destination,
                     surface,
-                    channel: surface === 'COMPANION' ? 'COMPANION_B2C' : 'B2C',
+                    channel: DefaultChannels[surface],
                 })),
             },
         },

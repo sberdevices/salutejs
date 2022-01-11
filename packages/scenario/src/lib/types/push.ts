@@ -1,3 +1,5 @@
+import { Surface, UserChannel } from './systemMessage';
+
 export type ProtocolVersion = 'V1';
 
 export interface Sender {
@@ -71,9 +73,9 @@ export interface DeviceParameters {
 
 export interface Destination {
     /** Канал получателя. Пример: B2C */
-    channel: 'B2C' | 'COMPANION_B2C';
-    /** Поверхность получателя. Пример: SALUT */
-    surface: 'SBERBOX' | 'STARGATE' | 'SALUT' | 'COMPANION';
+    channel: UserChannel;
+    /** Поверхность получателя. Пример: SBERBOX */
+    surface: Surface;
     /** Приоритет отправки пуш-уведомления относительно других получателей в блоке destinationsConfig,
      * где 0 — высший приоритет. При type = broadcast не учитывается */
     priority?: number;

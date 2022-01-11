@@ -32,7 +32,24 @@ export type PlatformType = 'android' | 'ios' | 'web' | 'WEBDBG';
 /**
  * Поверхность, от которой приходит вызов ассистента. Например, приложение СберБанк Онлайн или SberBox.
  */
-export type Surface = 'SBERBOX' | 'COMPANION' | 'STARGATE';
+export type Surface = 'SBERBOX' | 'COMPANION' | 'STARGATE' | 'SATELLITE' | 'TIME' | 'SBOL' | 'TV' | 'TV_HUAWEI';
+/**
+ * Идентификатор канала коммуникации
+ */
+export type UserChannel = 'B2C' | 'SBOL' | 'COMPANION_B2C';
+/**
+ * Дефолтные каналы для поверхностей
+ */
+export const DefaultChannels: Record<Surface, UserChannel> = {
+    SBERBOX: 'B2C',
+    STARGATE: 'B2C',
+    SATELLITE: 'B2C',
+    TIME: 'B2C',
+    TV: 'B2C',
+    TV_HUAWEI: 'B2C',
+    COMPANION: 'COMPANION_B2C',
+    SBOL: 'SBOL',
+};
 /**
  * Идентификатор персонажа, которого выбрал пользователь.
  */
