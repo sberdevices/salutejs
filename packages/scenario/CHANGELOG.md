@@ -1,3 +1,15 @@
+# v0.24.0 (Mon Jan 17 2022)
+
+#### 🚀 Enhancement
+
+- feat: добавлен type для карточки simple_list [#267](https://github.com/sberdevices/salutejs/pull/267) ([@Burzachil](https://github.com/Burzachil))
+
+#### Authors: 1
+
+- Andrey Kutnyakov ([@Burzachil](https://github.com/Burzachil))
+
+---
+
 # v0.23.0 (Mon Jan 10 2022)
 
 #### 🚀 Enhancement

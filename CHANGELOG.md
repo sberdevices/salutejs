@@ -1,3 +1,16 @@
+# (Mon Jan 17 2022)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.24.0`
+  - feat: добавлен type для карточки simple_list [#267](https://github.com/sberdevices/salutejs/pull/267) ([@Burzachil](https://github.com/Burzachil))
+
+#### Authors: 1
+
+- Andrey Kutnyakov ([@Burzachil](https://github.com/Burzachil))
+
+---
+
 # (Mon Jan 10 2022)
 
 #### 🚀 Enhancement
