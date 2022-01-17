@@ -458,6 +458,8 @@ export type SimpleList = CardBase & {
     header: string;
     footer?: string;
     items?: SimpleItem[];
+    type: 'simple_list';
+    [k: string]: unknown;
 };
 export type SimpleItem = {
     title: string;
