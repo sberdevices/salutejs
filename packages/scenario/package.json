@@ -34,7 +34,7 @@
     "typescript": "4.1.3"
   },
   "dependencies": {
-    "node-fetch": "2.6.1"
+    "node-fetch": "3.1.1"
   },
   "gitHead": "70298e562f327c87c550171469ad7a55e0d88cf6"
 }
