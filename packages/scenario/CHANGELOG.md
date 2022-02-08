@@ -1,3 +1,15 @@
+# v0.24.1 (Tue Feb 08 2022)
+
+#### 🐛 Bug Fix
+
+- fix: Асинхронный хендлер RUN_APP [#272](https://github.com/sberdevices/salutejs/pull/272) (xwND1k9iIGYi7pQL)
+
+#### Authors: 1
+
+- akutniakov (xwND1k9iIGYi7pQL)
+
+---
+
 # v0.24.0 (Mon Jan 17 2022)
 
 #### 🚀 Enhancement
