@@ -134,7 +134,7 @@ export const createScenarioWalker = ({
             return;
         }
 
-        systemScenario.RUN_APP(saluteHandlerOpts, dispatch);
+        await systemScenario.RUN_APP(saluteHandlerOpts, dispatch);
         return;
     }
 
