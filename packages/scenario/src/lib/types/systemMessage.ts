@@ -415,7 +415,8 @@ export type RightView =
     | DetailRightView
     | RoundButtonCellView
     | TagCellView
-    | FlexibleImageLeftRightCellView;
+    | FlexibleImageLeftRightCellView
+    | RightCellArrayView;
 /**
  * Ширина контента в терминах сеток. https://www.figma.com/file/L6AlpyUxFuumKEEbh4ADIh/🤖SD-Styles?node-id=26%3A17 https://www.figma.com/file/c6KZ9jIXTB5zEmyTfA2Akv/Message-Based?node-id=1446%3A0
  */
@@ -1385,6 +1386,22 @@ export interface FlexibleImageView {
      */
     mask?: 'none' | 'bottom';
     actions?: Action;
+    /**
+     * Id для отправки в метрику
+     */
+    log_id?: string;
+    [k: string]: unknown;
+}
+/**
+ * Список ячеек типа right
+ */
+export interface RightCellArrayView {
+    type: 'right_cell_array_view';
+    /**
+     * Направление списка (вертикальное или горизонтальное)
+     */
+    orientation?: 'horizontal' | 'vertical';
+    items: Exclude<RightView, RightCellArrayView>[];
     /**
      * Id для отправки в метрику
      */
