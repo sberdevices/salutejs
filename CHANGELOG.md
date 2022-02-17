@@ -1,3 +1,21 @@
+# (Thu Feb 17 2022)
+
+#### 🚀 Enhancement
+
+- `@salutejs/scenario@0.25.0`
+  - feat: Определить значения поверхностей и каналов [#262](https://github.com/sberdevices/salutejs/pull/262) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### 🐛 Bug Fix
+
+- `@salutejs/scenario@0.25.0`
+  - fix: Список ячеек типа right [#278](https://github.com/sberdevices/salutejs/pull/278) ([@sasha-tlt](https://github.com/sasha-tlt))
+
+#### Authors: 1
+
+- Alexander Salmin ([@sasha-tlt](https://github.com/sasha-tlt))
+
+---
+
 # (Tue Feb 08 2022)
 
 #### 🐛 Bug Fix
