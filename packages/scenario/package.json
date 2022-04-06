@@ -27,10 +27,12 @@
     "build": "rm -rf dist && tsc",
     "build:w": "rm -rf dist && tsc -w",
     "lint": "eslint --ext .js,.ts ./src",
-    "test": "../../node_modules/.bin/jest --config ../../jest.config.ts"
+    "test": "../../node_modules/.bin/jest --config ../../jest.config.ts",
+    "generate-scheme": "json2ts --input schemas/SystemMessage/system_message.json --output src/lib/types/systemMessage.ts --cwd=schemas --style.parser=typescript --style.arrowParens=always --style.printWidth=120 --style.endOfLine=auto --style.semi --style.singleQuote --style.tabWidth=4 --style.trailingComma=all"
   },
   "devDependencies": {
     "@types/node-fetch": "2.5.10",
+    "json-schema-to-typescript": "^10.1.5",
     "typescript": "4.1.3"
   },
   "dependencies": {
